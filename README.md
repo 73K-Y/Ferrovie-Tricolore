@@ -4,6 +4,8 @@
 
 A train simulator built in Roblox Studio, starting from Torino Porta Nuova. The goal isn't arcade-style train driving — it's getting the operational details right: real station positions pulled from OpenStreetMap, track geometry following actual GPX route data, block signaling that follows RFI conventions, and a station clock that's synced to whatever time it actually is in Italy right now.
 
+This describes the project's current state. For a dated, session-by-session account of what changed and why, see [CHANGELOG.md](CHANGELOG.md).
+
 ---
 
 ## What's actually running
