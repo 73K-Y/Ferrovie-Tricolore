@@ -40,7 +40,7 @@ A train simulator built in Roblox Studio, starting from Torino Porta Nuova. The 
 
 **3-aspect block signaling.** Confirmed against how RFI actually does it (not assumed - checked, because the original assumption that Italian signals skip yellow was wrong): a signal shows green if the next two block sections are clear, yellow if the next section is clear but the one after is occupied, red if the next section is occupied. Double-yellow and flashing-yellow exist in the real system too, but only for edge cases (short platforms, reduced-distance signal spacing) - those come after the base 3-aspect version works, not alongside it.
 
-<p align="center"><<svg width="680" height="220" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img">
+<p align="center"><svg width="680" height="220" viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg" role="img">
 <title>Block signaling a 3 aspetti</title>
 <desc>Tre segnali in sequenza: A verde (2 blocchi liberi davanti), B giallo (blocco successivo libero, il seguente occupato), C rosso (il blocco che protegge è occupato dal treno).</desc>
 <defs>
