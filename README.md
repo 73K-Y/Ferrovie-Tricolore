@@ -1,5 +1,7 @@
 # Ferrovie Tricolore
 
+<p align="center"><img src="docs/logo.jpg" alt="Logo di Ferrovie Tricolore" width="420"></p>
+
 *Working title during development: "Ita Rails." Scripts, folders, and variables inside the project still use this name and will be renamed at release, not before.*
 
 A train simulator built in Roblox Studio, starting from Torino Porta Nuova. The goal isn't arcade-style train driving; it's getting the operational details right: real station positions pulled from OpenStreetMap, track geometry following actual GPX route data, block signaling that follows RFI conventions, and a station clock that's synced to whatever time it actually is in Italy right now.
@@ -47,9 +49,11 @@ This describes the project's current state. For a dated, session-by-session acco
 
 Block signaling (see above) is real now, tested against the exact aspect sequence a train produces as it crosses four signals in a row, not just spot-checked at rest. Double-yellow and flashing-yellow exist in the real RFI system for edge cases (short platforms, reduced-distance signal spacing), and are deliberately still deferred: the base 3-aspect version earned its place first.
 
-<p align="center"><img src="docs/block-signaling.svg" alt="Diagramma del block signaling a 3 aspetti: segnale A verde con due blocchi liberi davanti, segnale B giallo con un blocco libero e uno occupato più avanti, segnale C rosso con il blocco protetto occupato dal treno" width="680"></p>
+<p align="center"><img src="docs/block-signaling.svg" alt="Diagramma del block signaling reale: 4 segnali in sequenza, il primo e il quarto (le stazioni) con bordo tratteggiato perché richiedono un'autorizzazione manuale prima di poter mostrare il verde, il secondo e il terzo con bordo pieno perché calcolano il colore in automatico dall'occupazione dei blocchi successivi" width="680"></p>
 
 The tail-sensor problem this used to be blocked on turned out to have a simpler answer than "attach a sensor to whichever carriage is last": trains run with a locomotive at *each* end, so tagging whichever one the player *isn't* driving from as "tail," decided fresh each time someone sits down, sidesteps tracking carriage count at all.
+
+<p align="center"><img src="docs/testa-coda.svg" alt="Diagramma dell'assegnazione dinamica di testa e coda: il player si siede in una locomotiva, quella diventa la testa e l'altra la coda, l'uscita confermata della coda da un segnale marca il blocco successivo come occupato" width="680"></p>
 
 **Incident detection**, in order of how hard each one actually is: buffer collision (cheap, a velocity check on an existing `Touched` event), then train-on-train collision (same idea), then derailment. Derailment is the expensive one: the train's movement isn't physically coupled to the rail geometry, so "off the rails" isn't a concept the game currently has any way to detect. It needs distance-from-spline tracking built from scratch, not a flag that already exists somewhere.
 
