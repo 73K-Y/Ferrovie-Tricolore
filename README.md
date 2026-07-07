@@ -66,3 +66,7 @@ The tail-sensor problem this used to be blocked on turned out to have a simpler 
 ## Built on
 
 Roblox Studio (Luau) · Python for the OSM data pipeline · Blender for train and signal models · real GPX route data for track geometry
+
+---
+
+© 2026 Tommy Raffaello Hodoroaba (73K-Y). All rights reserved. See [LICENSE](LICENSE).
