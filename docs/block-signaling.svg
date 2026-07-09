@@ -1,53 +1,47 @@
-<svg width="100%" viewBox="0 0 680 300" role="img" style="" xmlns="http://www.w3.org/2000/svg">
-<title style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Schema del block signaling reale: 4 segnali, 2 a cancello manuale e 2 automatici</title>
-<desc style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">Sequenza di 4 segnali lungo il binario. Segnale 1 (Torino Porta Nuova) e segnale 4 (Lingotto) sono le stazioni: bordo tratteggiato, richiedono una richiesta di partenza autorizzata prima di poter mostrare il verde. Segnale 2 e segnale 3 sono automatici: bordo pieno, calcolano il colore solo dall'occupazione dei blocchi successivi. Il colore in tutti e 4 i casi segue la stessa regola: verde se i 2 blocchi successivi sono liberi, giallo se solo il primo è libero, rosso se il primo è occupato.</desc>
+<svg width="680" height="260" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Block signaling reale: 4 segnali, 2 a cancello manuale e 2 automatici</title>
+<desc>Sequenza di 4 segnali. Segnale 1 (Torino Porta Nuova) e segnale 4 (Lingotto) sono le stazioni, bordo tratteggiato, richiedono una richiesta di partenza autorizzata prima di poter mostrare il verde. Segnale 2 e 3 sono automatici, bordo pieno.</desc>
 <defs>
-<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#3d3d3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
 </defs>
+<rect width="680" height="260" fill="#ffffff"/>
+<text x="40" y="24" font-family="sans-serif" font-size="12" fill="#73726c">senso di marcia</text>
+<line x1="140" y1="20" x2="190" y2="20" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow)"/>
 
-<text x="40" y="24" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">senso di marcia</text>
-<line x1="140" y1="20" x2="190" y2="20" marker-end="url(#arrow)" style="fill:none;stroke:rgb(137, 135, 129);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<rect x="40" y="50" width="140" height="56" rx="8" fill="#EAF3DE" stroke="#639922" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="110" y="72" font-family="sans-serif" font-size="14" font-weight="600" fill="#173404" text-anchor="middle">Segnale 1</text>
+<text x="110" y="90" font-family="sans-serif" font-size="12" fill="#27500A" text-anchor="middle">Porta Nuova, verde</text>
 
-<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-<rect x="40" y="50" width="140" height="56" rx="8" stroke-width="1.5" stroke-dasharray="5 4" style="fill:rgb(234, 243, 222);stroke:rgb(59, 109, 17);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-dasharray:5px, 4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="110" y="70" text-anchor="middle" dominant-baseline="central" style="fill:rgb(39, 80, 10);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Segnale 1</text>
-<text x="110" y="90" text-anchor="middle" dominant-baseline="central" style="fill:rgb(59, 109, 17);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Porta Nuova · verde</text>
-</g>
+<line x1="180" y1="78" x2="200" y2="78" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow)"/>
 
-<line x1="180" y1="78" x2="200" y2="78" marker-end="url(#arrow)" style="fill:none;stroke:rgb(137, 135, 129);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<rect x="200" y="50" width="140" height="56" rx="8" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+<text x="270" y="72" font-family="sans-serif" font-size="14" font-weight="600" fill="#412402" text-anchor="middle">Segnale 2</text>
+<text x="270" y="90" font-family="sans-serif" font-size="12" fill="#633806" text-anchor="middle">automatico, giallo</text>
 
-<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-<rect x="200" y="50" width="140" height="56" rx="8" stroke-width="0.5" style="fill:rgb(250, 238, 218);stroke:rgb(133, 79, 11);color:rgb(11, 11, 11);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="270" y="70" text-anchor="middle" dominant-baseline="central" style="fill:rgb(99, 56, 6);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Segnale 2</text>
-<text x="270" y="90" text-anchor="middle" dominant-baseline="central" style="fill:rgb(133, 79, 11);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">automatico · giallo</text>
-</g>
+<line x1="340" y1="78" x2="360" y2="78" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow)"/>
 
-<line x1="340" y1="78" x2="360" y2="78" marker-end="url(#arrow)" style="fill:none;stroke:rgb(137, 135, 129);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<rect x="360" y="50" width="140" height="56" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="430" y="72" font-family="sans-serif" font-size="14" font-weight="600" fill="#501313" text-anchor="middle">Segnale 3</text>
+<text x="430" y="90" font-family="sans-serif" font-size="12" fill="#791F1F" text-anchor="middle">automatico, rosso</text>
 
-<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-<rect x="360" y="50" width="140" height="56" rx="8" stroke-width="0.5" style="fill:rgb(252, 235, 235);stroke:rgb(163, 45, 45);color:rgb(11, 11, 11);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="430" y="70" text-anchor="middle" dominant-baseline="central" style="fill:rgb(121, 31, 31);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Segnale 3</text>
-<text x="430" y="90" text-anchor="middle" dominant-baseline="central" style="fill:rgb(163, 45, 45);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">automatico · rosso</text>
-</g>
+<line x1="500" y1="78" x2="520" y2="78" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow)"/>
 
-<line x1="500" y1="78" x2="520" y2="78" marker-end="url(#arrow)" style="fill:none;stroke:rgb(137, 135, 129);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+<rect x="520" y="50" width="120" height="56" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="580" y="72" font-family="sans-serif" font-size="14" font-weight="600" fill="#501313" text-anchor="middle">Segnale 4</text>
+<text x="580" y="90" font-family="sans-serif" font-size="12" fill="#791F1F" text-anchor="middle">Lingotto, rosso</text>
 
-<g style="fill:rgb(0, 0, 0);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
-<rect x="520" y="50" width="120" height="56" rx="8" stroke-width="1.5" stroke-dasharray="5 4" style="fill:rgb(252, 235, 235);stroke:rgb(163, 45, 45);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-dasharray:5px, 4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="580" y="70" text-anchor="middle" dominant-baseline="central" style="fill:rgb(121, 31, 31);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:14px;font-weight:500;text-anchor:middle;dominant-baseline:central">Segnale 4</text>
-<text x="580" y="90" text-anchor="middle" dominant-baseline="central" style="fill:rgb(163, 45, 45);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:middle;dominant-baseline:central">Lingotto · rosso</text>
-</g>
+<line x1="40" y1="140" x2="70" y2="140" stroke="#3d3d3a" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="78" y="144" font-family="sans-serif" font-size="12" fill="#3d3d3a">bordo tratteggiato: richiede autorizzazione manuale (blocca solo il verde)</text>
 
-<line x1="40" y1="140" x2="70" y2="140" stroke="var(--t)" stroke-width="1.5" stroke-dasharray="5 4" style="fill:rgb(0, 0, 0);stroke:rgb(137, 135, 129);color:rgb(11, 11, 11);stroke-width:1.5px;stroke-dasharray:5px, 4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="78" y="144" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">bordo tratteggiato: richiede autorizzazione manuale (blocca solo il verde)</text>
+<line x1="40" y1="164" x2="70" y2="164" stroke="#3d3d3a" stroke-width="0.5"/>
+<text x="78" y="168" font-family="sans-serif" font-size="12" fill="#3d3d3a">bordo pieno: puramente automatico, nessuna richiesta necessaria</text>
 
-<line x1="40" y1="164" x2="70" y2="164" stroke="var(--t)" stroke-width="0.5" style="fill:rgb(0, 0, 0);stroke:rgb(137, 135, 129);color:rgb(11, 11, 11);stroke-width:0.5px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="78" y="168" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">bordo pieno: puramente automatico, nessuna richiesta necessaria</text>
-
-<circle cx="45" cy="196" r="5" fill="#639922" style="fill:rgb(99, 153, 34);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="58" y="200" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">verde: i 2 blocchi successivi sono entrambi liberi</text>
-<circle cx="45" cy="218" r="5" fill="#BA7517" style="fill:rgb(186, 117, 23);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="58" y="222" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">giallo: il prossimo blocco è libero, quello dopo è occupato</text>
-<circle cx="45" cy="240" r="5" fill="#A32D2D" style="fill:rgb(163, 45, 45);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
-<text x="58" y="244" style="fill:rgb(82, 81, 78);stroke:none;color:rgb(11, 11, 11);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:12px;font-weight:400;text-anchor:start;dominant-baseline:auto">rosso: il blocco protetto da questo segnale è occupato</text>
+<circle cx="45" cy="196" r="5" fill="#639922"/>
+<text x="58" y="200" font-family="sans-serif" font-size="12" fill="#3d3d3a">verde: i 2 blocchi successivi sono entrambi liberi</text>
+<circle cx="45" cy="218" r="5" fill="#BA7517"/>
+<text x="58" y="222" font-family="sans-serif" font-size="12" fill="#3d3d3a">giallo: il prossimo blocco è libero, quello dopo è occupato</text>
+<circle cx="45" cy="240" r="5" fill="#A32D2D"/>
+<text x="58" y="244" font-family="sans-serif" font-size="12" fill="#3d3d3a">rosso: il blocco protetto da questo segnale è occupato</text>
 </svg>
