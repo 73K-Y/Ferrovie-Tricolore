@@ -4,6 +4,30 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ---
 
+## 2026-07-10
+
+**A ticker's scroll math was reading the wrong number as its own width.** The departure board ticker computes how far to scroll from the label's own rendered size. With `TextScaled` on, that size is the label's fixed container, not the text's real width, so text of any length looped at the wrong point and overlapped itself mid-sentence. Fixed by turning `TextScaled` off, giving the label a real fixed font size, and resizing the label itself to the text's actual measured width every time the text changes, using `TextService:GetTextSize` with a fallback font in case the label's own font isn't one the service recognizes. The same bug, and the same fix, applied to both the platform signs and the station-wide boards, which name this field differently (`SLIDING_TrainInfo` vs `SLIDING_INFO`).
+
+**The admin panel that sets that ticker text only ever reached the platform signs, never the station boards, because of that same naming difference.** Fixed by having the one handler check both names.
+
+**A departure board field named `TrainInfo` turned out to be the information row itself, not a label for the train number.** Writing the train number into it made the number appear jammed into the middle of the scrolling text, not next to it. The actual number field is `Train`/`Code`; `TrainInfo` was left alone once this was understood.
+
+**Six category icons (R, RV, IC, ICN, Frecciarossa, Italo) and a company logo were prepared, uploaded, and wired to the departure boards**, white-on-transparent, uniform canvas size, positioned next to the train number rather than replacing it. Went through three logo re-uploads and two icon re-uploads as sizing was adjusted; each swap was a one-line asset ID change once the pattern was established.
+
+**Train control buttons had no icons at all, on any of the eight buttons, confirmed by reading the actual button-definition code rather than assuming from the screenshot.** All eight (front/rear lights, horn, pantograph, both doors) were blank `icon=""` placeholders. Fixed once real icon assets were uploaded and identified by name search.
+
+**Built an admin-only panel for editing the departure boards' information text project-wide**, gated by Roblox user ID, checked independently on both the client (so the panel doesn't even get built for anyone else) and the server (so the check can't be bypassed by a modified client). One update from the panel now reaches every platform sign and every station board in the game at once, not just the one being tested.
+
+**The "next signal" cab display was showing the nearest signal, which after passing one is usually the signal behind the train, not ahead of it, and its search only checked workspace's direct children, where no signal actually lives.** Both problems were in code whose own comment claimed it was "no longer a placeholder." Rewrote the search to be recursive and to pick the closest signal strictly ahead of the train along the line, then confirmed live: crossing a signal correctly flips the display to the next one, not back to the one just passed.
+
+**The main menu appeared correctly, then didn't, then didn't at all, for three different reasons in a row.** First: the tratta-selection screen was visible behind the menu from the moment the game started, because its `ScreenGui.Enabled` was never explicitly set to false and the earlier code that was supposed to reveal it on "Play" was actually toggling a `LocalScript`'s own `Enabled` property, a property that controls whether a script runs, not anything visual, since "UI" is the script's name, not the screen's; the real screen is `TrattaSelectionGui`, found by digging into what the script creates rather than assuming the object named "UI" was itself the interface. Second, once a real font was wired in to match the departure boards' actual typeface (`Inconsolata`, discovered by reading a live label's `FontFace` rather than guessing), the whole menu silently failed to build past its title card, because the new `Font` datatype value was being assigned to the legacy `.Font` property, which expects an `Enum.Font` and fails without a caught error; fixed by assigning to `.FontFace` instead, everywhere the code used it. Both were found only by comparing what should exist against what was actually present in a live session, not by reading the code and assuming it worked.
+
+**Switched ~3,700 mesh parts from non-default collision fidelity to default**, after finding that count directly rather than guessing at a performance cause. Precise collision shapes cost meaningfully more to simulate than the default hull approximation, and the map has grown enough (a first draft of Lingotto's own platforms added this session) that the difference is no longer negligible. Spot-checked afterward that nothing started falling through geometry; a full pass across the newly larger map wasn't feasible in one sitting and should be treated as spot-checked, not exhaustively verified.
+
+**Still open, not touched this session:** a repeating error in the cab HUD script (`attempt to call a nil value`, likely firing before the character exists), the tratta-selection screen's cramped layout, an unused 251-object "Test" folder never confirmed safe to delete, and audio/HUD-visibility settings that save correctly but aren't wired to anything yet.
+
+---
+
 ## 2026-07-09
 
 **Client-set attributes don't reach the server. This explained half of today's bugs at once.** Roblox doesn't replicate attribute changes from client to server by default, only server to client. The departure-board data (train number, destination, which platform is active) was being written by the menu, a client script, and read by server-side signal logic that could never see it. Two hours of chasing "the client can't see this content yet" turned out to be the wrong direction entirely for several of these bugs, once this was found: the fix was moving the writes server-side (into the script that already validates and spawns the train), not chasing streaming timing further.
