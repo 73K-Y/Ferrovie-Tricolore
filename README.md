@@ -1,6 +1,6 @@
 # Ferrovie Tricolore
 
-<p align="center"><img src="docs/logo.png" alt="Logo di Ferrovie Tricolore" width="420"></p>
+<p align="center"><img src="docs/ferrovie-tricolore.png" alt="Logo di Ferrovie Tricolore" width="420"></p>
 
 *Working title during development: "Ita Rails." Scripts, folders, and variables inside the project still use this name and will be renamed at release, not before.*
 
