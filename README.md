@@ -22,10 +22,14 @@ This describes the project's current state. For a dated, session-by-session acco
 - **An admin-only panel edits the departure boards' scrolling information text for the whole project at once, gated by Roblox user ID and checked on both client and server.** No other player can see or reach it, and a single edit propagates to every platform sign and station board in the game, not just one being tested.
 - **Departure boards show a real category icon (R, RV, IC, ICN, Frecciarossa, Italo) next to the train number, plus a company logo, instead of a generic placeholder.** Assets uploaded and swapped in as sizing was refined.
 - **The cab display showing the upcoming signal's aspect now actually tracks the signal ahead of the train, not just the nearest one.** It previously searched only workspace's direct children (where no signal lives) and picked whichever signal was physically closest, which after passing one is usually the signal just left behind. Rewritten to search recursively and pick the nearest signal strictly ahead along the line; confirmed live that crossing a signal flips the display forward, not back.
+- **Station announcements are real audio now, not text.** 93 recorded clips (numbers, categories, station names, connective phrases) are assembled into a spoken sequence by a small module (`AnnunciTreno`) and played through a per-station speaker with its own reverb. Fires automatically from real spawn data the moment a player sits down to drive, and separately from a free-text panel that matches typed words against the clip library for one-off custom announcements.
+- **The tratta-selection menu is a real three-column layout now (route, train type, preview), not a cramped two-panel stack.** Two overflow bugs the reorganization itself introduced (the platform grid running past its column, the preview panel stretching into empty space) were caught from screenshots and fixed with real measurements, not guessed.
 
 <p align="center"><img src="docs/next-signal-hud-fix.svg" alt="Diagramma della correzione dell'indicatore segnale successivo: prima cercava il segnale piu' vicino in assoluto (spesso quello gia' superato), ora cerca ricorsivamente e sceglie il segnale piu' vicino strettamente avanti nella direzione di marcia" width="680"></p>
 
 <p align="center"><img src="docs/server-board-flow.svg" alt="Diagramma del flusso dati dei cartelli orari lato server: il client conferma la tratta e chiede lo spawn, il server scrive i dati e aggiorna i cartelli al passaggio di ogni segnale, senza dipendere dallo streaming del client" width="680"></p>
+
+<p align="center"><img src="docs/announcement-flow.svg" alt="Diagramma del sistema di annunci: i clip audio in ReplicatedStorage vengono assemblati in sequenza da AnnunciTreno e riprodotti attraverso il gruppo audio con riverbero dello speaker della stazione corretta" width="680"></p>
 
 ---
 
@@ -49,9 +53,9 @@ This describes the project's current state. For a dated, session-by-session acco
 4. **Platform 2 has rails but no spawn point.** Same root cause as #1; will get fixed alongside it, same logic, different platform.
 5. **Coupling between carriages is a prototype, not a system.** A buffer-block pair exists on one joint as proof of concept (0.15-stud gap at rest, verified). The old `RopeConstraint`-based coupling is still present elsewhere and needs replacing, not just supplementing.
 6. **A cab HUD script throws a repeating "attempt to call a nil value" error, most likely because it runs before the character exists.** Not yet investigated; found while testing something unrelated.
-7. **The tratta-selection screen is visually cramped and hasn't been redesigned**, despite the underlying data and confirm flow working correctly.
-8. **A "Test" folder with 251 objects sits in the live project, never confirmed safe to delete.** Likely leftover, not verified.
-9. **Graphics and audio settings save correctly to a shared `GameSettings` folder but aren't wired to anything real yet**, except shadow quality and render-distance fog, which are applied. Volume sliders and the HUD-visibility toggle currently do nothing beyond storing a value.
+7. **A "Test" folder with 251 objects sits in the live project, never confirmed safe to delete.** Likely leftover, not verified.
+8. **Graphics and audio settings save correctly to a shared `GameSettings` folder but aren't wired to anything real yet**, except shadow quality and render-distance fog, which are applied. Volume sliders and the HUD-visibility toggle currently do nothing beyond storing a value.
+9. **The Porta Nuova track fan (real OSM geometry, 101 line segments) exists only as a lightweight sphere-marker guide (`Workspace.GuidaVentaglioPortaNuova`), not real track**, and isn't connected to the built Porta Nuova–Lingotto line. Meant to be built into actual track by hand, using the guide as a reference.
 
 ---
 
