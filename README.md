@@ -1,171 +1,167 @@
 # Ferrovie Tricolore
 
-<p align="center"><img src="docs/ferrovie-tricolore.png" alt="Logo di Ferrovie Tricolore" width="420"></p>
+<p align="center"><img src="docs/ferrovie-tricolore.jpg" alt="Ferrovie Tricolore" width="420"></p>
 
-*Nome di lavoro durante lo sviluppo: "Ita Rails." Script, cartelle e variabili nel progetto usano ancora questo nome e verranno rinominati al rilascio, non prima.*
-*Working title during development: "Ita Rails." Scripts, folders, and variables inside the project still use this name and will be renamed at release, not before.*
+*Chiamato "Ita Rails" durante le prime sessioni di sviluppo. Il nome del progetto, da oggi, è Ferrovie Tricolore in ogni contesto; alcuni script, cartelle e variabili interne portano ancora il vecchio nome e verranno rinominati man mano.*
+*Called "Ita Rails" during the earliest development sessions. The project's name, as of today, is Ferrovie Tricolore in every context; some internal scripts, folders, and variables still carry the old name and will be renamed over time.*
 
 ---
 
 ## 🇮🇹 Cos'è
 
-Un simulatore ferroviario costruito in Roblox Studio, a partire da Torino Porta Nuova. L'obiettivo non è la guida arcade; è curare i dettagli operativi veri: posizioni reali delle stazioni prese da OpenStreetMap, geometria del binario che segue dati GPX reali, segnalamento a blocchi secondo le convenzioni RFI, e un orologio di stazione sincronizzato con l'ora vera in Italia in questo momento.
+Un simulatore ferroviario in Roblox Studio, a partire da Torino Porta Nuova. Priorità sui dettagli operativi veri, non sulla guida arcade: stazioni reali da OpenStreetMap, binario da dati GPX, segnalamento a blocchi in stile RFI, orologio di stazione sincronizzato all'ora vera in Italia.
 
-Questo documento descrive lo stato attuale del progetto. Per un resoconto datato, sessione per sessione, di cosa è cambiato e perché, vedi [CHANGELOG.md](CHANGELOG.md).
+Questo file descrive lo stato attuale. Per la cronologia sessione per sessione, vedi [CHANGELOG.md](CHANGELOG.md).
 
 ## 🇬🇧 What this is
 
-A train simulator built in Roblox Studio, starting from Torino Porta Nuova. The goal isn't arcade-style train driving; it's getting the operational details right: real station positions pulled from OpenStreetMap, track geometry following actual GPX route data, block signaling that follows RFI conventions, and a station clock that's synced to whatever time it actually is in Italy right now.
+A train simulator in Roblox Studio, starting from Torino Porta Nuova. Priority on real operational detail, not arcade driving: real stations from OpenStreetMap, GPX-derived track, RFI-style block signaling, a station clock synced to real Italian time.
 
-This describes the project's current state. For a dated, session-by-session account of what changed and why, see [CHANGELOG.md](CHANGELOG.md).
-
----
-
-## 🇮🇹 Cosa funziona davvero
-
-- **Composizione treno dinamica.** Le carrozze non sono fisse in un modello unico. Il numero di carrozze è variabile a ogni spawn, costruito da un template salvato in `ServerStorage`.
-- **Comandi di cabina che fanno davvero qualcosa.** Luci anteriori/posteriori, clacson (a 3 fasi, gestito lato server così è udibile da chiunque sia vicino, non solo dal conducente), interruttore pantografo, porte — tutto passato attraverso una `RemoteEvent` così lo stato resta coerente tra tutti i client.
-- **Stazioni da dati reali, non piazzate a mano.** Uno script Python (`genera_stazioni_v2.py`) interroga l'API Overpass di OpenStreetMap per i dati delle stazioni ferroviarie e piazza ~3.000 indicatori nel mondo, in scala 1:200. Piazzarle a mano non era un'opzione.
-- **Binario costruito da GPX, non a occhio.** Dati di percorso reali passati attraverso un generatore di spline Catmull-Rom producono il binario fisico. Ottenere un piazzamento delle tile senza fughe visibili ha richiesto di trovare la costruzione corretta di `CFrame.fromMatrix`; un errore di vettore-base sbagliato lasciava cuciture visibili tra le tile.
-- **L'orologio di stazione è l'ora vera in Italia, non un elemento scenico.** `os.date("*t", os.time() + 3600)`, sincronizzato con l'orologio di sistema con correzione per l'ora legale. Guida gli orologi analogici e digitali sui cartelli partenze.
-- **Segnalamento reale a 2 blocchi di preavviso, quattro segnali in sequenza.** Non più un segnaposto: ogni segnale calcola il proprio aspetto in base a se il blocco successivo è occupato (rosso), quello dopo ancora è occupato (giallo), o entrambi liberi (verde). I due segnali di stazione (Torino Porta Nuova e Lingotto) richiedono in più un'autorizzazione manuale di partenza prima di poter mostrare altro che rosso. Il blocco impedisce solo il verde, non il giallo o il rosso, così un segnale di stazione mostra comunque un avviso onesto anche senza autorizzazione. L'occupazione è tracciata da un singolo collider (etichettato "Coda," assegnato dinamicamente a qualunque locomotiva il giocatore *non* stia guidando) che attraversa una zona di segnale in uscita, non in entrata. Entrare in una zona non conta da solo; conta solo un'uscita confermata.
-- **I cartelli partenze sono gestiti interamente lato server, guidati dagli stessi segnali che già gestiscono l'occupazione dei blocchi.** Le versioni precedenti provavano a popolare i cartelli dal client, o scansionando l'intera mappa all'avvio o ascoltando blocchi trigger fisici a ogni marciapiede; entrambe dipendevano dal fatto che contenuto lontano fosse già stato caricato (streaming) per quello specifico giocatore, cosa che falliva in modo imprevedibile per motivi che hanno richiesto quasi un'intera sessione per essere esclusi del tutto. Il server vede sempre l'intera mappa senza nessuna dipendenza dallo streaming, quindi i dati dei cartelli ora sono scritti direttamente dallo stesso script server che rileva il passaggio di testa e coda del treno a ogni segnale. Al momento questo riconosce esattamente una tratta (Porta Nuova binario 1 verso Lingotto binario 2), scritta a mano invece che calcolata dallo stato di gioco; è un limite noto e voluto, non una svista.
-- **Un pannello riservato agli admin modifica il testo scorrevole informativo dei cartelli partenze per l'intero progetto in un colpo solo**, protetto da ID utente Roblox e controllato sia lato client che server. Nessun altro giocatore può vederlo o raggiungerlo, e una singola modifica si propaga a ogni cartello di marciapiede e stazione nel gioco, non solo a quello in prova.
-- **I cartelli partenze mostrano una vera icona di categoria (R, RV, IC, ICN, Frecciarossa, Italo) accanto al numero treno, più un logo aziendale**, invece di un segnaposto generico. Risorse caricate e sostituite man mano che le dimensioni venivano affinate.
-- **Il display di cabina che mostra l'aspetto del prossimo segnale ora segue davvero il segnale avanti al treno, non solo il più vicino in assoluto.** Prima cercava solo tra i figli diretti di workspace (dove non vive nessun segnale) e sceglieva qualunque segnale fosse fisicamente più vicino, il che dopo averne superato uno è di solito quello appena lasciato alle spalle. Riscritto per cercare ricorsivamente e scegliere il segnale più vicino strettamente avanti lungo la linea; confermato dal vivo che attraversare un segnale fa scattare il display in avanti, non indietro.
-- **Gli annunci di stazione sono audio vero ora, non testo.** 93 clip registrate (numeri, categorie, nomi stazione, frasi di collegamento) vengono assemblate in una sequenza parlata da un piccolo modulo (`AnnunciTreno`) e riprodotte attraverso uno speaker per stazione con il proprio riverbero. Parte automaticamente da dati di spawn reali nel momento in cui un giocatore si siede per guidare, e separatamente da un pannello a testo libero che confronta parole digitate con la libreria di clip per annunci personalizzati una tantum.
-- **Il menu di selezione tratta ora è un vero layout a tre colonne (tratta, tipo treno, anteprima), non più uno stack a due pannelli stretto.** Due bug di overflow che la riorganizzazione stessa aveva introdotto (la griglia dei marciapiedi che sfora la propria colonna, il pannello anteprima che si allunga nello spazio vuoto) sono stati trovati da screenshot e corretti con misure vere, non indovinate.
-- **Un selettore di stazione ora gira prima del menu tratta, non dopo.** Il giocatore sceglie una stazione di spawn (al momento Porta Nuova o Lingotto; le altre otto fermate reali della linea sono elencate ma segnate non disponibili invece di far finta di funzionare) prima ancora di vedere il menu tratta, e viene teletrasportato a un vero `SpawnLocation` di quella stazione invece di una coordinata scritta a mano, che andava fuori sincrono ogni volta che il punto di spawn stesso veniva aggiustato in Studio. Una copertura a schermo intero nasconde il mondo (e il personaggio, che esiste brevemente prima che la scelta sia fatta) finché il vero teletrasporto non è completo.
-- **I limiti di velocità sono un sistema di zone funzionante, non un segnaposto.** Volumi a scatola invisibili portano un attributo `SpeedLimit`; uno script controlla la posizione del sedile del conducente contro ogni zona a ogni frame e mostra un cerchio bianco con bordo rosso e il limite in nero — come la segnaletica ferroviaria italiana vera — dentro il pannello guida. Verificato spostando una zona di prova sulla posizione live del sedile e confermando che il cartello si aggiorna, non fidandosi solo della matematica di contenimento. Tre zone segnaposto esistono vicino a Porta Nuova; le posizioni reali per il resto della tratta non ci sono ancora.
-- **La visuale in prima persona esiste, legata a C, e segue la testa vera del personaggio invece di un offset indovinato dal sedile.** Uno slider di campo visivo regolabile (50°–120°) vive nel pannello impostazioni; aggiungerlo ha fatto emergere un bug vero in ogni slider già presente, non solo nel nuovo — nessuno rispondeva a un clic da nessuna parte tranne la piccola maniglia di trascinamento, e nessuno mostrava un valore numerico. Entrambi corretti per tutto il pannello.
-- **Sistema di movimento a waypoint, alternativa alla fisica delle ruote.** Dopo una notte intera passata a inseguire senza successo un problema di fisica delle ruote (vedi changelog del 12-13 luglio), il movimento del treno ora può seguire una sequenza di punti (`CFrameValue`), interpolando la posizione direttamente — stessa tecnica trovata analizzando un altro progetto Roblox della stessa persona, riscritta da zero. Verificato con uno spostamento reale del treno lungo un percorso vero. Il treno va ancorato durante questo tipo di movimento, altrimenti le vecchie cerniere fisiche delle ruote combattono contro il teletrasporto istantaneo ogni frame, causando un'esplosione fisica.
-
-## 🇬🇧 What's actually running
-
-- **Dynamic train composition.** Carriages aren't baked into a fixed train model. The number of carriages is variable per spawn, built from a template stored in `ServerStorage`.
-- **Cab controls that do something.** Front/rear lights, horn (3-phase, server-driven so it's audible to everyone nearby, not just the driver), pantograph toggle, doors, all wired through a `RemoteEvent` so state stays consistent across clients.
-- **Stations from real data, not placed by hand.** A Python script (`genera_stazioni_v2.py`) hits the Overpass API for OpenStreetMap railway station data and drops ~3,000 markers into the world at 1:200 scale. Manually placing that many stations wasn't an option.
-- **Track built from GPX, not eyeballed.** Real route data run through a Catmull-Rom spline generator produces the physical track. Getting tile placement gap-free took finding the correct `CFrame.fromMatrix` construction; an off-by-basis-vector error had been leaving visible seams between tiles.
-- **The station clock is the real time in Italy, not a prop.** `os.date("*t", os.time() + 3600)`, synced to the system clock with a DST adjustment. It drives the analog and digital clocks on the departure boards.
-- **Real 2-block lookahead signaling, four signals in sequence.** Not a placeholder anymore: each signal computes its own aspect from whether the next block is occupied (red), the one after that is occupied (yellow), or both are clear (green). The two station signals (Torino Porta Nuova and Lingotto) additionally require a manual "request departure" grant before they'll ever show anything but red. The gate blocks green specifically, not yellow or red, so a station signal still shows an honest warning even without authorization. Occupancy is tracked by a single collider (tagged "Coda," assigned dynamically to whichever locomotive the player is *not* driving from) crossing a signal zone on exit, not entry. Entering a zone means nothing on its own; only a confirmed exit counts.
-- **Departure boards are managed entirely server-side, driven by the same signals that already handle block occupancy.** Earlier versions tried to populate boards from the client, either by scanning the whole map at startup or by listening for physical trigger blocks at each platform; both depended on distant content having streamed to that specific player, which failed unpredictably for reasons that took most of a session to fully rule out. The server always sees the whole map without any streaming dependency, so board data is now written directly by the same server script that detects a train's head and tail crossing each signal. Right now this recognizes exactly one route (Porta Nuova platform 1 to Lingotto platform 2), hardcoded rather than computed from game state; that's a known, deliberate limitation, not an oversight.
-- **An admin-only panel edits the departure boards' scrolling information text for the whole project at once, gated by Roblox user ID and checked on both client and server.** No other player can see or reach it, and a single edit propagates to every platform sign and station board in the game, not just one being tested.
-- **Departure boards show a real category icon (R, RV, IC, ICN, Frecciarossa, Italo) next to the train number, plus a company logo, instead of a generic placeholder.** Assets uploaded and swapped in as sizing was refined.
-- **The cab display showing the upcoming signal's aspect now actually tracks the signal ahead of the train, not just the nearest one.** It previously searched only workspace's direct children (where no signal lives) and picked whichever signal was physically closest, which after passing one is usually the signal just left behind. Rewritten to search recursively and pick the nearest signal strictly ahead along the line; confirmed live that crossing a signal flips the display forward, not back.
-- **Station announcements are real audio now, not text.** 93 recorded clips (numbers, categories, station names, connective phrases) are assembled into a spoken sequence by a small module (`AnnunciTreno`) and played through a per-station speaker with its own reverb. Fires automatically from real spawn data the moment a player sits down to drive, and separately from a free-text panel that matches typed words against the clip library for one-off custom announcements.
-- **The tratta-selection menu is a real three-column layout now (route, train type, preview), not a cramped two-panel stack.** Two overflow bugs the reorganization itself introduced (the platform grid running past its column, the preview panel stretching into empty space) were caught from screenshots and fixed with real measurements, not guessed.
-- **A station picker now runs before the route menu, not after.** The player chooses a spawn station (currently Porta Nuova or Lingotto; the other eight real stops on the line are listed but marked unavailable rather than pretending to work) before ever seeing the tratta menu, and gets teleported to a real `SpawnLocation` for that station rather than a hand-typed coordinate, which drifted out of sync every time the spawn point itself got adjusted in Studio. A full-screen cover hides the world (and the character, which briefly exists before the choice is made) until the real teleport completes.
-- **Speed limits are a working zone system, not a placeholder.** Invisible box volumes carry a `SpeedLimit` attribute; a script checks the driver's seat position against every zone each frame and shows a red-ringed white circle with the limit in black — matching real Italian trackside signage — inside the driving HUD panel. Verified by moving a test zone onto the seat's live position and confirming the sign updates, not by trusting the containment math alone. Three placeholder zones exist near Porta Nuova; real positions for the rest of the route aren't in yet.
-- **First-person view exists, bound to C, tracking the character's actual head rather than a guessed offset from the seat.** An adjustable field-of-view slider (50°–120°) lives in the settings panel; adding it surfaced a real bug in every slider already there, not just the new one — none of them responded to a click anywhere except the small drag handle itself, and none showed a numeric value. Both fixed panel-wide.
-- **Waypoint-based movement, an alternative to wheel physics.** After a full night spent unsuccessfully chasing a wheel-physics problem (see the July 12–13 changelog entries), train movement can now follow a sequence of points (`CFrameValue`), interpolating position directly — the same technique found by looking at another Roblox project belonging to the same person, reimplemented from scratch. Verified with a real train movement along a real path. The train needs to be anchored during this kind of movement, otherwise the old physical wheel hinges fight the instantaneous teleport every frame, causing a physics explosion.
-
-<p align="center"><img src="docs/pantograph-freeze.svg" alt="Diagramma della causa reale per cui il treno non si muoveva: un ciclo lato server azzera la velocita' di ogni parte del treno finche' il pantografo resta abbassato, indipendentemente da qualunque script di guida" width="680"></p>
-
-<p align="center"><img src="docs/waypoint-movement.svg" alt="Diagramma del sistema di movimento a waypoint: il sedile legge W/S, aggiorna una distanza percorsa lungo il percorso, calcola la CFrame interpolata tra due waypoint, e sposta il modello del treno con PivotTo, con il treno ancorato per evitare conflitti con la fisica delle ruote" width="680"></p>
-
-<p align="center"><img src="docs/next-signal-hud-fix.svg" alt="Diagramma della correzione dell'indicatore segnale successivo: prima cercava il segnale piu' vicino in assoluto (spesso quello gia' superato), ora cerca ricorsivamente e sceglie il segnale piu' vicino strettamente avanti nella direzione di marcia" width="680"></p>
-
-<p align="center"><img src="docs/server-board-flow.svg" alt="Diagramma del flusso dati dei cartelli orari lato server: il client conferma la tratta e chiede lo spawn, il server scrive i dati e aggiorna i cartelli al passaggio di ogni segnale, senza dipendere dallo streaming del client" width="680"></p>
-
-<p align="center"><img src="docs/announcement-flow.svg" alt="Diagramma del sistema di annunci: i clip audio in ReplicatedStorage vengono assemblati in sequenza da AnnunciTreno e riprodotti attraverso il gruppo audio con riverbero dello speaker della stazione corretta" width="680"></p>
+This file describes the current state. For the session-by-session history, see [CHANGELOG.md](CHANGELOG.md).
 
 ---
 
-## 🇮🇹 Due bug che vale la pena scrivere, perché erano sbagliati in modi che sembravano giusti
+## 🇮🇹 Cosa funziona
 
-**Il display del ritardo mostrava "+636 minuti."** La prima versione del calcolo puntuale/in ritardo confrontava l'orologio del mondo reale con una partenza programmata fissa `"08:05"` scritta a mano. Va bene se avvii il gioco alle 8:05 del mattino. Avvialo in qualunque altro momento — cioè sempre, dato che il gioco gira sull'ora italiana vera — e il "ritardo" è semplicemente quante ore sono passate dalle 8, travestito da treno arbitrariamente in ritardo. La correzione non è stata matematica; è stato capire che l'intero confronto non aveva alcun ancoraggio alla realtà. Risolto legando le partenze programmate allo stesso sistema di orologio reale già usato dall'orologio di stazione, invece di un valore fisso finto.
+- **Composizione treno dinamica**, numero di carrozze variabile a ogni spawn.
+- **Comandi di cabina reali**: luci, clacson a 3 fasi lato server, pantografo, porte, tutto sincronizzato tra client via `RemoteEvent`.
+- **~3.000 stazioni reali** piazzate da un'estrazione OpenStreetMap (`genera_stazioni_v2.py`), scala 1:200.
+- **Binario da dati GPX veri**, generato con spline Catmull-Rom.
+- **Orologio di stazione sull'ora vera in Italia**, con correzione ora legale, guida gli orologi dei cartelli.
+- **Segnalamento a blocchi reale, 4 segnali in sequenza**, ciascuno calcola rosso/giallo/verde dall'occupazione dei due blocchi successivi. I segnali di stazione richiedono in più un'autorizzazione manuale di partenza. Occupazione tracciata da un collider "Coda" (assegnato dinamicamente alla locomotiva che il giocatore non guida) in uscita da ogni zona segnale, non in entrata.
+- **Cartelli partenze gestiti interamente lato server**, stesso script che rileva testa/coda del treno a ogni segnale. Una sola tratta riconosciuta oggi (Porta Nuova binario 1 verso Lingotto binario 2), scritta a mano.
+- **Pannello admin** modifica il testo scorrevole dei cartelli per l'intero progetto, protetto da ID utente.
+- **Cartelli con icona categoria vera** (R, RV, IC, ICN, Frecciarossa, Italo) e logo aziendale.
+- **Display di cabina del prossimo segnale** ora cerca ricorsivamente e sceglie il segnale corretto avanti al treno, non solo il più vicino in assoluto.
+- **Annunci di stazione audio veri**, 93 clip assemblate in sequenza parlata da un modulo (`AnnunciTreno`), con riverbero per stazione. Anche un pannello a testo libero per annunci personalizzati.
+- **Menu selezione tratta a tre colonne** (tratta, tipo treno, anteprima).
+- **Selettore stazione prima del menu tratta**, con teletrasporto a un vero `SpawnLocation` e copertura a schermo intero durante il caricamento.
+- **Limiti di velocità funzionanti**: zone invisibili con attributo `SpeedLimit`, cartello rosso/bianco con il limite dentro il pannello guida. Solo 3 zone di prova vicino a Porta Nuova per ora.
+- **Prima persona su C**, segue la testa vera del personaggio. FOV regolabile (50-120°) nel pannello impostazioni.
+- **Movimento a waypoint**, alternativa alla fisica delle ruote (mai stata affidabile). Il treno segue una sequenza di `CFrameValue`, interpolando la posizione con `PivotTo`, ancorato durante il movimento per non entrare in conflitto con le vecchie cerniere fisiche.
 
-**Un indicatore di partenza lampeggiante che non lampeggiava mai.** Due cartelli di marciapiede, ciascuno dovrebbe alternare una luce "Partenza 1 / Partenza 2". Uno lampeggiava, l'altro restava acceso fisso. Si è scoperto che il codice di alternanza della luce era corretto: il bug era che un oggetto `TEMPLATE` nascosto (pensato come modello invisibile da clonare, secondo lo schema già usato altrove nello stesso modello) era rimasto `Visible = true` sul cartello duplicato, seduto esattamente sopra la luce vera e correttamente lampeggiante, mascherandola. Risolto nascondendo i template rimasti in giro, non toccando la logica di lampeggio, che era giusta fin dall'inizio. 21 template invisibili rimasti visibili sono stati trovati in entrambi i duplicati di marciapiede una volta controllato per bene invece che dato per scontato.
+## 🇬🇧 What's working
 
-**L'orologio è stato testato corretto, poi è tornato sbagliato dallo stesso bug due volte.** Il calcolo dell'ora italiana aggiunge un offset consapevole dell'ora legale a un timestamp UTC; quella parte era giusta. L'errore: passare il risultato a `os.date("*t", ...)` senza forzare l'interpretazione UTC. Senza quello, Roblox Studio (che gira sul computer dello sviluppatore) applica sopra il *fuso orario locale del sistema stesso*, convertendo due volte in silenzio. È passato inosservato all'inizio perché il computer di sviluppo era per caso impostato sull'ora italiana, quindi la doppia conversione si annullava parzialmente durante i test casuali. È diventato evidente solo quando si è considerato un vero server pubblicato, che gira in UTC: senza forzare esplicitamente l'UTC (`os.date("!*t", ...)`), lo stesso codice è corretto su una macchina e sbagliato su ogni altra, per un motivo che non ha nulla a che fare con la matematica dell'ora legale in sé.
+- **Dynamic train composition**, carriage count varies per spawn.
+- **Real cab controls**: lights, 3-phase server-side horn, pantograph, doors, synced across clients via `RemoteEvent`.
+- **~3,000 real stations** placed from an OpenStreetMap extraction (`genera_stazioni_v2.py`), 1:200 scale.
+- **Track from real GPX data**, generated with a Catmull-Rom spline.
+- **Station clock on real Italian time**, DST-corrected, drives the board clocks.
+- **Real block signaling, 4 signals in sequence**, each computing red/yellow/green from the next two blocks' occupancy. Station signals additionally require manual departure authorization. Occupancy tracked by a "Coda" collider (dynamically assigned to whichever locomotive the player isn't driving) exiting each signal zone, not entering.
+- **Departure boards run entirely server-side**, same script that detects the train's head/tail at each signal. One route recognized today (Porta Nuova platform 1 to Lingotto platform 2), hand-coded.
+- **Admin panel** edits the boards' scrolling text project-wide, gated by user ID.
+- **Boards show a real category icon** (R, RV, IC, ICN, Frecciarossa, Italo) and a company logo.
+- **Cab next-signal display** now searches recursively and picks the correct signal ahead of the train, not just the nearest one overall.
+- **Real audio station announcements**, 93 clips assembled into a spoken sequence by a module (`AnnunciTreno`), with per-station reverb. Plus a free-text panel for custom one-off announcements.
+- **Three-column route menu** (route, train type, preview).
+- **Station picker before the route menu**, teleporting to a real `SpawnLocation` with a full-screen loading cover.
+- **Working speed limits**: invisible zones with a `SpeedLimit` attribute, a red/white sign inside the driving HUD. Only 3 test zones near Porta Nuova so far.
+- **First-person on C**, tracks the character's real head. Adjustable FOV (50-120°) in settings.
+- **Waypoint-based movement**, an alternative to wheel physics (never reliable). The train follows a `CFrameValue` sequence, interpolating position with `PivotTo`, anchored during movement to avoid fighting the old physical hinges.
 
-**Rinominare quattro segnali ha rotto un sistema che non c'entrava nulla con i loro nomi.** I segnali sono stati rinominati per includere un tag `(stazione)` che segna quali richiedono un'autorizzazione manuale di partenza. Cambio ragionevole, tranne che il codice di ordinamento dei segnali estraeva "quale segnale viene dopo" cercando un numero alla *fine esatta* del nome (`%d+$`), e `"Semaforo singolo 1 (stazione)"` non finisce più con una cifra. Due segnali si sono silenziosamente ordinati come posizione zero, a pari merito tra loro, e l'intera catena di preavviso si è mescolata. Non perché la logica del block signaling fosse sbagliata, ma perché un cambio di nome in tutt'altro file ha rotto un pattern match che nessuno pensava di ricontrollare. Risolto cercando il primo numero ovunque nel nome invece dell'ultimo, e collegando "questo segnale richiede autorizzazione manuale" direttamente al tag invece che alla posizione nell'array.
-
-## 🇬🇧 Two bugs worth writing down, because they were both wrong in ways that looked right
-
-**The delay display showed "+636 minutes."** Early version of the on-time/late calculation compared the real-world clock against a hardcoded scheduled departure of `"08:05"`. That's fine if you start the game at 8:05am. Start it at any other time of day, which is every time since the game runs on real Italian time, and the "delay" is just however many hours have passed since 8am, dressed up as a train running arbitrarily late. The fix wasn't a math correction; it was realizing the whole comparison had no anchor to reality. Fixed by tying scheduled departures to the same real-clock system the station clock already used, instead of a fake fixed value.
-
-**A flashing departure indicator that never flashed.** Two platform signs, each supposed to alternate a "Depart 1 / Depart 2" light. One flashed, the other stayed permanently lit. Turned out the light-toggling code was correct: the bug was that a hidden `TEMPLATE` object (meant to be an invisible blueprint for cloning, per the existing pattern used elsewhere in the same model) had been left `Visible = true` on the duplicated sign, sitting exactly on top of the real, correctly-blinking light and masking it. Fixed by hiding the leftover templates, not by touching the blink logic, which had been right the whole time. 21 stray visible templates were found across both platform duplicates once this was checked properly instead of assumed.
-
-**The clock was tested correct, then got wrong again from the same bug twice.** The Italian-time calculation adds a DST-aware offset to a UTC timestamp; that part was right. The mistake: passing the result to `os.date("*t", ...)` without forcing UTC interpretation. Without that, Roblox Studio (which runs on the developer's own machine) applies the *system's own local timezone* on top, silently double-converting. It went unnoticed at first because the dev machine happened to be set to Italian time, so the double-conversion partially canceled out during casual testing. It only became obvious when a real published server, which runs in UTC, was accounted for: without forcing UTC explicitly (`os.date("!*t", ...)`), the same code is correct on one machine and wrong on every other one, for a reason that has nothing to do with the DST math itself.
-
-**Renaming four signals broke a system that had nothing to do with their names.** Signals were renamed to include a `(stazione)` tag marking which ones require manual departure authorization. Reasonable change, except the signal-ordering code extracted "which signal comes next" by matching a number at the *very end* of the name (`%d+$`), and `"Semaforo singolo 1 (stazione)"` doesn't end in a digit anymore. Two signals silently sorted as position zero, tied with each other, and the whole lookahead chain scrambled. Not because the block-signal logic was wrong, but because a naming change several files away broke a pattern match nobody thought to re-check. Fixed by matching the first number anywhere in the name instead of the last one, and by keying "does this signal need manual authorization" off the tag directly instead of off array position.
-
----
-
-## 🇮🇹 Cosa manca ancora, in ordine di quanto rompe l'esperienza
-
-0. **Il movimento fisico delle ruote non ha mai funzionato in modo affidabile, ed è stato messo da parte in favore dei waypoint.** Un'intera sessione (12-13 luglio) è stata passata a escludere causa dopo causa — cerniere, coppia, raggio, un modulo di terze parti mai avviato, un ciclo lato server che azzerava la velocità col pantografo giù — senza mai arrivare a una ruota che gira per davvero. La decisione presa: il posizionamento del treno ora è guidato da waypoint (vedi sopra), non dalla fisica delle ruote. Le ruote/bogie continueranno a girare, ma in modo puramente cosmetico, calcolato dalla velocità, non generato dalla fisica reale — non ancora costruito.
-1. **La posizione di spawn del treno è sfalsata di ~176 studs sull'asse X.** `PivotTo` viene applicato contro una parte diversa da quella su cui è stata catturata la CFrame del template: `FindFirstChildWhichIsA("BasePart", true)` non restituisce in modo affidabile la stessa parte due volte su un modello multi-parte. Serve ancorare esplicitamente il pivot del template prima che venga spostato in `ServerStorage`, non risolverlo pigramente al momento della clonazione.
-2. **Il segnale rosso non ferma davvero nulla.** Un treno può passare col rosso in questo momento: il segnale cambia colore, niente lo fa rispettare. Il blocco-al-rosso (una decelerazione forzata ma non istantanea, non uno stop secco, per evitare di far scattare l'aggancio) è progettato ma non costruito.
-3. **Sei tratte su sette nel menu non portano da nessuna parte.** Solo Torino → Lingotto ha un binario vero dietro. Il resto è selezionabile e fa spawnare in silenzio sul binario sbagliato.
-4. **Il marciapiede 2 ha rotaie ma nessun punto di spawn.** Stessa causa del punto 1; verrà corretto insieme, stessa logica, marciapiede diverso.
-5. **L'aggancio tra le carrozze è un prototipo, non un sistema.** Una coppia di respingenti esiste su un solo giunto come prova di concetto (gap di 0.15 studs a riposo, verificato). Il vecchio aggancio basato su `RopeConstraint` è ancora presente altrove e va sostituito, non solo integrato.
-6. **Uno script HUD di cabina lancia ripetutamente un errore "attempt to call a nil value", molto probabilmente perché gira prima che il personaggio esista.** Non ancora indagato; trovato testando qualcos'altro di non collegato.
-7. **Una cartella "Test" con 251 oggetti siede nel progetto live, mai confermata sicura da cancellare.** Probabile residuo, non verificato.
-8. **Le impostazioni grafiche e audio si salvano correttamente in una cartella condivisa `GameSettings` ma non sono ancora collegate a nulla di reale**, tranne la qualità delle ombre e la nebbia sulla distanza di rendering, che sono applicate. Gli slider del volume e l'interruttore di visibilità HUD al momento non fanno nulla oltre a salvare un valore.
-9. **Il ventaglio dei binari di Porta Nuova (geometria OSM reale, 101 segmenti di linea) esiste solo come guida leggera a sfere (`Workspace.GuidaVentaglioPortaNuova`), non binario vero**, e non è collegato alla linea Porta Nuova–Lingotto già costruita. Nella sessione del 12-13 luglio sono stati fatti diversi tentativi di costruirlo come binario vero (con mesh continue, poi con tile ripetute), nessuno ancora completato — vedi il changelog per il resoconto onesto di cosa ha funzionato e cosa no.
-
-## 🇬🇧 What isn't done yet, ranked by what breaks the experience first
-
-0. **Physics-based wheel movement never worked reliably, and has been set aside in favor of waypoints.** A full session (July 12–13) was spent ruling out cause after cause — hinges, torque, radius, a never-started third-party module, a server-side loop zeroing velocity while the pantograph was down — without ever reaching a wheel that actually spins for real. The decision made: train positioning is now driven by waypoints (see above), not wheel physics. Wheels/bogies will still spin, but purely cosmetically, driven by speed, not real physics — not yet built.
-1. **Train spawn position is off by ~176 studs on the X axis.** `PivotTo` is being applied against a different part than the one the template CFrame was captured from: `FindFirstChildWhichIsA("BasePart", true)` doesn't reliably return the same part twice on a multi-part model. Needs the template's pivot anchored explicitly before it's moved to `ServerStorage`, not resolved lazily at clone time.
-2. **The red signal doesn't actually stop anything.** A train can run a red light right now: the signal changes color, nothing enforces it. Freeze-at-red (a forced but non-instant deceleration, not a hard stop, to avoid snapping the coupling) is designed but not built.
-3. **Six of seven routes in the menu go nowhere.** Only Torino → Lingotto has real track behind it. The rest are selectable and silently spawn on the wrong track.
-4. **Platform 2 has rails but no spawn point.** Same root cause as #1; will get fixed alongside it, same logic, different platform.
-5. **Coupling between carriages is a prototype, not a system.** A buffer-block pair exists on one joint as proof of concept (0.15-stud gap at rest, verified). The old `RopeConstraint`-based coupling is still present elsewhere and needs replacing, not just supplementing.
-6. **A cab HUD script throws a repeating "attempt to call a nil value" error, most likely because it runs before the character exists.** Not yet investigated; found while testing something unrelated.
-7. **A "Test" folder with 251 objects sits in the live project, never confirmed safe to delete.** Likely leftover, not verified.
-8. **Graphics and audio settings save correctly to a shared `GameSettings` folder but aren't wired to anything real yet**, except shadow quality and render-distance fog, which are applied. Volume sliders and the HUD-visibility toggle currently do nothing beyond storing a value.
-9. **The Porta Nuova track fan (real OSM geometry, 101 line segments) exists only as a lightweight sphere-marker guide (`Workspace.GuidaVentaglioPortaNuova`), not real track**, and isn't connected to the built Porta Nuova–Lingotto line. Several attempts were made during the July 12–13 session to build it into real track (continuous meshes, then repeated tiles), none finished yet — see the changelog for the honest account of what worked and what didn't.
+<p align="center"><img src="docs/pantograph-freeze.svg" alt="Diagramma della causa reale per cui il treno non si muoveva" width="680"></p>
+<p align="center"><img src="docs/waypoint-movement.svg" alt="Diagramma del sistema di movimento a waypoint" width="680"></p>
+<p align="center"><img src="docs/next-signal-hud-fix.svg" alt="Diagramma della correzione dell'indicatore segnale successivo" width="680"></p>
+<p align="center"><img src="docs/server-board-flow.svg" alt="Diagramma del flusso dati dei cartelli orari lato server" width="680"></p>
+<p align="center"><img src="docs/announcement-flow.svg" alt="Diagramma del sistema di annunci" width="680"></p>
 
 ---
 
-## 🇮🇹 Cosa è progettato ma non iniziato
+## 🇮🇹 Bug degni di nota
 
-Il block signaling (vedi sopra) ora è vero, testato contro l'esatta sequenza di aspetti che un treno produce attraversando quattro segnali di fila, non solo controllato a campione da fermo. Il doppio giallo e il giallo lampeggiante esistono nel sistema RFI vero per casi limite (marciapiedi corti, distanziamento segnali ridotto), e sono deliberatamente ancora rimandati: la versione base a 3 aspetti si è guadagnata il posto per prima.
+**Ritardo mostrato: "+636 minuti."** Il calcolo confrontava l'ora reale con una partenza fissa scritta a mano (`"08:05"`), funzionante solo se avvii il gioco esattamente a quell'ora. Corretto legando le partenze allo stesso orologio reale della stazione.
 
-<p align="center"><img src="docs/block-signaling.svg" alt="Diagramma del block signaling reale: 4 segnali in sequenza, il primo e il quarto (le stazioni) con bordo tratteggiato perché richiedono un'autorizzazione manuale prima di poter mostrare il verde, il secondo e il terzo con bordo pieno perché calcolano il colore in automatico dall'occupazione dei blocchi successivi" width="680"></p>
+**Un indicatore che non lampeggiava mai.** Il codice di lampeggio era corretto; un `TEMPLATE` nascosto era rimasto visibile sopra la luce vera, mascherandola. 21 template dimenticati trovati in totale.
 
-Il problema del sensore di coda su cui questo era bloccato si è rivelato avere una risposta più semplice di "attacca un sensore a qualunque carrozza sia l'ultima": i treni girano con una locomotiva a *ciascuna* estremità, quindi etichettare qualunque delle due il giocatore *non* stia guidando come "coda," deciso di nuovo ogni volta che qualcuno si siede, evita del tutto di dover tracciare il numero di carrozze.
+**L'orologio giusto su una macchina, sbagliato su ogni altra.** Mancava forzare l'interpretazione UTC in `os.date`; senza, Roblox applica sopra anche il fuso locale del sistema. Passato inosservato perché il computer di sviluppo era per caso già sull'ora italiana.
 
-<p align="center"><img src="docs/testa-coda.svg" alt="Diagramma dell'assegnazione dinamica di testa e coda: il player si siede in una locomotiva, quella diventa la testa e l'altra la coda, l'uscita confermata della coda da un segnale marca il blocco successivo come occupato" width="680"></p>
+**Rinominare 4 segnali ha rotto l'ordinamento.** Il codice cercava un numero alla fine esatta del nome; aggiungere un tag `(stazione)` alla fine ha rotto quel pattern match. Corretto cercando il primo numero ovunque nel nome.
 
-**Rilevamento incidenti**, in ordine di quanto è davvero difficile ciascuno: collisione respingenti (economico, un controllo di velocità su un evento `Touched` già esistente), poi collisione treno-treno (stessa idea), poi deragliamento. Il deragliamento è quello costoso: il movimento del treno non è fisicamente accoppiato alla geometria del binario, quindi "fuori dai binari" non è un concetto che il gioco al momento ha modo di rilevare. Serve un tracciamento della distanza dalla spline costruito da zero, non un flag che già esiste da qualche parte.
+## 🇬🇧 Bugs worth noting
 
-**Punteggio**, fase di concetto: punti per passeggeri/merci consegnati, rispetto dei segnali, arrivo puntuale entro una finestra di 2 minuti. I valori punto per evento non sono ancora decisi. Un ruolo giocatore "controllore del traffico" è legato a questo: un umano che scavalca il block signaling automatico, stesso sistema di sopra con uno strato manuale sopra.
+**Delay shown as "+636 minutes."** The calculation compared real time against a hardcoded departure ("08:05"), only correct if you start the game at that exact time. Fixed by tying scheduled departures to the same real station clock.
 
-**Geometria reale del binario per l'intero corridoio Torino–Genova, passando da tile piccole ripetute a sezioni modellate costruite in Blender.** Un corridoio ferroviario geograficamente reale, filtrato per connettività (4.321 segmenti OSM, 33.387 punti, gallerie e viadotti compresi) è stato estratto apposta per questo, alla scala e origine già esistenti del progetto, con uno script di importazione che costruisce una curva Blender per ogni segmento reale. Non ancora modellato o importato. Nella sessione del 12-13 luglio è emerso un problema di fondo non ancora risolto: questo corridoio dettagliato usa la scala geografica vera (1502.4 studs/km), mentre le stazioni già piazzate nel progetto Roblox usano una scala molto più compressa (rapporto misurato: 1:3.83) — pensato deliberatamente per tenere il gameplay scorrevole, non per simulare i ~165 km veri. Riconciliare le due scale, o scegliere di procedere con il piazzamento manuale dei waypoint invece del corridoio dettagliato, resta da decidere caso per caso, stazione per stazione.
+**An indicator that never blinked.** The blink code was correct; a hidden `TEMPLATE` had been left visible on top of the real light, masking it. 21 stray templates found in total.
 
-**Negozio cosmetico.** Deliberatamente non messo in programma insieme a tutto il resto sopra. Un `ProcessReceipt` gestito male non crea solo un bug; può non consegnare un acquisto pagato o farlo duplicare. Avrà il suo giro dedicato quando sarà davvero il prossimo in coda, non infilato in uno sprint con lavoro UI non collegato.
+**A clock right on one machine, wrong on every other.** Missing forced UTC interpretation in `os.date`; without it, Roblox also applies the system's own local timezone on top. Went unnoticed because the dev machine happened to already be on Italian time.
 
-## 🇬🇧 What's designed but not started
+**Renaming 4 signals broke their ordering.** The code matched a number at the exact end of the name; adding a `(stazione)` tag at the end broke that pattern. Fixed by matching the first number anywhere in the name.
 
-Block signaling (see above) is real now, tested against the exact aspect sequence a train produces as it crosses four signals in a row, not just spot-checked at rest. Double-yellow and flashing-yellow exist in the real RFI system for edge cases (short platforms, reduced-distance signal spacing), and are deliberately still deferred: the base 3-aspect version earned its place first.
+---
 
-<p align="center"><img src="docs/block-signaling.svg" alt="Diagramma del block signaling reale: 4 segnali in sequenza, il primo e il quarto (le stazioni) con bordo tratteggiato perché richiedono un'autorizzazione manuale prima di poter mostrare il verde, il secondo e il terzo con bordo pieno perché calcolano il colore in automatico dall'occupazione dei blocchi successivi" width="680"></p>
+## 🇮🇹 Cosa manca, in ordine di impatto
 
-The tail-sensor problem this used to be blocked on turned out to have a simpler answer than "attach a sensor to whichever carriage is last": trains run with a locomotive at *each* end, so tagging whichever one the player *isn't* driving from as "tail," decided fresh each time someone sits down, sidesteps tracking carriage count at all.
+0. **Movimento fisico delle ruote mai affidabile**, accantonato per i waypoint (vedi sopra). Ruote/bogie continueranno a girare solo in modo cosmetico, calcolato dalla velocità, non ancora costruito.
+1. **Spawn del treno sfalsato di ~176 studs** sull'asse X. `PivotTo` applicato contro la parte sbagliata del template.
+2. **Il segnale rosso non ferma nulla fisicamente.** Progettato, non costruito.
+3. **6 tratte su 7 nel menu non portano da nessuna parte.**
+4. **Marciapiede 2 senza punto di spawn.**
+5. **Aggancio carrozze ancora un prototipo.**
+6. **Errore ripetuto in uno script HUD di cabina**, non ancora indagato.
+7. **Cartella "Test" da 251 oggetti**, mai confermata sicura da cancellare.
+8. **Impostazioni audio/HUD salvate ma non collegate a nulla.**
+9. **Ventaglio di Porta Nuova ancora solo una guida**, non binario vero. Più tentativi falliti nella sessione del 12-13 luglio; vedi changelog.
 
-<p align="center"><img src="docs/testa-coda.svg" alt="Diagramma dell'assegnazione dinamica di testa e coda: il player si siede in una locomotiva, quella diventa la testa e l'altra la coda, l'uscita confermata della coda da un segnale marca il blocco successivo come occupato" width="680"></p>
+## 🇬🇧 What's missing, ranked by impact
 
-**Incident detection**, in order of how hard each one actually is: buffer collision (cheap, a velocity check on an existing `Touched` event), then train-on-train collision (same idea), then derailment. Derailment is the expensive one: the train's movement isn't physically coupled to the rail geometry, so "off the rails" isn't a concept the game currently has any way to detect. It needs distance-from-spline tracking built from scratch, not a flag that already exists somewhere.
+0. **Physics-based wheel movement never reliable**, set aside for waypoints (see above). Wheels/bogies will keep spinning only cosmetically, driven by speed, not yet built.
+1. **Train spawn offset by ~176 studs** on the X axis. `PivotTo` applied against the wrong template part.
+2. **Red signal doesn't physically stop anything.** Designed, not built.
+3. **6 of 7 routes in the menu go nowhere.**
+4. **Platform 2 has no spawn point.**
+5. **Carriage coupling still a prototype.**
+6. **Repeating error in a cab HUD script**, not yet investigated.
+7. **A "Test" folder with 251 objects**, never confirmed safe to delete.
+8. **Audio/HUD settings save but connect to nothing.**
+9. **Porta Nuova fan is still only a guide**, not real track. Several failed attempts during the July 12-13 session; see changelog.
 
-**Scoring**, concept stage: points for passengers/cargo delivered, signal compliance, on-time arrival within a 2-minute window. Point values per event aren't decided yet. A "traffic controller" player role is tied to this: a human overriding the automated block signaling, same system as above with a manual layer on top.
+---
 
-**Real track geometry for the full Torino–Genova corridor, moving from repeated small tile pieces to modeled sections built in Blender.** A geographically real, connectivity-filtered rail corridor (4,321 OSM segments, 33,387 points, tunnels and viaducts included) was extracted for this specifically, at the project's existing scale and origin, with an import script that builds one Blender curve per real segment. Not yet modeled or imported. A fundamental unresolved issue surfaced during the July 12–13 session: this detailed corridor uses the real geographic scale (1502.4 studs/km), while the stations already placed in the Roblox project use a much more compressed scale (measured ratio: 1:3.83) — deliberately chosen to keep gameplay paced well, not to simulate the real ~165 km run. Reconciling the two scales, or choosing to proceed with hand-placed waypoints instead of the detailed corridor, remains to be decided case by case, station by station.
+## 🇮🇹 Progettato ma non iniziato
 
-**Cosmetic shop.** Deliberately not scoped alongside everything else above. `ProcessReceipt` handled wrong doesn't just create a bug; it can fail to deliver a paid purchase or let it be duplicated. Gets its own pass when it's actually next in line, not folded into a sprint with unrelated UI work.
+Block signaling (sopra) è reale e testato su una sequenza completa di attraversamento. Doppio giallo e giallo lampeggiante esistono nel sistema RFI vero per casi limite, rimandati apposta.
+
+<p align="center"><img src="docs/block-signaling.svg" alt="Diagramma del block signaling reale" width="680"></p>
+
+Testa e coda sono assegnate dinamicamente a ogni spawn (qualunque locomotiva il giocatore non guidi diventa "coda"), evitando di dover tracciare il numero di carrozze.
+
+<p align="center"><img src="docs/testa-coda.svg" alt="Diagramma dell'assegnazione dinamica di testa e coda" width="680"></p>
+
+**Rilevamento incidenti**: collisione respingenti (economico), poi treno-treno, poi deragliamento (costoso, richiede tracciamento della distanza dalla spline, non esiste ancora).
+
+**Punteggio**: passeggeri consegnati, rispetto segnali, puntualità entro 2 minuti. Valori non ancora decisi. Un ruolo "controllore del traffico" è legato a questo.
+
+**Geometria reale del binario per l'intera Torino-Genova**, da tile ripetute a sezioni Blender. Un corridoio geografico reale (4.321 segmenti OSM, 33.387 punti) è già stato estratto. Nodo irrisolto: quel corridoio usa la scala geografica vera, le stazioni già in gioco usano una scala compressa (rapporto misurato 1:3.83, scelto apposta per il gameplay). Riconciliare le due scale resta da decidere stazione per stazione.
+
+**Negozio cosmetico.** Deliberatamente rimandato: un `ProcessReceipt` gestito male rischia di non consegnare un acquisto pagato, non solo un bug estetico.
+
+## 🇬🇧 Designed but not started
+
+Block signaling (above) is real and tested across a full crossing sequence. Double-yellow and flashing-yellow exist in the real RFI system for edge cases, deliberately deferred.
+
+<p align="center"><img src="docs/block-signaling.svg" alt="Diagramma del block signaling reale" width="680"></p>
+
+Head and tail are assigned dynamically on each spawn (whichever locomotive the player isn't driving becomes "tail"), avoiding the need to track carriage count.
+
+<p align="center"><img src="docs/testa-coda.svg" alt="Diagramma dell'assegnazione dinamica di testa e coda" width="680"></p>
+
+**Incident detection**: buffer collision (cheap), then train-on-train, then derailment (expensive, needs distance-from-spline tracking that doesn't exist yet).
+
+**Scoring**: passengers delivered, signal compliance, on-time arrival within 2 minutes. Values not decided yet. A "traffic controller" role is tied to this.
+
+**Real track geometry for the full Torino-Genova line**, moving from repeated tiles to Blender-modeled sections. A geographically real corridor (4,321 OSM segments, 33,387 points) has already been extracted. Unresolved: that corridor uses the real geographic scale, while stations already in the game use a compressed scale (measured ratio 1:3.83, chosen deliberately for gameplay pacing). Reconciling the two scales remains to be decided station by station.
+
+**Cosmetic shop.** Deliberately deferred: a mishandled `ProcessReceipt` risks failing to deliver a paid purchase, not just a cosmetic bug.
 
 ---
 
 ## 🇮🇹 Costruito con
 
-Roblox Studio (Luau) · Python per la pipeline dati OSM · Blender per i modelli di treni e segnali · dati di percorso GPX reali per la geometria del binario
+Roblox Studio (Luau), Python per la pipeline dati OSM, Blender per i modelli, dati GPX reali per il binario.
 
 ## 🇬🇧 Built on
 
-Roblox Studio (Luau) · Python for the OSM data pipeline · Blender for train and signal models · real GPX route data for track geometry
+Roblox Studio (Luau), Python for the OSM data pipeline, Blender for models, real GPX route data for track geometry.
 
 ---
 
