@@ -1,0 +1,48 @@
+<svg width="680" height="300" viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Sistema di movimento a waypoint</title>
+<desc>Il sedile legge W/S, aggiorna una distanza percorsa lungo il percorso, calcola la CFrame interpolata tra due waypoint, e sposta il modello del treno con PivotTo. Il treno viene ancorato durante questo movimento, altrimenti le vecchie cerniere fisiche delle ruote combattono contro il teletrasporto istantaneo ogni frame, causando un'esplosione fisica.</desc>
+<defs>
+<marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="#3d3d3a" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+</defs>
+<rect width="680" height="300" fill="#ffffff"/>
+
+<rect x="20" y="20" width="180" height="56" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="110" y="42" font-family="sans-serif" font-size="14" font-weight="600" fill="#2C2C2A" text-anchor="middle">W / S premuti</text>
+<text x="110" y="60" font-family="sans-serif" font-size="12" fill="#444441" text-anchor="middle">sul sedile</text>
+
+<line x1="200" y1="48" x2="240" y2="48" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow3)"/>
+
+<rect x="240" y="20" width="180" height="56" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="330" y="42" font-family="sans-serif" font-size="14" font-weight="600" fill="#2C2C2A" text-anchor="middle">Velocita' virtuale</text>
+<text x="330" y="60" font-family="sans-serif" font-size="12" fill="#444441" text-anchor="middle">sale/scende con rampa</text>
+
+<line x1="420" y1="48" x2="460" y2="48" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow3)"/>
+
+<rect x="460" y="20" width="200" height="56" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="560" y="42" font-family="sans-serif" font-size="14" font-weight="600" fill="#2C2C2A" text-anchor="middle">Distanza percorsa</text>
+<text x="560" y="60" font-family="sans-serif" font-size="12" fill="#444441" text-anchor="middle">lungo il percorso, in studs</text>
+
+<line x1="560" y1="76" x2="560" y2="106" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow3)"/>
+
+<rect x="460" y="106" width="200" height="56" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text x="560" y="128" font-family="sans-serif" font-size="14" font-weight="600" fill="#2C2C2A" text-anchor="middle">CFrame interpolata</text>
+<text x="560" y="146" font-family="sans-serif" font-size="12" fill="#444441" text-anchor="middle">tra due waypoint vicini</text>
+
+<line x1="460" y1="134" x2="330" y2="134" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow3)"/>
+
+<rect x="150" y="106" width="180" height="56" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="0.5"/>
+<text x="240" y="128" font-family="sans-serif" font-size="14" font-weight="600" fill="#04342C" text-anchor="middle">Model:PivotTo()</text>
+<text x="240" y="146" font-family="sans-serif" font-size="12" fill="#085041" text-anchor="middle">sposta il treno</text>
+
+<line x1="240" y1="162" x2="240" y2="192" stroke="#3d3d3a" stroke-width="1" marker-end="url(#arrow3)"/>
+
+<rect x="70" y="192" width="340" height="56" rx="8" fill="#FCEBEB" stroke="#A32D2D" stroke-width="0.5"/>
+<text x="240" y="214" font-family="sans-serif" font-size="14" font-weight="600" fill="#501313" text-anchor="middle">Treno ancorato durante il movimento</text>
+<text x="240" y="232" font-family="sans-serif" font-size="12" fill="#791F1F" text-anchor="middle">altrimenti le vecchie cerniere fisiche</text>
+
+<text x="240" y="270" font-family="sans-serif" font-size="11" fill="#73726c" text-anchor="middle">combattono il teletrasporto istantaneo ogni frame -&gt; esplosione fisica</text>
+
+<text x="20" y="290" font-family="sans-serif" font-size="11" fill="#73726c">Stesso principio di un altro progetto Roblox della stessa persona (li' decompilato, qui riscritto da zero) - verificato con uno spostamento reale</text>
+</svg>
