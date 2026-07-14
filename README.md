@@ -1,6 +1,6 @@
 # Ferrovie Tricolore
 
-<p align="center"><img src="docs/ferrovie-tricolore.jpg" alt="Ferrovie Tricolore" width="420"></p>
+<p align="center"><img src="docs/ferrovie-tricolore.png" alt="Ferrovie Tricolore" width="420"></p>
 
 *Chiamato "Ita Rails" durante le prime sessioni di sviluppo. Il nome del progetto, da oggi, è Ferrovie Tricolore in ogni contesto; alcuni script, cartelle e variabili interne portano ancora il vecchio nome e verranno rinominati man mano.*
 *Called "Ita Rails" during the earliest development sessions. The project's name, as of today, is Ferrovie Tricolore in every context; some internal scripts, folders, and variables still carry the old name and will be renamed over time.*
