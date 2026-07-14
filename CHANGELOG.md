@@ -2,19 +2,64 @@
 
 Dated summaries of what changed each work session, in the order they happened. Newest first. This is separate from `GAME_DESIGN.md`, which describes the project's current state, not its history. For that, look here or at the git commit log.
 
-**Status badges**, starting with the 2026-07-12 entry, mark where each item actually stands:
+**Status boxes** open each day's entry, sorted red → yellow → green, summarizing where things stood before the detailed writeup below:
 
-![pronto](https://img.shields.io/badge/-pronto-brightgreen) verified working, not just written
-![da sistemare](https://img.shields.io/badge/-da%20sistemare-yellow) working but with a known rough edge or open question
-![non fatto](https://img.shields.io/badge/-non%20fatto-red) attempted, reverted, or still broken
+<div style="border: 2px solid #ff6b6b; background-color: #3d0f0f; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🔴 <b>Non fatto</b> — tentato, annullato, o dichiarato apertamente ancora rotto
+</div>
+<div style="border: 2px solid #ffd93d; background-color: #3d3200; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟡 <b>Da sistemare</b> — funziona ma con un limite noto o mai testato del tutto
+</div>
+<div style="border: 2px solid #6bcf7f; background-color: #0f3d1a; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟢 <b>Pronto</b> — verificato funzionante con una prova reale, non solo scritto
+</div>
+
+---
+
+## 2026-07-13
+
+<div style="border: 2px solid #6bcf7f; background-color: #0f3d1a; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟢 <b>Pronto</b><br>
+Sistema di movimento a waypoint (ispirato a un altro progetto, riscritto da zero) — verificato con un vero spostamento, senza esplosioni fisiche una volta ancorato il treno durante la guida<br>Ordine reale delle 10 fermate della linea confermato e corretto<br>Rapporto di compressione geografica calcolato (1:3.83) tra distanza reale e distanza di gioco<br>Tutte le parti "Track"/"TrackLingotto"/"BinarioColl" del progetto rese visibili su richiesta, dopo essere state nascoste per errore
+</div>
+<div style="border: 2px solid #ffd93d; background-color: #3d3200; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟡 <b>Da sistemare</b><br>
+Import dati OSM grezzi del ventaglio di Porta Nuova, funzionante ma non ancora allineato a nulla nel gioco (per scelta, su richiesta esplicita)<br>Cartella "Ventaglio" con 905 tile reali già piazzate dalla persona — trovata ma non ancora collegata al sistema di guida
+</div>
+<div style="border: 2px solid #ff6b6b; background-color: #3d0f0f; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🔴 <b>Non fatto</b><br>
+Suddivisione automatica delle 905 tile del ventaglio reale in singoli binari — l'algoritmo di concatenamento per vicinanza si confonde nei punti dove i binari si toccano/fondono, producendo gruppi enormi e frammenti minuscoli invece di ~20 binari puliti<br>Almeno tre tentativi di scalare/allineare i dati OSM alle posizioni reali del gioco, falliti per errori propri (coordinate stimate a mano invece che calcolate, assi scambiati, soglie di rilevamento sovrapposte alla distanza di correzione) prima di essere abbandonati su richiesta esplicita a favore del piazzamento manuale
+</div>
+
+![non fatto](https://img.shields.io/badge/-non%20fatto-red) **Spent most of the session trying to make the physics-based wheel movement work at all, and it never did — not even once, not even after the previous night's pantograph discovery.** Every property was re-verified correct via attributes surfaced live in Studio (hinge attachments, torque, actuator type, wheel radius), and a direct part-velocity override was confirmed to *stick* rather than get zeroed (proof the freeze loop was gone) — yet the wheels never once visibly spun. The turning point wasn't more physics debugging: it was opening a *second*, unrelated Roblox project the person had — "Italy numero 3" — and finding it moves trains along a sequence of `CFrameValue` waypoints, interpolating position directly, with no wheel physics involved at all. That script itself was decompiled from someone else's game (flagged and never copied), but the underlying technique — position-follows-waypoints instead of physics-drives-wheels — was reimplemented from scratch and tested successfully on the first real attempt, moving a train unit exactly to a commanded waypoint with the position verified afterward, not just trusted.
+
+![pronto](https://img.shields.io/badge/-pronto-brightgreen) **A hold-to-accelerate waypoint mover was built clean, from scratch, on top of that technique** — W ramps a virtual speed up along the route, S ramps it down, releasing holds the value, same lever behavior asked for the night before but now driving `Model:PivotTo()` along a waypoint sequence instead of `Throttle`. The first version caused the train to violently explode the instant someone sat down: the old wheel `HingeConstraint`s were still live and fighting the instantaneous teleport every frame. Fixed by anchoring the whole train unit for the duration of waypoint-driven movement, and un-anchoring on exit — physics and waypoint-teleportation don't mix, so the fix is to remove physics from the equation entirely while this system is in control.
+
+![non fatto](https://img.shields.io/badge/-non%20fatto-red) **A long, honest struggle over what scale the route data should actually be at, resolved by asking rather than continuing to guess.** The detailed OSM corridor from the previous night's Blender work uses the real geographic scale (1502.4 studs/km); the real station markers already placed in the Roblox project use a much more compressed scale (measured precisely: a ratio of 1:3.83, meaning the in-game world is roughly 3.83 times smaller than true geography). Multiple attempts to blend the two — rescaling real OSM curve shapes to fit the compressed station-to-station distances — failed repeatedly on self-inflicted errors: station coordinates estimated by hand instead of computed from real GPS data (off by a large factor), a length/width axis swap that pointed the whole fan sideways instead of forward, and a detection threshold that was accidentally widened to overlap the correction distance itself, which would have caused already-fixed track pairs to be endlessly re-flagged as broken on any future rerun. Each was found and fixed in turn, but ultimately the person made the call directly: don't compress or rescale anything, just import the raw OSM data exactly as extracted, no alignment, and place the rest by hand.
+
+![da sistemare](https://img.shields.io/badge/-da%20sistemare-yellow) **Automatic separation of the 101 real Porta Nuova fan tracks by parallel-track spacing (11.96 studs, measured directly off two reference track models already in the project) worked well on the reasonably straight pairs but left roughly 100–225 curved pairs unresolved across several attempts**, because a single rigid sideways shift can't correctly space two tracks that aren't simple parallel copies of each other — only ones that curve together at a fixed offset. A point-by-point version (each point finds its own nearest match on the neighboring track and offsets perpendicular to the *local* tangent there, not the track's overall direction) was built and closed most of the remaining gap, but wasn't re-verified after the session moved to raw, unscaled data per the person's later request to abandon rescaling entirely.
+
+![non fatto](https://img.shields.io/badge/-non%20fatto-red) **Tried to auto-detect individual tracks within the person's own already-placed 905-tile Porta Nuova fan, to use as a guide for manual waypoint placement, and it didn't work cleanly.** A nearest-neighbor chain-following approach found 26 groups instead of the expected ~20 individual tracks — some enormous (235, 214, 113 tiles) and many tiny fragments — because a real fan has track pairs that touch or nearly merge at certain points, and a greedy nearest-tile-wins algorithm takes the wrong branch there instead of staying on one continuous track. Told honestly rather than presented as a success: the existing tiles are a good *visual* reference for placing waypoints by eye, but not something that can be reliably auto-traced into separate routes.
+
+![pronto](https://img.shields.io/badge/-pronto-brightgreen) **Settled on the actual plan going forward, agreed on directly rather than assumed:** the visible/collider track (`BinarioColl`) stays as ground-contact scenery, waypoints (in the style proven tonight) drive the train's actual position, and the wheels/bogies spin *cosmetically* — driven by the train's current speed, not by physics — purely for visual believability. Stations will be built reasonably close to their real layouts (Porta Nuova's real 905-tile fan being the first candidate); the overall route will stay compressed for gameplay pacing, tuned by two independent levers — in-game distance and speed limits — rather than trying to simulate the real ~165 km run. Agreed next step: finish exactly one station end-to-end (hand-placed waypoints, non-exploding movement, cosmetic wheel spin) before repeating the pattern for the rest, so a real problem gets caught on one station instead of ten.
 
 ---
 
 ## 2026-07-12
 
-| 🟢 Pronto | 🟡 Da sistemare | 🔴 Non fatto |
-|---|---|---|
-| Limiti di velocità (zone + cartello)<br><br>Pannello guida unificato (tachimetro+barre)<br><br>Camera prima persona su testa + FOV regolabile<br><br>Tasto C camera, H clacson (collegato al vero pulsante)<br><br>Corridoio OSM Torino-Genova (4321 segmenti, pronto per Blender) | Causa reale del blocco motore trovata (ciclo pantografo)<br><br>Due leve acceleratore costruite, nessuna validata su movimento vero | CharacterAutoLoads (rotto tutta la UI, annullato)<br><br>Il treno resta fermo anche a pantografo alzato<br><br>Test su collider semplici prima di modellare (consigliato, non fatto) |
+<div style="border: 2px solid #ff6b6b; background-color: #3d0f0f; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🔴 <b>Non fatto</b><br>
+CharacterAutoLoads (rotto tutta la UI, annullato)<br>Il treno resta fermo anche a pantografo alzato<br>Test su collider semplici prima di modellare (consigliato, non fatto)
+</div>
+<div style="border: 2px solid #ffd93d; background-color: #3d3200; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟡 <b>Da sistemare</b><br>
+Causa reale del blocco motore trovata (ciclo pantografo)<br>Due leve acceleratore costruite, nessuna validata su movimento vero
+</div>
+<div style="border: 2px solid #6bcf7f; background-color: #0f3d1a; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟢 <b>Pronto</b><br>
+Limiti di velocità (zone + cartello)<br>Pannello guida unificato (tachimetro+barre)<br>Camera prima persona su testa + FOV regolabile<br>Tasto C camera, H clacson (collegato al vero pulsante)<br>Corridoio OSM Torino-Genova (4321 segmenti, pronto per Blender)
+</div>
+
 
 ![non fatto](https://img.shields.io/badge/-non%20fatto-red) **The player's own game character used to briefly exist and spawn at Porta Nuova before any station choice was made — now it doesn't, because it never loads until the choice is made.** Setting `Players.CharacterAutoLoads = false` server-side and calling `player:LoadCharacter()` only after a station is picked was the correct approach, but in this specific Studio testing setup it silently broke every other `StarterGui` LocalScript from ever running at all (menu, departure boards, admin panel — everything), for reasons never diagnosed. Reverted immediately rather than chase it further into a working night. The simpler fix that was kept: a full-screen black cover fades out only after the real teleport completes, so the character is never *seen* even though it briefly exists.
 
@@ -40,9 +85,19 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ## 2026-07-11
 
-| 🟢 Pronto | 🟡 Da sistemare | 🔴 Non fatto |
-|---|---|---|
-| Sistema annunci vocali completo (93 clip)<br><br>Fallback numeri treno oltre 59<br><br>Riverbero e pause tra clip<br><br>Pannello annunci unito con quello admin esistente<br><br>Ticker cartelli — 3 cause trovate e risolte<br><br>Menu tratte a 3 colonne | Ventaglio Porta Nuova — solo guida a sfere, non binario vero | Limiti di velocità<br><br>Sistema camere<br><br>Aggancio carrozze vero<br><br>Segnale rosso che ferma fisicamente<br><br>Scambi/cambio binario |
+<div style="border: 2px solid #ff6b6b; background-color: #3d0f0f; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🔴 <b>Non fatto</b><br>
+Limiti di velocità<br>Sistema camere<br>Aggancio carrozze vero<br>Segnale rosso che ferma fisicamente<br>Scambi/cambio binario
+</div>
+<div style="border: 2px solid #ffd93d; background-color: #3d3200; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟡 <b>Da sistemare</b><br>
+Ventaglio Porta Nuova — solo guida a sfere, non binario vero
+</div>
+<div style="border: 2px solid #6bcf7f; background-color: #0f3d1a; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟢 <b>Pronto</b><br>
+Sistema annunci vocali completo (93 clip)<br>Fallback numeri treno oltre 59<br>Riverbero e pause tra clip<br>Pannello annunci unito con quello admin esistente<br>Ticker cartelli — 3 cause trovate e risolte<br>Menu tratte a 3 colonne
+</div>
+
 
 **Built a full station announcement system from scratch: 93 recorded audio clips, a concatenation engine, and two working speaker points.** Numbers 0–59, six train categories, ten station names, and a set of connective phrases were recorded externally and uploaded as individual `Sound` assets in `ReplicatedStorage.AnnunciAudio`, organized by category. A new module, `AnnunciTreno`, builds an announcement as a sequence of these clip IDs from a table of real data (category, train number, destination, time, platform) and plays them back to back through a `Sound` parented to the correct station's speaker. It's wired to the same seat-detection event that already sets the `Boarded` flag, so the announcement fires when a player actually sits down to drive, using the real spawn data for that train, not placeholder text.
 
@@ -67,9 +122,19 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ## 2026-07-10
 
-| 🟢 Pronto | 🟡 Da sistemare | 🔴 Non fatto |
-|---|---|---|
-| Ticker — matematica dello scroll corretta<br><br>Pannello admin ticker su entrambi i nomi cartello<br><br>Campo TrainInfo vs Train/Code chiarito<br><br>Icone categorie treno + logo<br><br>Icone pulsanti veicolo<br><br>Pannello admin testo cartelli, globale<br><br>Display prossimo segnale, ricerca ricorsiva | Menu principale — 3 cause diverse, risolte una alla volta<br><br>3700 mesh a collision fidelity default (verificato a campione, non esaustivo) | Errore ripetuto script HUD cabina<br><br>Menu tratte-selezione ancora stretto<br><br>Cartella "Test" da 251 oggetti mai confermata sicura<br><br>Impostazioni audio/HUD salvate ma non collegate |
+<div style="border: 2px solid #ff6b6b; background-color: #3d0f0f; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🔴 <b>Non fatto</b><br>
+Errore ripetuto script HUD cabina<br>Menu tratte-selezione ancora stretto<br>Cartella "Test" da 251 oggetti mai confermata sicura<br>Impostazioni audio/HUD salvate ma non collegate
+</div>
+<div style="border: 2px solid #ffd93d; background-color: #3d3200; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟡 <b>Da sistemare</b><br>
+Menu principale — 3 cause diverse, risolte una alla volta<br>3700 mesh a collision fidelity default (verificato a campione, non esaustivo)
+</div>
+<div style="border: 2px solid #6bcf7f; background-color: #0f3d1a; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟢 <b>Pronto</b><br>
+Ticker — matematica dello scroll corretta<br>Pannello admin ticker su entrambi i nomi cartello<br>Campo TrainInfo vs Train/Code chiarito<br>Icone categorie treno + logo<br>Icone pulsanti veicolo<br>Pannello admin testo cartelli, globale<br>Display prossimo segnale, ricerca ricorsiva
+</div>
+
 
 **A ticker's scroll math was reading the wrong number as its own width.** The departure board ticker computes how far to scroll from the label's own rendered size. With `TextScaled` on, that size is the label's fixed container, not the text's real width, so text of any length looped at the wrong point and overlapped itself mid-sentence. Fixed by turning `TextScaled` off, giving the label a real fixed font size, and resizing the label itself to the text's actual measured width every time the text changes, using `TextService:GetTextSize` with a fallback font in case the label's own font isn't one the service recognizes. The same bug, and the same fix, applied to both the platform signs and the station-wide boards, which name this field differently (`SLIDING_TrainInfo` vs `SLIDING_INFO`).
 
@@ -93,9 +158,15 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ## 2026-07-09
 
-| 🟢 Pronto | 🟡 Da sistemare | 🔴 Non fatto |
-|---|---|---|
-| Bug attributi client→server trovato (causa di metà dei bug del giorno)<br><br>Cartelli orari spostati interamente lato server<br><br>Indicatore lampeggiante corretto<br><br>Scansione multi-template invece di assumere una struttura sola | — | Instradamento tratta/binario ancora hardcoded, dichiarato apertamente |
+<div style="border: 2px solid #ff6b6b; background-color: #3d0f0f; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🔴 <b>Non fatto</b><br>
+Instradamento tratta/binario ancora hardcoded, dichiarato apertamente
+</div>
+<div style="border: 2px solid #6bcf7f; background-color: #0f3d1a; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟢 <b>Pronto</b><br>
+Bug attributi client→server trovato (causa di metà dei bug del giorno)<br>Cartelli orari spostati interamente lato server<br>Indicatore lampeggiante corretto<br>Scansione multi-template invece di assumere una struttura sola
+</div>
+
 
 **Client-set attributes don't reach the server. This explained half of today's bugs at once.** Roblox doesn't replicate attribute changes from client to server by default, only server to client. The departure-board data (train number, destination, which platform is active) was being written by the menu, a client script, and read by server-side signal logic that could never see it. Two hours of chasing "the client can't see this content yet" turned out to be the wrong direction entirely for several of these bugs, once this was found: the fix was moving the writes server-side (into the script that already validates and spawns the train), not chasing streaming timing further.
 
@@ -111,9 +182,15 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ## 2026-07-04
 
-| 🟢 Pronto | 🟡 Da sistemare | 🔴 Non fatto |
-|---|---|---|
-| Block signaling reale, 4 segnali, verificato su tabella di stato<br><br>Bug orario UTC trovato e corretto<br><br>Bug regex nomi segnali trovato e corretto<br><br>Selettore binario nel menu, 20 pulsanti | Cartelli sanno la stazione ma non ancora visibili (manca template Lingotto) | — |
+<div style="border: 2px solid #ffd93d; background-color: #3d3200; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟡 <b>Da sistemare</b><br>
+Cartelli sanno la stazione ma non ancora visibili (manca template Lingotto)
+</div>
+<div style="border: 2px solid #6bcf7f; background-color: #0f3d1a; border-radius: 8px; padding: 10px 16px; margin: 6px 0;">
+🟢 <b>Pronto</b><br>
+Block signaling reale, 4 segnali, verificato su tabella di stato<br>Bug orario UTC trovato e corretto<br>Bug regex nomi segnali trovato e corretto<br>Selettore binario nel menu, 20 pulsanti
+</div>
+
 
 **Block signaling went from "designed" to "running."** Four signals in sequence now compute red/yellow/green from real 2-block lookahead occupancy, tracked by a single collider (tagged dynamically as "Coda" based on which locomotive the player isn't driving from) crossing a signal zone on exit, not on entry, and not by the front collider at all, after an earlier version using both got replaced with just this one. Verified against an 8-step hand-written state table covering a full departure-to-arrival cycle, not just spot-checked at rest.
 
