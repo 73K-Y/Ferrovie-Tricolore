@@ -1,6 +1,6 @@
 # Ferrovie Tricolore
 
-<p align="center"><img src="docs/ferrovie-tricolore.jpg" alt="Ferrovie Tricolore" width="420"></p>
+<p align="center"><img src="docs/ferrovie-tricolore.png" alt="Ferrovie Tricolore" width="420"></p>
 
 ---
 
