@@ -56,7 +56,7 @@ This file describes the current state. For the session-by-session history, see [
 - **First-person on C**, tracks the character's real head. Adjustable FOV (50-120°) in settings.
 - **Waypoint-based movement**, an alternative to wheel physics (never reliable). The train follows a `CFrameValue` sequence, interpolating position with `PivotTo`, anchored during movement to avoid fighting the old physical hinges.
 
-<p align="center"><img src="docs/route-map.svg" alt="Mappa del tracciato Torino Porta Nuova - Genova Brignole, 10 fermate reali" width="600"></p>
+<p align="center"><img src="docs/route-map-schematic.svg" alt="Linea Torino Porta Nuova - Genova Brignole, stile schematico simile a Moovit" width="420"></p>
 <p align="center"><img src="docs/pantograph-freeze.svg" alt="Diagramma della causa reale per cui il treno non si muoveva" width="680"></p>
 <p align="center"><img src="docs/waypoint-movement.svg" alt="Diagramma del sistema di movimento a waypoint" width="680"></p>
 <p align="center"><img src="docs/next-signal-hud-fix.svg" alt="Diagramma della correzione dell'indicatore segnale successivo" width="680"></p>
