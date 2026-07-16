@@ -6,13 +6,13 @@
 
 ## 🇮🇹 Cos'è
 
-Un simulatore ferroviario in Roblox Studio, a partire da Torino Porta Nuova. Priorità sui dettagli operativi veri, non sulla guida arcade: stazioni reali da OpenStreetMap, binario da dati GPX, segnalamento a blocchi in stile RFI, orologio di stazione sincronizzato all'ora vera in Italia.
+Un simulatore ferroviario in Roblox Studio. Lo sviluppo è iniziato da Torino Porta Nuova e dalla tratta Torino-Genova per scelta personale, non come limite del progetto: la copertura si amplierà. Priorità sui dettagli operativi veri, non sulla guida arcade: stazioni reali da OpenStreetMap, binario da dati GPX, segnalamento a blocchi in stile RFI, orologio di stazione sincronizzato all'ora vera in Italia.
 
 Questo file descrive lo stato attuale. Per la cronologia sessione per sessione, vedi [CHANGELOG.md](CHANGELOG.md).
 
 ## 🇬🇧 What this is
 
-A train simulator in Roblox Studio, starting from Torino Porta Nuova. Priority on real operational detail, not arcade driving: real stations from OpenStreetMap, GPX-derived track, RFI-style block signaling, a station clock synced to real Italian time.
+A train simulator in Roblox Studio. Development started from Torino Porta Nuova and the Torino-Genova line by personal choice, not as a fixed project boundary: coverage will expand. Priority on real operational detail, not arcade driving: real stations from OpenStreetMap, GPX-derived track, RFI-style block signaling, a station clock synced to real Italian time.
 
 This file describes the current state. For the session-by-session history, see [CHANGELOG.md](CHANGELOG.md).
 
@@ -22,7 +22,7 @@ This file describes the current state. For the session-by-session history, see [
 
 - **Composizione treno dinamica**, numero di carrozze variabile a ogni spawn.
 - **Comandi di cabina reali**: luci, clacson a 3 fasi lato server, pantografo, porte, tutto sincronizzato tra client via `RemoteEvent`.
-- **~3.000 stazioni reali** piazzate da un'estrazione OpenStreetMap (`genera_stazioni_v2.py`), scala 1:200.
+- **Pipeline pronta per ~3.000 stazioni reali da OpenStreetMap** (`genera_stazioni_v2.py`, scala 1:200), ma nel gioco oggi ne sono piazzate molte meno: solo quelle sulla tratta Torino-Genova attualmente in lavorazione.
 - **Binario da dati GPX veri**, generato con spline Catmull-Rom.
 - **Orologio di stazione sull'ora vera in Italia**, con correzione ora legale, guida gli orologi dei cartelli.
 - **Segnalamento a blocchi reale, 4 segnali in sequenza**, ciascuno calcola rosso/giallo/verde dall'occupazione dei due blocchi successivi. I segnali di stazione richiedono in più un'autorizzazione manuale di partenza. Occupazione tracciata da un collider "Coda" (assegnato dinamicamente alla locomotiva che il giocatore non guida) in uscita da ogni zona segnale, non in entrata.
@@ -41,7 +41,7 @@ This file describes the current state. For the session-by-session history, see [
 
 - **Dynamic train composition**, carriage count varies per spawn.
 - **Real cab controls**: lights, 3-phase server-side horn, pantograph, doors, synced across clients via `RemoteEvent`.
-- **~3,000 real stations** placed from an OpenStreetMap extraction (`genera_stazioni_v2.py`), 1:200 scale.
+- **Pipeline ready for ~3,000 real stations from OpenStreetMap** (`genera_stazioni_v2.py`, 1:200 scale), but far fewer are actually placed in the game today: only the ones on the Torino-Genova line currently being worked on.
 - **Track from real GPX data**, generated with a Catmull-Rom spline.
 - **Station clock on real Italian time**, DST-corrected, drives the board clocks.
 - **Real block signaling, 4 signals in sequence**, each computing red/yellow/green from the next two blocks' occupancy. Station signals additionally require manual departure authorization. Occupancy tracked by a "Coda" collider (dynamically assigned to whichever locomotive the player isn't driving) exiting each signal zone, not entering.
