@@ -6,13 +6,13 @@
 
 ## 🇮🇹 Cos'è
 
-Un simulatore ferroviario in Roblox Studio. Lo sviluppo è iniziato da Torino Porta Nuova e dalla tratta Torino-Genova per scelta personale, non come limite del progetto: la copertura si amplierà. Priorità sui dettagli operativi veri, non sulla guida arcade: stazioni reali da OpenStreetMap, binario da dati GPX, segnalamento a blocchi in stile RFI, orologio di stazione sincronizzato all'ora vera in Italia.
+Un simulatore ferroviario in Roblox Studio. Lo sviluppo è iniziato da Torino Porta Nuova per scelta personale, non come limite del progetto: la copertura si amplierà. Al lancio sono previste **tre tratte passeggeri** (Torino-Genova, Torino-Milano, Genova-Ventimiglia), collegate tra loro tramite Genova come nodo di interscambio vero. Il giocatore sceglie prima un **ruolo** (Macchinista Passeggeri o Merci) prima del menu tratte: le tratte merci seguono corridoi cargo italiani reali, diversi da quelli passeggeri. Priorità sui dettagli operativi veri, non sulla guida arcade: stazioni reali da OpenStreetMap, binario da dati GPX, segnalamento a blocchi in stile RFI, orologio di stazione sincronizzato all'ora vera in Italia.
 
 Questo file descrive lo stato attuale. Per la cronologia sessione per sessione, vedi [CHANGELOG.md](CHANGELOG.md).
 
 ## 🇬🇧 What this is
 
-A train simulator in Roblox Studio. Development started from Torino Porta Nuova and the Torino-Genova line by personal choice, not as a fixed project boundary: coverage will expand. Priority on real operational detail, not arcade driving: real stations from OpenStreetMap, GPX-derived track, RFI-style block signaling, a station clock synced to real Italian time.
+A train simulator in Roblox Studio. Development started from Torino Porta Nuova by personal choice, not as a fixed project boundary: coverage will expand. Launch is planned with **three passenger routes** (Torino-Genova, Torino-Milano, Genova-Ventimiglia), connected through Genova as a real interchange hub. The player picks a **role** first (Passenger or Freight engineer) before the route menu: freight routes follow real Italian cargo corridors, different from the passenger ones. Priority on real operational detail, not arcade driving: real stations from OpenStreetMap, GPX-derived track, RFI-style block signaling, a station clock synced to real Italian time.
 
 This file describes the current state. For the session-by-session history, see [CHANGELOG.md](CHANGELOG.md).
 
@@ -36,6 +36,9 @@ This file describes the current state. For the session-by-session history, see [
 - **Limiti di velocità funzionanti**: zone invisibili con attributo `SpeedLimit`, cartello rosso/bianco con il limite dentro il pannello guida. Solo 3 zone di prova vicino a Porta Nuova per ora.
 - **Prima persona su C**, segue la testa vera del personaggio. FOV regolabile (50-120°) nel pannello impostazioni.
 - **Movimento a waypoint**, alternativa alla fisica delle ruote (mai stata affidabile). Il treno segue una sequenza di `CFrameValue`, interpolando la posizione con `PivotTo`, ancorato durante il movimento per non entrare in conflitto con le vecchie cerniere fisiche.
+- **Scelta del ruolo prima del menu tratte**: Macchinista Passeggeri, Macchinista Merci, o "In arrivo" (segnaposto non cliccabile per ruoli futuri come assistenza ferroviaria). La scelta determina quale lista di tratte si apre.
+- **Sistema Merci separato**, con dati verificati: solo 2 tratte (Torino Orbassano-Genova VTE, Genova VTE-Milano Smistamento), corrispondenti ai veri corridoi cargo italiani (Linea dei Giovi, collegamenti container Genova-Milano). Categorie reali (Merci Rapido, Intermodale, Tradotta, Merci Rapido Internazionale), nomi di scalo veri invece di stazioni passeggeri, nessuna fermata intermedia.
+- **Corridoi OSM reali per tutte e tre le tratte passeggeri**, stessa origine e scala: Torino-Genova, Torino-Milano (linea storica + Alta Velocità + Passante di Milano), Genova-Ventimiglia (gallerie vere incluse).
 
 ## 🇬🇧 What's working
 
@@ -55,8 +58,15 @@ This file describes the current state. For the session-by-session history, see [
 - **Working speed limits**: invisible zones with a `SpeedLimit` attribute, a red/white sign inside the driving HUD. Only 3 test zones near Porta Nuova so far.
 - **First-person on C**, tracks the character's real head. Adjustable FOV (50-120°) in settings.
 - **Waypoint-based movement**, an alternative to wheel physics (never reliable). The train follows a `CFrameValue` sequence, interpolating position with `PivotTo`, anchored during movement to avoid fighting the old physical hinges.
+- **Role choice before the route menu**: Passenger engineer, Freight engineer, or "Coming soon" (non-clickable placeholder for future roles like traffic assistance). The choice determines which route list opens.
+- **Separate Freight system**, with verified data: only 2 routes (Torino Orbassano-Genova VTE, Genova VTE-Milano Smistamento), matching real Italian cargo corridors (the historic Giovi line, documented Genova-Milano container links). Real categories (Merci Rapido, Intermodale, Tradotta, Merci Rapido Internazionale), real yard names instead of passenger stations, no intermediate stops.
+- **Real OSM corridors for all three passenger routes**, same origin and scale: Torino-Genova, Torino-Milano (historic line + High Speed + Milano's Passante), Genova-Ventimiglia (real tunnels included).
 
 <p align="center"><img src="docs/route-map-schematic.svg" alt="Linea Torino Porta Nuova - Genova Brignole, stile schematico simile a Moovit" width="420"></p>
+<p align="center"><img src="docs/torino-milano-schematico.svg" alt="Linea Torino - Milano, stile schematico" width="420"></p>
+<p align="center"><img src="docs/genova-ventimiglia-schematico.svg" alt="Linea Genova - Ventimiglia, stile schematico" width="420"></p>
+<p align="center"><img src="docs/merci-torino-genova-schematico.svg" alt="Linea merci Torino Orbassano - Genova VTE" width="420"></p>
+<p align="center"><img src="docs/merci-genova-milano-schematico.svg" alt="Linea merci Genova VTE - Milano Smistamento" width="420"></p>
 <p align="center"><img src="docs/pantograph-freeze.svg" alt="Diagramma della causa reale per cui il treno non si muoveva" width="680"></p>
 <p align="center"><img src="docs/waypoint-movement.svg" alt="Diagramma del sistema di movimento a waypoint" width="680"></p>
 <p align="center"><img src="docs/next-signal-hud-fix.svg" alt="Diagramma della correzione dell'indicatore segnale successivo" width="680"></p>
@@ -95,10 +105,11 @@ This file describes the current state. For the session-by-session history, see [
 3. **6 tratte su 7 nel menu non portano da nessuna parte.**
 4. **Marciapiede 2 senza punto di spawn.**
 5. **Aggancio carrozze ancora un prototipo.**
-6. **Errore ripetuto in uno script HUD di cabina**, non ancora indagato.
+6. ~~Errore ripetuto in uno script HUD di cabina~~ **risolto il 14 luglio**: chiamava una funzione mai definita, ogni frame.
 7. **Cartella "Test" da 251 oggetti**, mai confermata sicura da cancellare.
 8. **Impostazioni audio/HUD salvate ma non collegate a nulla.**
 9. **Ventaglio di Porta Nuova ancora solo una guida**, non binario vero. Più tentativi falliti nella sessione del 12-13 luglio; vedi changelog.
+10. **26 cartelli orari senza template**, mostrano 0 campi e 0 icone invece dei dati veri.
 
 ## 🇬🇧 What's missing, ranked by impact
 
@@ -108,10 +119,11 @@ This file describes the current state. For the session-by-session history, see [
 3. **6 of 7 routes in the menu go nowhere.**
 4. **Platform 2 has no spawn point.**
 5. **Carriage coupling still a prototype.**
-6. **Repeating error in a cab HUD script**, not yet investigated.
+6. ~~Repeating error in a cab HUD script~~ **fixed July 14**: it was calling a function that was never defined, every frame.
 7. **A "Test" folder with 251 objects**, never confirmed safe to delete.
 8. **Audio/HUD settings save but connect to nothing.**
 9. **Porta Nuova fan is still only a guide**, not real track. Several failed attempts during the July 12-13 session; see changelog.
+10. **26 departure boards missing their template**, showing 0 fields and 0 icons instead of real data.
 
 ---
 
