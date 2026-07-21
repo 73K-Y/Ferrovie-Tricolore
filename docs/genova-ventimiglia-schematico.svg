@@ -1,0 +1,44 @@
+<svg width="420" height="680" viewBox="0 0 420 680" xmlns="http://www.w3.org/2000/svg" role="img">
+<title>Linea Genova - Ventimiglia, stile schematico</title>
+<desc>Diagramma schematico in stile app di trasporto pubblico, linea verticale con fermate equidistanti, non una mappa geografica. Fermate reali sulla linea Genova-Ventimiglia completa.</desc>
+<rect width="420" height="680" fill="#ffffff"/>
+
+<line x1="60" y1="50" x2="60" y2="630" stroke="#1D9E75" stroke-width="6" stroke-linecap="round"/>
+
+<circle cx="60" cy="50" r="10" fill="#ffffff" stroke="#1D9E75" stroke-width="6"/>
+<text x="85" y="45" font-family="sans-serif" font-size="15" font-weight="700" fill="#2C2C2A">Genova P.Principe</text>
+<text x="85" y="63" font-family="sans-serif" font-size="11" fill="#73726c">capolinea</text>
+
+<circle cx="60" cy="105" r="5" fill="#1D9E75"/>
+<text x="85" y="110" font-family="sans-serif" font-size="13" fill="#444441">Genova Voltri</text>
+
+<circle cx="60" cy="160" r="6" fill="#1D9E75"/>
+<text x="85" y="165" font-family="sans-serif" font-size="14" fill="#2C2C2A">Varazze</text>
+
+<circle cx="60" cy="215" r="7" fill="#1D9E75"/>
+<text x="85" y="220" font-family="sans-serif" font-size="14" font-weight="600" fill="#2C2C2A">Savona</text>
+
+<circle cx="60" cy="270" r="5" fill="#1D9E75"/>
+<text x="85" y="275" font-family="sans-serif" font-size="13" fill="#444441">Finale Ligure</text>
+
+<circle cx="60" cy="325" r="6" fill="#1D9E75"/>
+<text x="85" y="330" font-family="sans-serif" font-size="14" fill="#2C2C2A">Andora</text>
+
+<circle cx="60" cy="380" r="7" fill="#1D9E75"/>
+<text x="85" y="385" font-family="sans-serif" font-size="14" font-weight="600" fill="#2C2C2A">Albenga</text>
+
+<circle cx="60" cy="435" r="7" fill="#1D9E75"/>
+<text x="85" y="440" font-family="sans-serif" font-size="14" font-weight="600" fill="#2C2C2A">Imperia</text>
+
+<circle cx="60" cy="490" r="5" fill="#1D9E75"/>
+<text x="85" y="495" font-family="sans-serif" font-size="13" fill="#444441">San Remo</text>
+
+<circle cx="60" cy="545" r="5" fill="#1D9E75"/>
+<text x="85" y="550" font-family="sans-serif" font-size="13" fill="#444441">Bordighera</text>
+
+<circle cx="60" cy="630" r="10" fill="#ffffff" stroke="#A32D2D" stroke-width="6"/>
+<text x="85" y="625" font-family="sans-serif" font-size="15" font-weight="700" fill="#501313">Ventimiglia</text>
+<text x="85" y="643" font-family="sans-serif" font-size="11" fill="#73726c">capolinea, confine con la Francia</text>
+
+<text x="20" y="665" font-family="sans-serif" font-size="10" fill="#73726c">Fermate reali sulla linea Genova-Ventimiglia, spaziatura uniforme per leggibilita'</text>
+</svg>
