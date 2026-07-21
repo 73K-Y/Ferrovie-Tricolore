@@ -16,6 +16,35 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ---
 
+## 2026-07-14
+
+<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Terza tratta di lancio confermata: Genova-Ventimiglia, con Genova come nodo di interscambio vero tra le tre linee</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Corridoi OSM reali estratti e puliti per tutte e tre le tratte: Torino-Milano (2.563 segmenti, Passante incluso), Genova-Ventimiglia (1.673 segmenti, gallerie vere incluse)</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Schermata di scelta ruolo (Macchinista Passeggeri / Merci / In arrivo) funzionante, verificata dal vivo dopo tre tentativi falliti</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Sistema Merci separato da Passeggeri: 2 tratte merci vere (Torino Orbassano-Genova VTE, Genova VTE-Milano Smistamento), categorie e nomi scalo reali, verificati con fonti</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Trovata e corretta la causa reale di un calo di prestazioni continuo: una funzione mai definita, chiamata ogni frame nel pannello guida</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 26 cartelli orari senza template, mostrano 0 campi e 0 icone, trovato ma non ancora corretto</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 5 file audio con permessi negati, causa esterna al codice, non risolvibile da qui</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Tre tentativi falliti di costruire la schermata di scelta ruolo prima di quello riuscito, ognuno per un errore di sintassi diverso</td></tr>
+</table>
+
+**Le tre tratte di lancio ora si toccano davvero.** Genova-Ventimiglia sostituisce quello che sembrava un errore di battitura ("Savona-Ventimiglia"), corretto una volta chiarito che Savona è solo una fermata intermedia sulla vera linea Genova-Ventimiglia. Con questo cambio, Genova diventa un nodo di interscambio reale tra le tre linee, invece di tre corridoi scollegati.
+
+**Estratti e puliti i corridoi OSM reali per le due tratte rimaste, stesso metodo della notte precedente.** Partire dai segmenti confermati per nome esatto della linea, poi espandere solo verso segmenti senza nome per riempire i buchi, mai verso segmenti che hanno già un nome diverso. Per Torino-Milano questo ha richiesto includere sia la linea storica che l'Alta Velocità, più il Passante ferroviario di Milano, dato che la futura stazione Milano MIND si trova nel tratto collegato al Passante. Per Genova-Ventimiglia, verificate anche le gallerie vere che collegano Genova Piazza Principe e Brignole.
+
+**La schermata di scelta ruolo è stata la parte più difficile della sessione, non per complessità del compito ma per quanto si è rivelato fragile lavorare su questi due script.** Tre tentativi separati sono falliti prima di quello riuscito: due funzioni di colore inesistenti in quello script specifico, poi l'ordine sbagliato degli argomenti di una funzione che ha una firma diversa da script a script nello stesso progetto, poi una riga con il tipo di font sbagliato, isolato solo grazie al log reale della console, mai leggibile prima perché sempre saturato da un bug preesistente non collegato. La lezione pratica: verificare le firme delle funzioni prima di scrivere codice nuovo che le usa, invece di assumere che siano uguali da un file all'altro dello stesso progetto.
+
+**Il sistema Merci è stato costruito e poi corretto sulla base geografica reale.** Il primo tentativo riusava le quattro tratte passeggeri con categorie merci sopra, senza verificare se avessero senso vero. Una domanda diretta ha portato a una ricerca che ha confermato: Torino-Genova (la storica Linea dei Giovi) e Genova-Milano sono corridoi merci reali; Genova-Ventimiglia e Torino-Milano no. Le tratte merci ridotte da quattro a due, nomi delle stazioni corretti da stazioni passeggeri ai veri scali merci (Torino Orbassano, Genova VTE, Milano Smistamento).
+
+**Trovata la causa vera di un calo di prestazioni continuo.** Il log della console, finalmente leggibile con un errore isolato, mostrava una funzione mai definita da nessuna parte nel progetto, chiamata dentro il ciclo di aggiornamento del pannello guida a ogni frame, centinaia di errori al minuto. Corretto disabilitando in modo sicuro quella chiamata. Verificato con le statistiche reali di Roblox che il calo osservato non è spiegabile solo dal maggior carico di Studio: 67.801 istanze e oltre 3 GB di memoria in una singola sessione di test sono un carico reale.
+
+---
+
 ## 2026-07-13
 
 <table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
