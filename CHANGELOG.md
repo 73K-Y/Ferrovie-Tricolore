@@ -6,7 +6,7 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ---
 
-## 2026-07-22
+## 2026-07-24
 
 <table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
 <tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Tromba, pantografo e compressore statico collegati ad audio reali, riusando un sistema start/loop/end già esistente invece di costruirne uno nuovo</td></tr>
