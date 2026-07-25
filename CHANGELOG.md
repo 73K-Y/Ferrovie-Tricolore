@@ -4,6 +4,37 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 **Status tables** open each day's entry, ordered red, yellow, green, summarizing where things stood before the detailed writeup below.
 
+---
+
+## 2026-07-22
+
+<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Tromba, pantografo e compressore statico collegati ad audio reali, riusando un sistema start/loop/end già esistente invece di costruirne uno nuovo</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pantografo silenzioso alla seduta iniziale, suona solo su azione vera del giocatore</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 2 pulsanti freni (carica/scarica) integrati nel vero pannello di controllo treno, non più fluttuanti a parte</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Suono statico ancora sempre attivo, non legato al pantografo: sistema crossfade troppo delicato per essere toccato senza una sessione dedicata</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Fischio disattivato su richiesta, codice lasciato inerte non rimosso</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Logica "freni carichi per partire" non ancora costruita, richiede toccare il cuore del sistema di guida</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Un pulsante piazzato fuori dal pannello vero, dovuto essere rifatto una seconda volta dentro la struttura corretta</td></tr>
+<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Intera UI di controllo treno sparita per un errore di battitura letterale, un "a capo" mancante che ha fuso due righe in una parola sola</td></tr>
+</table>
+
+**Sei suoni reali (tromba, fischio, compressore, inverter, carica/scarica freno) sono stati caricati e collegati, trovando che gran parte dell'infrastruttura necessaria esisteva già, solo con ID segnaposto.** Il clacson aveva già un sistema start/loop/end completo (`handleHorn`), semplicemente puntato a suoni vecchi; il suono statico esterno aveva già un sistema di distribuzione multi-emitter con crossfade anti-scatto su tutta la lunghezza del treno. In entrambi i casi la scelta giusta è stata riusare l'infrastruttura esistente sostituendo solo gli ID audio, invece di costruire qualcosa di nuovo da zero.
+
+**Il fischio è stato costruito, poi il compressore e la tromba sono stati ridisegnati su richiesta diretta, cambiando idea sulla struttura del loop.** Versione iniziale: start/loop-dedicato/end per la tromba, un sistema fischio gemello costruito da zero. Richiesta successiva: togliere il loop dedicato (mai avuto un file audio adatto comunque), far ripartire l'intero suono "in" se tenuto premuto oltre la sua durata naturale, far sì che pressioni multiple rapide interrompano e ripartano puliti invece di accodarsi, e disattivare il fischio del tutto per ora. Fatto tutto, con un limite dichiarato apertamente: senza un file audio tagliato apposta per isolare solo la coda del suono, un loop "solo della fine" non è costruibile via script, quindi il loop è dell'intero suono, non di un frammento.
+
+**Un'inizializzazione silenziosa che non lo era ha fatto scoprire un bug reale.** Il pantografo riproduceva il suono "giù" nell'istante in cui un giocatore si sedeva, prima ancora di toccare qualunque comando, perché una chiamata di setup che imposta lo stato iniziale del pantografo (mai pensata come un'azione vera) ora attivava lo stesso codice audio di un'azione reale. Corretto aggiungendo un parametro esplicito per distinguere "sto solo inizializzando lo stato" da "il giocatore ha davvero premuto qualcosa", usato solo in quella singola chiamata di setup.
+
+**Due pulsanti freni hanno richiesto due tentativi separati per finire nel posto giusto.** Il primo tentativo li ha creati come elementi fluttuanti indipendenti, parentati al frame sbagliato per errore di posizionamento (stesso tipo di bug già visto altre volte in sessioni precedenti: coordinate negative, fuori dallo schermo visibile). Corretto il posizionamento, ma la richiesta vera era diversa: i pulsanti dovevano stare dentro il pannello di controllo treno esistente (luci, clacson, pantografo, porte), non a parte. Trovato che quel pannello usa una vera fabbrica di righe riutilizzabile (`makeRow`), mai vista prima in questa sessione, e i due pulsanti sono stati ricostruiti come una quinta riga dello stesso sistema invece che elementi indipendenti.
+
+**Quella ricostruzione ha rotto l'intera UI di controllo treno, per il motivo più banale possibile.** Una sostituzione di testo ha unito la fine di una riga esistente con l'inizio del codice nuovo senza un "a capo" in mezzo, producendo letteralmente la parola `HornBtnlocal` al posto di due righe separate. Questo faceva puntare il riferimento al pulsante del clacson a nulla, che a sua volta interrompeva l'intero script prima che potesse costruire qualunque altro pulsante del pannello, luci comprese. Isolato leggendo l'errore vero della console (`attempt to index nil with 'MouseButton1Down'`, riga esatta), non indovinato: la riga incriminata, vista direttamente, mostrava l'errore di battitura a colpo d'occhio. Corretto, e confermato dal log stesso che il pannello si ricostruiva di nuovo per intero ("VehicleLightsGui caricata").
+
+**Ancora esplicitamente aperto:** il suono statico non è legato al pantografo (resta sempre acceso, il sistema che lo gestisce è un crossfade delicato che merita tempo dedicato, non una modifica veloce); i freni caricano e scaricano un suono ma non bloccano ancora la partenza del treno, quella logica tocca il cuore del sistema di guida e va costruita con lo stesso tipo di attenzione, non nello stesso momento di altre modifiche rischiose.
+
 <table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
 <tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Non fatto: tentato, annullato, o dichiarato apertamente ancora rotto</td></tr>
 </table>
