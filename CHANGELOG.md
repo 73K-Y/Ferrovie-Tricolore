@@ -4,37 +4,6 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 **Status tables** open each day's entry, ordered red, yellow, green, summarizing where things stood before the detailed writeup below.
 
----
-
-## 2026-07-24
-
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Tromba, pantografo e compressore statico collegati ad audio reali, riusando un sistema start/loop/end già esistente invece di costruirne uno nuovo</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pantografo silenzioso alla seduta iniziale, suona solo su azione vera del giocatore</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 2 pulsanti freni (carica/scarica) integrati nel vero pannello di controllo treno, non più fluttuanti a parte</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Suono statico ancora sempre attivo, non legato al pantografo: sistema crossfade troppo delicato per essere toccato senza una sessione dedicata</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Fischio disattivato su richiesta, codice lasciato inerte non rimosso</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Logica "freni carichi per partire" non ancora costruita, richiede toccare il cuore del sistema di guida</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Un pulsante piazzato fuori dal pannello vero, dovuto essere rifatto una seconda volta dentro la struttura corretta</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Intera UI di controllo treno sparita per un errore di battitura letterale, un "a capo" mancante che ha fuso due righe in una parola sola</td></tr>
-</table>
-
-**Sei suoni reali (tromba, fischio, compressore, inverter, carica/scarica freno) sono stati caricati e collegati, trovando che gran parte dell'infrastruttura necessaria esisteva già, solo con ID segnaposto.** Il clacson aveva già un sistema start/loop/end completo (`handleHorn`), semplicemente puntato a suoni vecchi; il suono statico esterno aveva già un sistema di distribuzione multi-emitter con crossfade anti-scatto su tutta la lunghezza del treno. In entrambi i casi la scelta giusta è stata riusare l'infrastruttura esistente sostituendo solo gli ID audio, invece di costruire qualcosa di nuovo da zero.
-
-**Il fischio è stato costruito, poi il compressore e la tromba sono stati ridisegnati su richiesta diretta, cambiando idea sulla struttura del loop.** Versione iniziale: start/loop-dedicato/end per la tromba, un sistema fischio gemello costruito da zero. Richiesta successiva: togliere il loop dedicato (mai avuto un file audio adatto comunque), far ripartire l'intero suono "in" se tenuto premuto oltre la sua durata naturale, far sì che pressioni multiple rapide interrompano e ripartano puliti invece di accodarsi, e disattivare il fischio del tutto per ora. Fatto tutto, con un limite dichiarato apertamente: senza un file audio tagliato apposta per isolare solo la coda del suono, un loop "solo della fine" non è costruibile via script, quindi il loop è dell'intero suono, non di un frammento.
-
-**Un'inizializzazione silenziosa che non lo era ha fatto scoprire un bug reale.** Il pantografo riproduceva il suono "giù" nell'istante in cui un giocatore si sedeva, prima ancora di toccare qualunque comando, perché una chiamata di setup che imposta lo stato iniziale del pantografo (mai pensata come un'azione vera) ora attivava lo stesso codice audio di un'azione reale. Corretto aggiungendo un parametro esplicito per distinguere "sto solo inizializzando lo stato" da "il giocatore ha davvero premuto qualcosa", usato solo in quella singola chiamata di setup.
-
-**Due pulsanti freni hanno richiesto due tentativi separati per finire nel posto giusto.** Il primo tentativo li ha creati come elementi fluttuanti indipendenti, parentati al frame sbagliato per errore di posizionamento (stesso tipo di bug già visto altre volte in sessioni precedenti: coordinate negative, fuori dallo schermo visibile). Corretto il posizionamento, ma la richiesta vera era diversa: i pulsanti dovevano stare dentro il pannello di controllo treno esistente (luci, clacson, pantografo, porte), non a parte. Trovato che quel pannello usa una vera fabbrica di righe riutilizzabile (`makeRow`), mai vista prima in questa sessione, e i due pulsanti sono stati ricostruiti come una quinta riga dello stesso sistema invece che elementi indipendenti.
-
-**Quella ricostruzione ha rotto l'intera UI di controllo treno, per il motivo più banale possibile.** Una sostituzione di testo ha unito la fine di una riga esistente con l'inizio del codice nuovo senza un "a capo" in mezzo, producendo letteralmente la parola `HornBtnlocal` al posto di due righe separate. Questo faceva puntare il riferimento al pulsante del clacson a nulla, che a sua volta interrompeva l'intero script prima che potesse costruire qualunque altro pulsante del pannello, luci comprese. Isolato leggendo l'errore vero della console (`attempt to index nil with 'MouseButton1Down'`, riga esatta), non indovinato: la riga incriminata, vista direttamente, mostrava l'errore di battitura a colpo d'occhio. Corretto, e confermato dal log stesso che il pannello si ricostruiva di nuovo per intero ("VehicleLightsGui caricata").
-
-**Ancora esplicitamente aperto:** il suono statico non è legato al pantografo (resta sempre acceso, il sistema che lo gestisce è un crossfade delicato che merita tempo dedicato, non una modifica veloce); i freni caricano e scaricano un suono ma non bloccano ancora la partenza del treno, quella logica tocca il cuore del sistema di guida e va costruita con lo stesso tipo di attenzione, non nello stesso momento di altre modifiche rischiose.
-
 <table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
 <tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Non fatto: tentato, annullato, o dichiarato apertamente ancora rotto</td></tr>
 </table>
@@ -47,7 +16,70 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ---
 
-## 2026-07-21
+## 2026-07-27
+
+<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Audio reale collegato: tromba, pantografo, freni, apertura/chiusura porte, riusando il sistema start/end già esistente invece di costruirne uno nuovo</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pulsante freno unico con barra di caricamento e cambio icona, verificato dal vivo</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Porte: barra di imbarco riusata per mostrare anche la chiusura, con durata vera letta dal server invece che stimata</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Trovate e corrette tre cause reali per cui il treno non si muoveva: uno script di guida mancante sul modello sorgente, un riferimento mai impostato, e una rotta di riserva che puntava a dati inesistenti</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Primo test di movimento per singolo bogie (non l'intera unità), usando le posizioni vere dei motori ruota come riferimento, verificato dal vivo con marker visibili</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Community Roblox creata e collegata al progetto</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Il movimento per bogie usa ancora marker di test, non la geometria vera delle ruote</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Le curve del percorso non ancora testate, rimandate apposta a un'altra sessione</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Il sistema a fisica delle ruote (VehicleSeat2Module) riattivato solo per confronto/test, non è la direzione presa per il progetto</td></tr>
+</table>
+
+**Sei suoni reali sono stati collegati riusando un sistema start/end già esistente nel progetto, invece di costruirne uno da zero.** Il clacson aveva già l'infrastruttura giusta, semplicemente puntata su file vecchi; il suono statico esterno aveva già un sistema di distribuzione multi-emitter con crossfade. Pantografo e freni sono stati aggiunti sopra la stessa struttura, ognuno con il proprio suono di attivazione/disattivazione. Le porte hanno ricevuto lo stesso trattamento più tardi nella sessione, dopo un primo tentativo con barre di caricamento dentro i pulsanti stessi, poi tolto su richiesta e sostituito riusando la barra di imbarco passeggeri già esistente, con una variante rossa per la chiusura.
+
+**Il pulsante freno è stato ridisegnato da due tasti separati a uno solo**, largo quanto la riga sopra nel pannello di controllo, con un'icona vera fornita e una barra di caricamento che cambia colore in base allo stato (rosso scarico, giallo durante il caricamento, verde carico), sincronizzata alla durata reale del file audio invece che a un tempo stimato.
+
+**Il treno che non si muoveva ha richiesto tre correzioni separate, ognuna trovata leggendo il log reale della console invece di indovinare.** Prima causa: il modello sorgente di una carrozza non aveva mai avuto lo script di guida sul proprio sedile, un difetto del template stesso, non introdotto stanotte. Seconda causa, più sottile: un riferimento (`Vehicle`) che lo script di guida si aspetta di trovare già impostato non è mai stato assegnato da nessuna parte nel progetto, confermato cercando in ogni script per qualunque cosa lo impostasse e non trovando nulla. Terza causa, quella vera per il sistema a waypoint: lo script che sposta il treno lungo il percorso cercava di default una rotta ("StartTrack1Route") che non esisteva, mentre l'unica rotta reale presente in memoria era organizzata come 101 cartelle separate (un segmento OSM grezzo ciascuna), non come lista piatta di waypoint come lo script si aspettava.
+
+**Costruita una rotta vera e pulita da 47 punti**, presa dai modelli "Start Track 1" già piazzati a mano nel ventaglio di Porta Nuova, deduplicati e ordinati, sostituendo sia il tentativo di rotta di test fatto a metà sessione sia il riferimento a dati inesistenti.
+
+**Primo esperimento di movimento indipendente per bogie, non più un'unica unità rigida.** Uno script di test separato trova ogni gruppo Front/Back su tutte le carrozze del treno, legge le posizioni vere dei motori ruota (già corrette perché usate dal vecchio sistema fisico, solo mai per questo scopo) e le fa seguire il percorso con marker visibili indipendenti, invece di muovere l'intera carrozza come blocco unico. Il vecchio script di movimento a unità intera è stato disattivato temporaneamente per il test, dato che i due sistemi in esecuzione insieme si contendevano la posizione della stessa carrozza. Non ancora collegato alla geometria vera delle ruote; le curve del percorso non sono state ancora messe alla prova, solo il tratto rettilineo.
+
+**Creata e collegata al progetto la Community ufficiale su Roblox**, con ruoli pensati per rispecchiare la stessa scala già in uso su Discord (assegnati a mano, dato che Roblox non ha un sistema di livelli automatico come quello usato lì), link social nella sezione dedicata invece che nella descrizione, e ingresso libero per favorire la crescita.
+
+---
+
+## 2026-07-26
+
+<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Sei suoni reali collegati (tromba, pantografo, freni, porte), riusando sistemi start/end e multi-emitter già esistenti invece di costruirne di nuovi</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pulsante freni ridisegnato: un solo tasto con barra di caricamento e icona vera, verde/rosso in base allo stato</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Animazione apertura/chiusura porte riusa la barra imbarco già esistente, con durata reale dal server</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Trovata la causa vera per cui il treno non si muoveva: la cartella rotta era 101 sotto-cartelle segmento, non una lista piatta di waypoint</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Rotta vera ricostruita dai 47 punti reali "Start Track 1" del ventaglio di Porta Nuova</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Primo test di bogie indipendenti: marker visibili seguono il tracciato usando le posizioni vere dei VS2AttachmentMotor (2 per Front, 2 per Back)</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 TrainWaypointMover disattivato temporaneamente per non entrare in conflitto col test bogie, va riconciliato</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Marker bogie ancora solo visivi, non muovono la geometria vera delle ruote</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Le curve del ventaglio non ancora testate, solo un tratto ordinato per coordinata X</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Tentativo di navigare il menu tratte via script per un test automatico, abbandonato per inaffidabilità</td></tr>
+</table>
+
+**Sei suoni reali sono stati collegati riusando quasi ovunque infrastruttura già esistente invece di costruire da zero.** Il clacson aveva già un sistema start/loop/end completo; il compressore statico aveva già un sistema multi-emitter con crossfade anti-scatto lungo tutto il treno. In entrambi i casi la scelta giusta è stata sostituire solo gli ID audio. Il fischio è stato costruito e poi disattivato su richiesta esplicita; la tromba è stata ristrutturata per far ripartire l'intero suono "in" in loop se tenuta premuta oltre la sua durata naturale, con un limite dichiarato apertamente: senza un file tagliato apposta per isolarne solo la coda, un loop "solo della fine" non è costruibile via script.
+
+**Il pulsante freni è passato da due tasti piccoli a uno solo, con barra di caricamento e cambio icona sincronizzati alla durata vera dell'audio**, letta dal file stesso invece che stimata. Due bug reali lungo il percorso: un pulsante piazzato fuori dal pannello vero per un frame genitore sbagliato, e l'intera UI di controllo treno sparita per un "a capo" mancante in una sostituzione di testo, che aveva fuso due righe in una parola sola (`HornBtnlocal`) e fermato lo script prima di costruire qualunque altro pulsante. Isolato solo leggendo l'errore vero della console, riga esatta.
+
+**Le porte hanno seguito un percorso simile, corretto due volte.** Prima versione: barre di caricamento dentro i pulsanti stessi. Richiesta esplicita di toglierle e usare invece la stessa posizione della barra di imbarco passeggeri già esistente altrove nel progetto (`DeparturePromptClient`), trovata, riusata per l'apertura (verde, durata reale mandata dal server) ed estesa con una versione rossa "Chiusura porte..." per la chiusura, collegando i due script separati con un `BindableEvent` condiviso.
+
+**Il treno non si muoveva, e la causa vera si è rivelata diversa più volte prima di essere trovata per davvero.** Prima ipotesi: uno script di guida mancante su un tipo di carrozza, corretto ma non la causa reale (quella carrozza non era il sedile in uso). Seconda ipotesi: un valore "Vehicle" mai collegato nel vecchio sistema fisico NWSpacek, vero, ma il sistema fisico non era più quello in uso. Causa reale, trovata solo leggendo direttamente cosa produceva la funzione di caricamento rotta: la cartella `VentaglioPortaNuova_OSM_Waypoints` non era una lista piatta di waypoint come lo script si aspettava, ma 101 sotto-cartelle segmento (`Binario_1`...`Binario_101`), coerente con la sua natura di importazione grezza mai pensata per essere guidabile direttamente, documentata come tale in una sessione precedente.
+
+**Una rotta vera è stata ricostruita da zero, questa volta dalla fonte giusta.** I modelli "Start Track 1" (47 punti unici, tutti concentrati nell'area reale del ventaglio di Porta Nuova, a differenza di "Start Track 2" che si è rivelato essere migliaia di pezzi di binario visivo sparsi su decine di migliaia di studs) sono stati raccolti, deduplicati, e ordinati per coordinata X in una nuova cartella rotta piatta. Funziona su un tratto dritto; le curve del ventaglio, dove un ordinamento ingenuo per singola coordinata rischia di saltare da un binario all'altro, restano da testare.
+
+**Primo test concreto del concetto "bogie indipendenti che seguono il tracciato", discusso a lungo prima di essere costruito.** Ogni gruppo Front/Back di ogni carrozza del treno viene trovato automaticamente, le sue due ruote (`VS2AttachmentMotor`, già posizionate correttamente dal vecchio sistema fisico mai smontato) danno la posizione di partenza vera, e un marker visibile per bogie segue la rotta in base alla propria distanza iniziale più lo spostamento condiviso. Solo marker per ora, non la geometria vera delle ruote; andato in conflitto la prima volta con `TrainWaypointMover` ancora attivo (entrambi rispondono allo stesso evento di seduta, il vecchio spostava la carrozza vera mentre i marker si muovevano separatamente), risolto disattivando temporaneamente il vecchio script per isolare il test.
+
+---
+
+## 2026-07-14
 
 <table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
 <tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Terza tratta di lancio confermata: Genova-Ventimiglia, con Genova come nodo di interscambio vero tra le tre linee</td></tr>
