@@ -16,6 +16,38 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ---
 
+## 2026-08-21
+
+<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Movimento a waypoint con sterzata per bogie: la cassa non segue un punto, viene costruita dai suoi due carrelli</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Venti rotte ricostruite dai binari reali, tutte verificate dritte (tortuosita' tra 1.00 e 1.03)</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Il binario scelto nel menu ora determina davvero il percorso del treno</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Treno che resta intero e fermo allo spawn, dopo tre cause distinte trovate e corrette</td></tr>
+<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Binari sostituiti con mesh testurizzata su 7.609 oggetti, nomi originali mantenuti</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Il movimento gira su LocalScript: il treno si muove solo sullo schermo di chi guida, per il server e gli altri giocatori resta fermo</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Suono statico che si interrompeva: aggiunto un guardiano che lo fa ripartire, causa esatta non ancora isolata</td></tr>
+<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Le rotte finiscono dopo circa 3.300 studs: oltre il ventaglio non esiste ancora nessun raccordo verso la linea</td></tr>
+</table>
+<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
+<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Due errori di sintassi introdotti durante la sessione hanno bloccato interi script fino a diagnosi dal log</td></tr>
+</table>
+
+**Il sistema di guida ora sterza per bogie, non piu' per convoglio.** Ogni veicolo ha due carrelli, Front e Back dentro il modello Bogie; ciascuno viene proiettato sul punto piu' vicino del tracciato e avanza per conto proprio. La cassa non viene messa su un punto del percorso: viene costruita dai suoi due carrelli, posizione al punto medio e direzione lungo la linea che li unisce. I carrelli vengono poi riorientati sulla tangente locale del binario, cosi' in curva ruotano rispetto alla cassa come quelli veri. Un vantaggio non ovvio di questa struttura: quando un convoglio lungo attraversa un punto di diramazione, i carrelli davanti sono gia' oltre e quelli dietro ancora prima, e la cosa funziona da sola senza codice dedicato.
+
+**Le venti rotte sono state ricostruite tre volte prima di venire pulite, e ogni tentativo ha insegnato qualcosa.** Il primo raggruppava le tile per nome, ma i nomi si rivelano alternati lungo lo stesso binario fisico: una tile "Start Track 2" puo' stare in mezzo a due "Start Track 3", quindi raggruppare per nome tagliava percorsi veri e ne univa di scollegati. Il secondo concatenava per pura vicinanza geometrica, ma ai punti di incrocio l'algoritmo imboccava il binario sbagliato. Il terzo ha aggiunto una penalita' sulla deviazione di direzione, che pero' non bastava: alla fine di un binario, non trovando altro, l'algoritmo saltava su quello adiacente e tornava indietro, generando percorsi da 8.400 studs con tortuosita' vicina a 4. La soluzione e' stata un limite angolare secco, sessanta gradi tra tile consecutive: un binario non gira mai cosi' di colpo, quindi meglio fermarsi che tornare indietro. Risultato finale: venti rotte su venti con tortuosita' tra 1.00 e 1.03, dove 1.00 e' una retta perfetta.
+
+**Il treno che si smontava allo spawn aveva tre cause diverse, sovrapposte.** La prima: lo script di spawn sceglieva "la prima Part trovata" nell'intera gerarchia come riferimento per posizionare tutto, e con i modelli nuovi pescava un pezzo di porta invece del corpo, mandando il convoglio fuori posto. La seconda: il PrimaryPart di alcune locomotive ha un orientamento interno ruotato rispetto al modello, quindi usarlo come riferimento faceva finire il treno sottoterra; risolto passando al pivot del modello, e poi salvando la posizione di ogni veicolo individualmente invece di applicare una trasformazione unica a tutte le parti. La terza, la piu' nascosta: uno script chiamato Advanced Weld 2, presente solo nelle due locomotive e non nelle carrozze, salda tutte le parti e poi le disancora tutte, perche' e' pensato per un veicolo a fisica che deve potersi muovere. Con il movimento a waypoint quel disancoraggio fa solo cadere il mezzo. Il fatto che le carrozze restassero perfette mentre le locomotive cadevano e' stato l'indizio decisivo.
+
+**Il binario scelto nel menu adesso conta davvero.** Il client mandava gia' il numero di binario al server, che pero' lo ignorava e scriveva sempre "Platform 1" sui cartelli. Ora il server compone il nome della rotta corrispondente, lo scrive come attributo su tutti i sedili del convoglio, e lo script di guida lo legge quando il giocatore si siede. Anche i cartelli partenze mostrano finalmente il binario reale.
+
+**Velocimetro e barra di potenza erano fermi a zero per un motivo strutturale, non per un bug di interfaccia.** Leggevano AssemblyLinearVelocity e Throttle, entrambi sempre nulli quando il treno viene spostato con PivotTo a parti ancorate: per il motore fisico quel treno e' immobile. Ora lo script di guida pubblica velocita' e livello di potenza come attributi sul sedile, e l'interfaccia legge quelli, con ripiego sulla fisica se mancano. La conversione usa la scala vera del progetto, 1502.4 studs per chilometro.
+
+**Il nodo piu' importante resta aperto ed e' architetturale.** Lo script che muove il treno e' un LocalScript: il convoglio si sposta solo sullo schermo di chi guida. Per il server, e quindi per ogni altro giocatore, resta fermo al punto di spawn. Con un solo giocatore in prova non si nota, ma blocca il multiplayer e falsa tutto cio' che il server calcola sulla posizione, dai suoi emitter audio ai semafori. La soluzione e' spostare il ciclo di movimento lato server lasciando al client solo la lettura dei comandi, ma e' un cambiamento che tocca il cuore del sistema e merita una sessione dedicata.
+
+---
+
 ## 2026-07-27
 
 <table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
