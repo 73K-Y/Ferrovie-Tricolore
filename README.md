@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&height=190&color=0:009246,50:f4f5f0,100:cd212a&section=header&text=Ferrovie%20Tricolore&fontSize=54&fontColor=1b1b1b&fontAlignY=38&desc=simulatore%20ferroviario%20su%20Roblox&descAlignY=60&descSize=16" width="100%" alt="Ferrovie Tricolore">
+<img src="docs/ferrovie-tricolore.png" width="100%" alt="Ferrovie Tricolore">
 
 <img src="https://readme-typing-svg.demolab.com?font=Inconsolata&weight=700&size=20&duration=2600&pause=1400&color=FFCD28&background=0C0C0EFF&center=true&vCenter=true&width=640&height=46&lines=R+4001++TORINO+P.NUOVA++GENOVA+BRIGNOLE++BIN.+1;IC+652++TORINO+P.NUOVA++MILANO+CENTRALE++BIN.+7;REG+1820++GENOVA+P.PRINCIPE++VENTIMIGLIA++BIN.+3" alt="Tabellone partenze">
 
@@ -25,20 +25,14 @@ Sto costruendo un simulatore ferroviario su Roblox partendo da una regola sola: 
 | `RV` | **Ventimiglia** via Savona | 3 | ⚪ in programma |
 | `IC` | **Milano Centrale** via Novara | 7 | ⚪ in programma |
 
-```mermaid
-flowchart LR
-    PN([Torino P.Nuova]) --- LI([Lingotto]) --- TR([Trofarello]) --- AT([Asti]) --- AL([Alessandria]) --- NO([Novi Ligure]) --- GP([Genova P.Principe]) --- GB([Genova Brignole])
-    classDef fatto fill:#2ea44f,stroke:#1b6f33,color:#fff
-    classDef posato fill:#d29922,stroke:#8a6414,color:#fff
-    class PN,LI fatto
-    class TR,AT,AL,NO,GP,GB posato
-```
-<sub>Verde: stazione guidabile. Giallo: binari posati, percorsi e segnali in arrivo.</sub>
+<p align="center">
+<code>🟢 Torino P.Nuova ─── 🟢 Lingotto ─── 🟡 Trofarello ─── 🟡 Asti ─── 🟡 Alessandria ─── 🟡 Novi Ligure ─── 🟡 Genova P.Principe ─── 🟡 Genova Brignole</code><br>
+<sub>🟢 si guida &nbsp; 🟡 binari posati, percorsi e segnali in arrivo</sub>
+</p>
 
 ## In cabina
 
 <!-- Metti qui 2 o 3 screenshot o una GIF: cabina, Sala Comandi, mappa delle stazioni.
-     Esempio:
 <p align="center">
   <img src="docs/screenshots/cabina.png" width="32%">
   <img src="docs/screenshots/sala-comandi.png" width="32%">
@@ -48,7 +42,19 @@ flowchart LR
 
 Componi il treno veicolo per veicolo, alzi il pantografo, carichi i freni e aspetti il verde. In banchina apri le porte dal lato giusto e lasci salire i passeggeri. Se in Sala Comandi c'è qualcuno, la partenza la decide lui.
 
-Nel parco mezzi oggi ci sono E464, Mazinga e MDVC in livrea XMPR, POP ed E652 per i merci. Sono in lavorazione Rock, Italo, Taurus, E405, TAF, Frecciargento e MDCE.
+## Parco mezzi
+
+| Rotabile | Stato | Livree |
+|:--|:--|:--|
+| Mazinga | in gioco | XMPR, poi Regionale |
+| MDVC | in gioco | XMPR in lavorazione |
+| MDCE | in lavorazione | XMPR in lavorazione |
+| E464 | in gioco | |
+| POP | in gioco | |
+| E652 | in gioco, treni merci | |
+| Rock, Italo, Taurus, E405, TAF, Frecciargento | in lavorazione | |
+
+Ogni rotabile avrà anche le sue varianti di livrea, così lo stesso mezzo potrà girare in più versioni, come la Mazinga in livrea XMPR o Regionale.
 
 ## Come è fatto
 
@@ -71,6 +77,7 @@ Nel parco mezzi oggi ci sono E464, Mazinga e MDVC in livrea XMPR, POP ed E652 pe
 - [x] Collegamento reale Porta Nuova e Lingotto
 - [ ] Linea per Genova guidabile fino in fondo
 - [ ] Marciapiedi della nuova Lingotto
+- [ ] Varianti di livrea dei rotabili
 - [ ] Carri merci
 - [ ] Genova Ventimiglia e Torino Milano
 
@@ -89,15 +96,6 @@ It started at Torino Porta Nuova and is now stretching towards Genova. The game 
 | `RV` | Ventimiglia | planned |
 | `IC` | Milano Centrale | planned |
 
+Every vehicle will also get its livery variants, so the same train can run in more than one version, like the Mazinga in XMPR or Regionale livery.
+
 </details>
-
-<br>
-
-<div align="center">
-
-<sub>JackSborra, con BinarioMagico, boh_io, ProfessionalAnnoyer, R+, trenoe464 e Vincent</sub><br>
-<sub>TOMHODA Studios</sub>
-
-<img src="https://capsule-render.vercel.app/api?type=waving&height=90&color=0:009246,50:f4f5f0,100:cd212a&section=footer" width="100%" alt="">
-
-</div>
