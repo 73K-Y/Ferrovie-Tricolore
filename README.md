@@ -1,179 +1,103 @@
-# Ferrovie Tricolore
+<div align="center">
 
-<p align="center"><img src="docs/ferrovie-tricolore.png" alt="Ferrovie Tricolore" width="420"></p>
+<img src="https://capsule-render.vercel.app/api?type=waving&height=190&color=0:009246,50:f4f5f0,100:cd212a&section=header&text=Ferrovie%20Tricolore&fontSize=54&fontColor=1b1b1b&fontAlignY=38&desc=simulatore%20ferroviario%20su%20Roblox&descAlignY=60&descSize=16" width="100%" alt="Ferrovie Tricolore">
 
----
+<img src="https://readme-typing-svg.demolab.com?font=Inconsolata&weight=700&size=20&duration=2600&pause=1400&color=FFCD28&background=0C0C0EFF&center=true&vCenter=true&width=640&height=46&lines=R+4001++TORINO+P.NUOVA++GENOVA+BRIGNOLE++BIN.+1;IC+652++TORINO+P.NUOVA++MILANO+CENTRALE++BIN.+7;REG+1820++GENOVA+P.PRINCIPE++VENTIMIGLIA++BIN.+3" alt="Tabellone partenze">
 
-## 🇮🇹 Cos'è
+[Changelog](CHANGELOG.md) &nbsp;·&nbsp; [Game design](GAME_DESIGN.md) &nbsp;·&nbsp; [Discord](https://discord.gg/pH62fm3nkG)
 
-Un simulatore ferroviario in Roblox Studio. Lo sviluppo è iniziato da Torino Porta Nuova per scelta personale, non come limite del progetto: la copertura si amplierà. Al lancio sono previste **tre tratte passeggeri** (Torino-Genova, Torino-Milano, Genova-Ventimiglia), collegate tra loro tramite Genova come nodo di interscambio vero. Il giocatore sceglie prima un **ruolo** (Macchinista Passeggeri o Merci) prima del menu tratte: le tratte merci seguono corridoi cargo italiani reali, diversi da quelli passeggeri. Priorità sui dettagli operativi veri, non sulla guida arcade: stazioni reali da OpenStreetMap, binario da dati GPX, segnalamento a blocchi in stile RFI, orologio di stazione sincronizzato all'ora vera in Italia.
+</div>
 
-Questo file descrive lo stato attuale. Per la cronologia sessione per sessione, vedi [CHANGELOG.md](CHANGELOG.md).
+<br>
 
-## 🇬🇧 What this is
+Sto costruendo un simulatore ferroviario su Roblox partendo da una regola sola: i binari devono essere quelli veri. Le stazioni sono ricostruite dalle mappe ferroviarie, i segnali funzionano a blocchi come sulla linea vera, e in Sala Comandi un altro giocatore può fare il dirigente movimento mentre tu guidi.
 
-A train simulator in Roblox Studio. Development started from Torino Porta Nuova by personal choice, not as a fixed project boundary: coverage will expand. Launch is planned with **three passenger routes** (Torino-Genova, Torino-Milano, Genova-Ventimiglia), connected through Genova as a real interchange hub. The player picks a **role** first (Passenger or Freight engineer) before the route menu: freight routes follow real Italian cargo corridors, different from the passenger ones. Priority on real operational detail, not arcade driving: real stations from OpenStreetMap, GPX-derived track, RFI-style block signaling, a station clock synced to real Italian time.
+È iniziato da Torino Porta Nuova e da lì si sta allungando verso Genova.
 
-This file describes the current state. For the session-by-session history, see [CHANGELOG.md](CHANGELOG.md).
+> [!NOTE]
+> Il gioco è in sviluppo e non ancora pubblico. Gli aggiornamenti escono prima sul [Discord](https://discord.gg/pH62fm3nkG).
 
----
+## Partenze
 
-## 🇮🇹 Cosa funziona
+| Treno | Destinazione | Binario | Stato |
+|:--|:--|:--:|:--|
+| `R` | **Genova Brignole** via Asti, Alessandria | 1 | 🟡 binari posati, guidabile fino a Lingotto |
+| `RV` | **Ventimiglia** via Savona | 3 | ⚪ in programma |
+| `IC` | **Milano Centrale** via Novara | 7 | ⚪ in programma |
 
-- **Composizione treno dinamica**, numero di carrozze variabile a ogni spawn.
-- **Comandi di cabina reali**: luci, clacson a 3 fasi lato server, pantografo, porte, tutto sincronizzato tra client via `RemoteEvent`.
-- **Pipeline pronta per ~3.000 stazioni reali da OpenStreetMap** (`genera_stazioni_v2.py`, scala 1:200), ma nel gioco oggi ne sono piazzate molte meno: solo quelle sulla tratta Torino-Genova attualmente in lavorazione.
-- **Binario da dati GPX veri**, generato con spline Catmull-Rom.
-- **Orologio di stazione sull'ora vera in Italia**, con correzione ora legale, guida gli orologi dei cartelli.
-- **Segnalamento a blocchi reale, 4 segnali in sequenza**, ciascuno calcola rosso/giallo/verde dall'occupazione dei due blocchi successivi. I segnali di stazione richiedono in più un'autorizzazione manuale di partenza. Occupazione tracciata da un collider "Coda" (assegnato dinamicamente alla locomotiva che il giocatore non guida) in uscita da ogni zona segnale, non in entrata.
-- **Cartelli partenze gestiti interamente lato server**, stesso script che rileva testa/coda del treno a ogni segnale. Una sola tratta riconosciuta oggi (Porta Nuova binario 1 verso Lingotto binario 2), scritta a mano.
-- **Pannello admin** modifica il testo scorrevole dei cartelli per l'intero progetto, protetto da ID utente.
-- **Cartelli con icona categoria vera** (R, RV, IC, ICN, Frecciarossa, Italo) e logo aziendale.
-- **Display di cabina del prossimo segnale** ora cerca ricorsivamente e sceglie il segnale corretto avanti al treno, non solo il più vicino in assoluto.
-- **Annunci di stazione audio veri**, 93 clip assemblate in sequenza parlata da un modulo (`AnnunciTreno`), con riverbero per stazione. Anche un pannello a testo libero per annunci personalizzati.
-- **Menu selezione tratta a tre colonne** (tratta, tipo treno, anteprima).
-- **Selettore stazione prima del menu tratta**, con teletrasporto a un vero `SpawnLocation` e copertura a schermo intero durante il caricamento.
-- **Limiti di velocità funzionanti**: zone invisibili con attributo `SpeedLimit`, cartello rosso/bianco con il limite dentro il pannello guida. Solo 3 zone di prova vicino a Porta Nuova per ora.
-- **Prima persona su C**, segue la testa vera del personaggio. FOV regolabile (50-120°) nel pannello impostazioni.
-- **Movimento a waypoint**, alternativa alla fisica delle ruote (mai stata affidabile). Il treno segue una sequenza di `CFrameValue`, interpolando la posizione con `PivotTo`, ancorato durante il movimento per non entrare in conflitto con le vecchie cerniere fisiche.
-- **Scelta del ruolo prima del menu tratte**: Macchinista Passeggeri, Macchinista Merci, o "In arrivo" (segnaposto non cliccabile per ruoli futuri come assistenza ferroviaria). La scelta determina quale lista di tratte si apre.
-- **Sistema Merci separato**, con dati verificati: solo 2 tratte (Torino Orbassano-Genova VTE, Genova VTE-Milano Smistamento), corrispondenti ai veri corridoi cargo italiani (Linea dei Giovi, collegamenti container Genova-Milano). Categorie reali (Merci Rapido, Intermodale, Tradotta, Merci Rapido Internazionale), nomi di scalo veri invece di stazioni passeggeri, nessuna fermata intermedia.
-- **Corridoi OSM reali per tutte e tre le tratte passeggeri**, stessa origine e scala: Torino-Genova, Torino-Milano (linea storica + Alta Velocità + Passante di Milano), Genova-Ventimiglia (gallerie vere incluse).
+```mermaid
+flowchart LR
+    PN([Torino P.Nuova]) --- LI([Lingotto]) --- TR([Trofarello]) --- AT([Asti]) --- AL([Alessandria]) --- NO([Novi Ligure]) --- GP([Genova P.Principe]) --- GB([Genova Brignole])
+    classDef fatto fill:#2ea44f,stroke:#1b6f33,color:#fff
+    classDef posato fill:#d29922,stroke:#8a6414,color:#fff
+    class PN,LI fatto
+    class TR,AT,AL,NO,GP,GB posato
+```
+<sub>Verde: stazione guidabile. Giallo: binari posati, percorsi e segnali in arrivo.</sub>
 
-## 🇬🇧 What's working
+## In cabina
 
-- **Dynamic train composition**, carriage count varies per spawn.
-- **Real cab controls**: lights, 3-phase server-side horn, pantograph, doors, synced across clients via `RemoteEvent`.
-- **Pipeline ready for ~3,000 real stations from OpenStreetMap** (`genera_stazioni_v2.py`, 1:200 scale), but far fewer are actually placed in the game today: only the ones on the Torino-Genova line currently being worked on.
-- **Track from real GPX data**, generated with a Catmull-Rom spline.
-- **Station clock on real Italian time**, DST-corrected, drives the board clocks.
-- **Real block signaling, 4 signals in sequence**, each computing red/yellow/green from the next two blocks' occupancy. Station signals additionally require manual departure authorization. Occupancy tracked by a "Coda" collider (dynamically assigned to whichever locomotive the player isn't driving) exiting each signal zone, not entering.
-- **Departure boards run entirely server-side**, same script that detects the train's head/tail at each signal. One route recognized today (Porta Nuova platform 1 to Lingotto platform 2), hand-coded.
-- **Admin panel** edits the boards' scrolling text project-wide, gated by user ID.
-- **Boards show a real category icon** (R, RV, IC, ICN, Frecciarossa, Italo) and a company logo.
-- **Cab next-signal display** now searches recursively and picks the correct signal ahead of the train, not just the nearest one overall.
-- **Real audio station announcements**, 93 clips assembled into a spoken sequence by a module (`AnnunciTreno`), with per-station reverb. Plus a free-text panel for custom one-off announcements.
-- **Three-column route menu** (route, train type, preview).
-- **Station picker before the route menu**, teleporting to a real `SpawnLocation` with a full-screen loading cover.
-- **Working speed limits**: invisible zones with a `SpeedLimit` attribute, a red/white sign inside the driving HUD. Only 3 test zones near Porta Nuova so far.
-- **First-person on C**, tracks the character's real head. Adjustable FOV (50-120°) in settings.
-- **Waypoint-based movement**, an alternative to wheel physics (never reliable). The train follows a `CFrameValue` sequence, interpolating position with `PivotTo`, anchored during movement to avoid fighting the old physical hinges.
-- **Role choice before the route menu**: Passenger engineer, Freight engineer, or "Coming soon" (non-clickable placeholder for future roles like traffic assistance). The choice determines which route list opens.
-- **Separate Freight system**, with verified data: only 2 routes (Torino Orbassano-Genova VTE, Genova VTE-Milano Smistamento), matching real Italian cargo corridors (the historic Giovi line, documented Genova-Milano container links). Real categories (Merci Rapido, Intermodale, Tradotta, Merci Rapido Internazionale), real yard names instead of passenger stations, no intermediate stops.
-- **Real OSM corridors for all three passenger routes**, same origin and scale: Torino-Genova, Torino-Milano (historic line + High Speed + Milano's Passante), Genova-Ventimiglia (real tunnels included).
+<!-- Metti qui 2 o 3 screenshot o una GIF: cabina, Sala Comandi, mappa delle stazioni.
+     Esempio:
+<p align="center">
+  <img src="docs/screenshots/cabina.png" width="32%">
+  <img src="docs/screenshots/sala-comandi.png" width="32%">
+  <img src="docs/screenshots/mappa.png" width="32%">
+</p>
+-->
 
-<p align="center"><img src="docs/route-map-schematic.svg" alt="Linea Torino Porta Nuova - Genova Brignole, stile schematico simile a Moovit" width="420"></p>
-<p align="center"><img src="docs/torino-milano-schematico.svg" alt="Linea Torino - Milano, stile schematico" width="420"></p>
-<p align="center"><img src="docs/genova-ventimiglia-schematico.svg" alt="Linea Genova - Ventimiglia, stile schematico" width="420"></p>
-<p align="center"><img src="docs/merci-torino-genova-schematico.svg" alt="Linea merci Torino Orbassano - Genova VTE" width="420"></p>
-<p align="center"><img src="docs/merci-genova-milano-schematico.svg" alt="Linea merci Genova VTE - Milano Smistamento" width="420"></p>
-<p align="center"><img src="docs/pantograph-freeze.svg" alt="Diagramma della causa reale per cui il treno non si muoveva" width="680"></p>
-<p align="center"><img src="docs/waypoint-movement.svg" alt="Diagramma del sistema di movimento a waypoint" width="680"></p>
-<p align="center"><img src="docs/next-signal-hud-fix.svg" alt="Diagramma della correzione dell'indicatore segnale successivo" width="680"></p>
-<p align="center"><img src="docs/server-board-flow.svg" alt="Diagramma del flusso dati dei cartelli orari lato server" width="680"></p>
-<p align="center"><img src="docs/announcement-flow.svg" alt="Diagramma del sistema di annunci" width="680"></p>
+Componi il treno veicolo per veicolo, alzi il pantografo, carichi i freni e aspetti il verde. In banchina apri le porte dal lato giusto e lasci salire i passeggeri. Se in Sala Comandi c'è qualcuno, la partenza la decide lui.
 
----
+Nel parco mezzi oggi ci sono E464, Mazinga e MDVC in livrea XMPR, POP ed E652 per i merci. Sono in lavorazione Rock, Italo, Taurus, E405, TAF, Frecciargento e MDCE.
 
-## 🇮🇹 Bug degni di nota
+## Come è fatto
 
-**Ritardo mostrato: "+636 minuti."** Il calcolo confrontava l'ora reale con una partenza fissa scritta a mano (`"08:05"`), funzionante solo se avvii il gioco esattamente a quell'ora. Corretto legando le partenze allo stesso orologio reale della stazione.
+<details>
+<summary>Per chi è curioso del lato tecnico</summary>
 
-**Un indicatore che non lampeggiava mai.** Il codice di lampeggio era corretto; un `TEMPLATE` nascosto era rimasto visibile sopra la luce vera, mascherandola. 21 template dimenticati trovati in totale.
+<br>
 
-**L'orologio giusto su una macchina, sbagliato su ogni altra.** Mancava forzare l'interpretazione UTC in `os.date`; senza, Roblox applica sopra anche il fuso locale del sistema. Passato inosservato perché il computer di sviluppo era per caso già sull'ora italiana.
+- Il treno non usa la fisica delle ruote: segue i punti del tracciato, e ogni cassa è costruita dai suoi due carrelli, così in curva si comporta come quella vera.
+- I binari sono tile da 20 studs posati sui dati di OpenStreetMap, alla scala di 3,011 studs per metro, ricavata dalla distanza reale fra Porta Nuova e il ponte di corso Bramante.
+- I percorsi dei treni vengono generati dai binari stessi, uno per ogni coppia di binario e destinazione.
+- Il segnalamento è a blocchi con due sezioni di preavviso, e in stazione la partenza va autorizzata.
 
-**Rinominare 4 segnali ha rotto l'ordinamento.** Il codice cercava un numero alla fine esatta del nome; aggiungere un tag `(stazione)` alla fine ha rotto quel pattern match. Corretto cercando il primo numero ovunque nel nome.
+</details>
 
-## 🇬🇧 Bugs worth noting
+## Stato dei lavori
 
-**Delay shown as "+636 minutes."** The calculation compared real time against a hardcoded departure ("08:05"), only correct if you start the game at that exact time. Fixed by tying scheduled departures to the same real station clock.
+- [x] Torino Porta Nuova con 20 binari, gola e deposito
+- [x] Sala Comandi e segnali di partenza
+- [x] Collegamento reale Porta Nuova e Lingotto
+- [ ] Linea per Genova guidabile fino in fondo
+- [ ] Marciapiedi della nuova Lingotto
+- [ ] Carri merci
+- [ ] Genova Ventimiglia e Torino Milano
 
-**An indicator that never blinked.** The blink code was correct; a hidden `TEMPLATE` had been left visible on top of the real light, masking it. 21 stray templates found in total.
+<details>
+<summary>🇬🇧 English</summary>
 
-**A clock right on one machine, wrong on every other.** Missing forced UTC interpretation in `os.date`; without it, Roblox also applies the system's own local timezone on top. Went unnoticed because the dev machine happened to already be on Italian time.
+<br>
 
-**Renaming 4 signals broke their ordering.** The code matched a number at the exact end of the name; adding a `(stazione)` tag at the end broke that pattern. Fixed by matching the first number anywhere in the name.
+I'm building a railway simulator on Roblox around one rule: the tracks have to be the real ones. Stations are rebuilt from railway map data, signals work in blocks like on the real line, and in the Control Room another player can dispatch traffic while you drive.
 
----
+It started at Torino Porta Nuova and is now stretching towards Genova. The game is in development and not public yet; updates go out first on Discord.
 
-## 🇮🇹 Cosa manca, in ordine di impatto
+| Train | Destination | Status |
+|:--|:--|:--|
+| `R` | Genova Brignole | tracks laid, drivable up to Lingotto |
+| `RV` | Ventimiglia | planned |
+| `IC` | Milano Centrale | planned |
 
-0. **Movimento fisico delle ruote mai affidabile**, accantonato per i waypoint (vedi sopra). Ruote/bogie continueranno a girare solo in modo cosmetico, calcolato dalla velocità, non ancora costruito.
-1. **Spawn del treno sfalsato di ~176 studs** sull'asse X. `PivotTo` applicato contro la parte sbagliata del template.
-2. **Il segnale rosso non ferma nulla fisicamente.** Progettato, non costruito.
-3. **6 tratte su 7 nel menu non portano da nessuna parte.**
-4. **Marciapiede 2 senza punto di spawn.**
-5. **Aggancio carrozze ancora un prototipo.**
-6. ~~Errore ripetuto in uno script HUD di cabina~~ **risolto il 14 luglio**: chiamava una funzione mai definita, ogni frame.
-7. **Cartella "Test" da 251 oggetti**, mai confermata sicura da cancellare.
-8. **Impostazioni audio/HUD salvate ma non collegate a nulla.**
-9. **Ventaglio di Porta Nuova ancora solo una guida**, non binario vero. Più tentativi falliti nella sessione del 12-13 luglio; vedi changelog.
-10. **26 cartelli orari senza template**, mostrano 0 campi e 0 icone invece dei dati veri.
+</details>
 
-## 🇬🇧 What's missing, ranked by impact
+<br>
 
-0. **Physics-based wheel movement never reliable**, set aside for waypoints (see above). Wheels/bogies will keep spinning only cosmetically, driven by speed, not yet built.
-1. **Train spawn offset by ~176 studs** on the X axis. `PivotTo` applied against the wrong template part.
-2. **Red signal doesn't physically stop anything.** Designed, not built.
-3. **6 of 7 routes in the menu go nowhere.**
-4. **Platform 2 has no spawn point.**
-5. **Carriage coupling still a prototype.**
-6. ~~Repeating error in a cab HUD script~~ **fixed July 14**: it was calling a function that was never defined, every frame.
-7. **A "Test" folder with 251 objects**, never confirmed safe to delete.
-8. **Audio/HUD settings save but connect to nothing.**
-9. **Porta Nuova fan is still only a guide**, not real track. Several failed attempts during the July 12-13 session; see changelog.
-10. **26 departure boards missing their template**, showing 0 fields and 0 icons instead of real data.
+<div align="center">
 
----
+<sub>JackSborra, con BinarioMagico, boh_io, ProfessionalAnnoyer, R+, trenoe464 e Vincent</sub><br>
+<sub>TOMHODA Studios</sub>
 
-## 🇮🇹 Progettato ma non iniziato
+<img src="https://capsule-render.vercel.app/api?type=waving&height=90&color=0:009246,50:f4f5f0,100:cd212a&section=footer" width="100%" alt="">
 
-Block signaling (sopra) è reale e testato su una sequenza completa di attraversamento. Doppio giallo e giallo lampeggiante esistono nel sistema RFI vero per casi limite, rimandati apposta.
-
-<p align="center"><img src="docs/block-signaling.svg" alt="Diagramma del block signaling reale" width="680"></p>
-
-Testa e coda sono assegnate dinamicamente a ogni spawn (qualunque locomotiva il giocatore non guidi diventa "coda"), evitando di dover tracciare il numero di carrozze.
-
-<p align="center"><img src="docs/testa-coda.svg" alt="Diagramma dell'assegnazione dinamica di testa e coda" width="680"></p>
-
-**Rilevamento incidenti**: collisione respingenti (economico), poi treno-treno, poi deragliamento (costoso, richiede tracciamento della distanza dalla spline, non esiste ancora).
-
-**Punteggio**: passeggeri consegnati, rispetto segnali, puntualità entro 2 minuti. Valori non ancora decisi. Un ruolo "controllore del traffico" è legato a questo.
-
-**Geometria reale del binario per l'intera Torino-Genova**, da tile ripetute a sezioni Blender. Un corridoio geografico reale (4.321 segmenti OSM, 33.387 punti) è già stato estratto. Nodo irrisolto: quel corridoio usa la scala geografica vera, le stazioni già in gioco usano una scala compressa (rapporto misurato 1:3.83, scelto apposta per il gameplay). Riconciliare le due scale resta da decidere stazione per stazione.
-
-**Negozio cosmetico.** Deliberatamente rimandato: un `ProcessReceipt` gestito male rischia di non consegnare un acquisto pagato, non solo un bug estetico.
-
-## 🇬🇧 Designed but not started
-
-Block signaling (above) is real and tested across a full crossing sequence. Double-yellow and flashing-yellow exist in the real RFI system for edge cases, deliberately deferred.
-
-<p align="center"><img src="docs/block-signaling.svg" alt="Diagramma del block signaling reale" width="680"></p>
-
-Head and tail are assigned dynamically on each spawn (whichever locomotive the player isn't driving becomes "tail"), avoiding the need to track carriage count.
-
-<p align="center"><img src="docs/testa-coda.svg" alt="Diagramma dell'assegnazione dinamica di testa e coda" width="680"></p>
-
-**Incident detection**: buffer collision (cheap), then train-on-train, then derailment (expensive, needs distance-from-spline tracking that doesn't exist yet).
-
-**Scoring**: passengers delivered, signal compliance, on-time arrival within 2 minutes. Values not decided yet. A "traffic controller" role is tied to this.
-
-**Real track geometry for the full Torino-Genova line**, moving from repeated tiles to Blender-modeled sections. A geographically real corridor (4,321 OSM segments, 33,387 points) has already been extracted. Unresolved: that corridor uses the real geographic scale, while stations already in the game use a compressed scale (measured ratio 1:3.83, chosen deliberately for gameplay pacing). Reconciling the two scales remains to be decided station by station.
-
-**Cosmetic shop.** Deliberately deferred: a mishandled `ProcessReceipt` risks failing to deliver a paid purchase, not just a cosmetic bug.
-
----
-
-## 🇮🇹 Costruito con
-
-Roblox Studio (Luau), Python per la pipeline dati OSM, Blender per i modelli, dati GPX reali per il binario.
-
-## 🇬🇧 Built on
-
-Roblox Studio (Luau), Python for the OSM data pipeline, Blender for models, real GPX route data for track geometry.
-
----
-
-© 2026 Tommy Raffaello Hodoroaba (73K-Y). Tutti i diritti riservati. Vedi [LICENSE](LICENSE).
-© 2026 Tommy Raffaello Hodoroaba (73K-Y). All rights reserved. See [LICENSE](LICENSE).
+</div>
