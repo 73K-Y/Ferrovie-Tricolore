@@ -1,579 +1,366 @@
-# Changelog
+# Diario di bordo
 
-Dated summaries of what changed each work session, in the order they happened. Newest first. This is separate from `GAME_DESIGN.md`, which describes the project's current state, not its history. For that, look here or at the git commit log.
+Cosa è cambiato a ogni sessione, dal più recente. Lo stato attuale del progetto sta in [GAME_DESIGN.md](GAME_DESIGN.md).
 
-**Status tables** open each day's entry, ordered red, yellow, green, summarizing where things stood before the detailed writeup below.
-
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Non fatto: tentato, annullato, o dichiarato apertamente ancora rotto</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Da sistemare: funziona ma con un limite noto o mai testato del tutto</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pronto: verificato funzionante con una prova reale, non solo scritto</td></tr>
-</table>
+🟢 funziona, provato davvero &nbsp; 🟡 funziona con un limite &nbsp; 🔴 ancora aperto
 
 ---
 
-## 2026-10-05
+### 5 ottobre 2026 &nbsp;·&nbsp; I binari escono da Torino
 
-| 🟢 Linea Torino Porta Nuova - Genova Brignole tracciata dai dati reali di OpenStreetMap: circa 78.800 tile, binari di stazione inclusi, entrambi i valichi dei Giovi |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🟢 Tratto corso Bramante - via Vigliani ricostruito dai dati reali: linea, scalo merci, deposito, deviatoi, Linea Passante in galleria |
-| 🟢 Stazione di Torino Lingotto con i binari reali in curva, spostata nella posizione reale |
-| 🟢 Compositore treni con catalogo e anteprime 3D, regole controllate anche dal server |
-| 🟢 Porte: niente piu' chiusure da sole quando si scende dal treno, verificato in Play |
-| 🟢 Mappa delle stazioni con le linee sul tracciato reale, verificata con catture dello schermo |
+Questa settimana la ferrovia ha smesso di essere solo Porta Nuova. Ho preso i dati veri delle mappe ferroviarie e li ho posati in gioco: prima il tratto fino a Lingotto, con lo scalo merci e il deposito, poi tutta la linea fino a Genova Brignole. Lingotto l'ho rifatta da capo, perché la mia era dritta e quella vera è in curva.
 
-| 🟡 Linea per Genova senza tratte e senza semafori: tracciata ma non ancora guidabile |
-| ---------------------------------------------------------------------------------------------- |
-| 🟡 Spawn delle composizioni personalizzate verificato solo con il calcolo, non con un treno vero |
-| 🟡 Marciapiedi di Lingotto da rifare sui nuovi binari |
-| 🟡 Il terreno copre i tratti ribassati sotto i ponti |
+| | |
+|:--|:--|
+| 🟢 | Tratto corso Bramante - via Vigliani dai dati reali, con scalo, deposito e Linea Passante |
+| 🟢 | Lingotto in curva, nella posizione vera |
+| 🟢 | Compositore: il treno si monta veicolo per veicolo, con l'anteprima |
+| 🟢 | Le porte non si richiudono più da sole quando scendi |
+| 🟢 | Mappa per scegliere la stazione di partenza |
+| 🟡 | Linea per Genova posata ma senza percorsi e segnali |
+| 🟡 | Marciapiedi di Lingotto da rifare sui binari nuovi |
+| 🔴 | A via Vigliani c'è un gradino di 14 studs fra il tratto vecchio e quello nuovo |
 
-| 🔴 Gradino di 14 studs a via Vigliani: il tratto precedente scende in sottopasso, la linea nuova e' in piano |
-| -------------------------------------------------------------------------------------------------------------------- |
+> [!WARNING]
+> La linea per Genova si vede ma non si guida ancora fino in fondo.
 
-## 🇮🇹
+<details>
+<summary>Il resto della sessione</summary>
 
-**La scala del progetto e' stata ricavata dalla geometria vera, non stimata.** Confrontando la distanza reale fra Torino Porta Nuova e il ponte di corso Bramante (2.284 m) con quella nel gioco (6.876 studs) esce 3,011 studs/m. Lo conferma anche il fatto che i 12 studs fra due binari paralleli di Porta Nuova diventano 3,9 m, l'interasse di una linea vera. Un primo tentativo di allineare i dati e' fallito per un errore di direzione: le due linee della Torino - Genova sono disegnate in OpenStreetMap in versi opposti, e sommarle annullava la direzione. Trovato perche' un binario risultava attraversare il ponte di traverso.
+<br>
 
-**Il tratto da corso Bramante a via Vigliani e' costruito dai dati reali, scaricati direttamente da Studio.** 6.839 tile in categorie separate (linea, scalo, deposito, tronchini, deviatoi, Linea Passante), collegati ai binari esistenti con raccordi dolci di 600 studs e verificati sui tile veri: giunti entro 0,05 studs, sei agganci a 0,001 studs. Un aggancio era staccato di 10,8 studs perche' il primo nodo reale dopo il ponte era anche l'innesto di un deviatoio; trovato e corretto.
+Torcia sul tasto L, free cam in cabina con il tasto destro e zoom con la rotellina, schermata di caricamento, impostazioni e crediti nuovi, bordo giallo sul pulsante delle porte dal lato della banchina. Le locomotive con una cabina sola, come la E464, si girano da sole nel verso giusto. Il POP ha due appoggi per cassa e tutti i rotabili hanno i carrelli nuovi.
 
-**Lingotto e' stata ricostruita come quella vera.** La stazione reale e' in curva, quella del gioco era dritta: nessuna sovrapposizione rigida combaciava (scarti fino a 665 studs), quindi i binari sono stati rifatti dai dati e la stazione spostata nella posizione reale. Fabbricato, cartelli e spawn seguono; i vecchi binari restano in ServerStorage.
+</details>
 
-**La linea fino a Genova Brignole e' tracciata, ma non ancora guidabile.** Scaricata a riquadri perche' una richiesta unica andava in timeout; i primi dati arrivavano spezzati in 24 pezzi, perche' i binari in galleria in OpenStreetMap portano il nome della galleria e non della linea. Risolto prendendo la linea dalla sua relazione ufficiale. Durante la verifica sono emersi tratti costruiti per errore verso nord sotto corso Bramante, tolti e messi in riserva, e il gradino a via Vigliani, ancora aperto.
+<details>
+<summary>Note tecniche</summary>
 
-**Compositore treni.** Il treno si compone da un catalogo con anteprime 3D vere. Le distanze fra i veicoli usano le misure prese dai modelli: la E464 sporge 26,3 dietro e 24,9 davanti, non 24 per lato come stimato all'inizio, e due E464 di fila si compenetravano. Le locomotive a una cabina si girano da sole, con i musi alternati nei gruppi. Il POP ha ora due appoggi per cassa grazie a un punto di riferimento sul carrello condiviso.
+<br>
 
-**Le porte che si chiudevano quando si scendeva dal treno avevano una causa fisica.** Ogni anta e' saldata alla cassa, e la saldatura ricordava la posizione chiusa: appena lo script di guida rilasciava l'ancoraggio, la fisica riportava l'anta indietro. La diagnosi iniziale misurava il pivot del modello, che resta fermo, e per questo non vedeva niente. Ora la saldatura si aggiorna alla fine di ogni animazione.
+La scala viene dalla distanza reale fra Porta Nuova e il ponte di corso Bramante: 2.284 metri contro 6.876 studs, cioè 3,011 studs per metro. Torna anche con i 12 studs fra due binari paralleli, che diventano 3,9 metri.
 
-**Interfaccia e comandi.** Mappa delle stazioni, schermata di caricamento, impostazioni e crediti in stile tabellone, InfoPanel ancorato in basso a sinistra, bordo del pulsante porte giallo sul lato banchina. In cabina: free cam con il tasto destro e zoom con la rotellina. Nuova torcia in mano sul tasto L.
+Il primo tentativo di allineare i dati è uscito storto di 60 gradi: in OpenStreetMap i due binari della Torino Genova sono disegnati in versi opposti, e sommandoli la direzione si annullava.
 
-## 🇬🇧
+Le porte si chiudevano da sole per un motivo fisico. Ogni anta è saldata alla cassa e la saldatura ricordava la posizione chiusa: quando il treno veniva rilasciato, la fisica la riportava indietro. Ora la saldatura si aggiorna alla fine di ogni apertura.
 
-**The project scale was derived from real geometry, not estimated.** Comparing the real distance between Torino Porta Nuova and the corso Bramante bridge (2,284 m) with the in-game one (6,876 studs) gives 3.011 studs/m. The 12 studs between two parallel Porta Nuova tracks becoming 3.9 m, a real line spacing, backs it up. A first alignment attempt failed on a direction error: the two Torino - Genova tracks are drawn in opposite directions in OpenStreetMap, and adding them cancelled out the direction. Caught because one track appeared to cross the bridge sideways.
+La linea per Genova arrivava spezzata in 24 pezzi, perché in OpenStreetMap i binari in galleria hanno il nome della galleria e non della linea. L'ho presa dalla relazione ufficiale della linea, che comprende tutti i pezzi.
 
-**The corso Bramante to via Vigliani section is built from real data, downloaded directly from Studio.** 6,839 tiles in separate categories (main line, yard, depot, sidings, crossovers, Linea Passante), joined to the existing tracks with smooth 600 stud transitions and verified on the actual tiles: joints within 0.05 studs, six connections at 0.001 studs. One connection was 10.8 studs off because the first real node after the bridge was also a crossover junction; found and fixed.
+</details>
 
-**Lingotto was rebuilt like the real one.** The real station is curved, the game one was straight: no rigid overlay matched (errors up to 665 studs), so the tracks were rebuilt from the data and the station moved to its real position. Building, signs and spawn follow; the old tracks stay in ServerStorage.
+<details>
+<summary>🇬🇧 English</summary>
 
-**The line to Genova Brignole is laid out, but not drivable yet.** Downloaded in boxes because a single request timed out; the first data came back split into 24 pieces, because tunnel tracks in OpenStreetMap carry the tunnel's name, not the line's. Fixed by taking the line from its official relation. Verification turned up sections wrongly built northwards under corso Bramante, removed and moved to a backup, and the step at via Vigliani, still open.
+<br>
 
-**Train composer.** Trains are built from a catalog with real 3D previews. Vehicle spacing uses measurements taken from the models: the E464 overhangs 26.3 at the back and 24.9 at the front, not 24 per side as first estimated, and two E464s in a row overlapped. Single cab locomotives turn themselves, with alternating noses in groups. The POP now has two supports per car body thanks to a reference point on the shared bogie.
+This week the railway stopped being just Porta Nuova. I took real railway map data and laid it in game: first the section to Lingotto, with the freight yard and depot, then the whole line to Genova Brignole. I rebuilt Lingotto from scratch, because mine was straight and the real one is curved. Also new: train composer, station map, loading screen, flashlight, cab free cam. Still open: no routes or signals on the Genova line yet, and a 14 stud step at via Vigliani.
 
-**The doors closing when leaving the train had a physical cause.** Every door leaf is welded to the car body, and the weld remembered the closed position: as soon as the driving script released the anchoring, physics pulled the leaf back. The initial diagnosis measured the model pivot, which stays put, which is why it saw nothing. The weld is now updated at the end of every animation.
-
-**Interface and controls.** Station map, loading screen, settings and credits in departure board style, InfoPanel anchored bottom left, door button border yellow on the platform side. In the cab: free cam on the right mouse button and zoom on the wheel. New handheld flashlight on the L key.
-
----
-
-## 2026-10-04
-
-| 🟢 Ventaglio di Porta Nuova suddiviso in binari 1-20, gola, deposito e linee di uscita, con attributi su ogni tile |
-| ------------------------------------------------------------------------------------------------------------------------- |
-| 🟢 59 tratte generate automaticamente, una per binario e destinazione raggiungibile |
-| 🟢 Semafori di partenza con precedenza del controllore in Sala Comandi |
-| 🟢 Pannello di cabina ridisegnato |
-
-| 🟡 Binario 3 senza collegamento verso Porta Susa e Milano |
-| -------------------------------------------------------------------- |
-| 🟡 Deposito di Porta Nuova non raggiungibile dalla stazione |
-
-## 🇮🇹
-
-**Il ventaglio di Porta Nuova e' organizzato.** I tile sono divisi in binari di stazione dal paraurti al primo scambio, tratti di gola fra gli scambi, deposito, binari laterali e linee di uscita verso Lingotto, Porta Susa e i depositi, con attributi di zona, binario e progressiva.
-
-**Le tratte non si scrivono piu' a mano.** Ne sono state generate 59 dai binari veri, una per ogni coppia binario e destinazione raggiungibile. Il binario 3 non arriva ancora a Porta Susa, e il deposito di Porta Nuova si innesta dal lato sbagliato per un treno in partenza.
-
-**Semafori e Sala Comandi.** I 20 semafori di partenza hanno il rosso fisso e mostrano al treno solo quelli della sua tratta. Il controllore in Sala Comandi ha la precedenza sul macchinista, e senza controllore l'autorizzazione e' automatica. Il quadro ha il ramo verso Porta Susa e Milano.
-
-**Cabina e treni.** Pannello con arco della velocita', freccia di direzione e semaforo in cabina. La E652 e' disponibile solo per il Macchinista Merci. Animazione su tutte le porte del Mazinga.
-
-## 🇬🇧
-
-**The Porta Nuova track fan is organised.** Tiles are split into platform tracks from buffer to first switch, throat sections between switches, depot, side tracks and exit lines towards Lingotto, Porta Susa and the depots, with zone, track and progressive attributes.
-
-**Routes are no longer written by hand.** 59 were generated from the real tracks, one for every reachable track and destination pair. Track 3 doesn't reach Porta Susa yet, and the Porta Nuova depot joins from the wrong side for a departing train.
-
-**Signals and Control Room.** The 20 departure signals have a steady red and only show a train the ones on its route. The Control Room dispatcher takes priority over the driver, and without a dispatcher authorisation is automatic. The panel has the branch towards Porta Susa and Milano.
-
-**Cab and trains.** Panel with speed arc, direction arrow and in-cab signal. The E652 is only available to the Freight Driver. Animation on all Mazinga doors.
+</details>
 
 ---
 
-## 2026-09-30
+### 4 ottobre 2026 &nbsp;·&nbsp; Porta Nuova in ordine
 
-| 🟢 Treni sincronizzati in multiplayer |
-| ------------------------------------------ |
-| 🟢 Tratte ricavate dai binari veri |
-| 🟢 HUD di guida rifatto con tachimetro analogico |
+Ho diviso il ventaglio di Porta Nuova in binari, gola, deposito e uscite, e da lì il gioco ha generato da solo 59 percorsi, uno per ogni binario e destinazione. Niente più rotte scritte a mano.
 
-## 🇮🇹
+| | |
+|:--|:--|
+| 🟢 | 59 percorsi generati dai binari veri |
+| 🟢 | Il controllore in Sala Comandi ha la precedenza sul macchinista |
+| 🟢 | Pannello di cabina nuovo, con arco della velocità e semaforo |
+| 🟢 | E652 riservata al Macchinista Merci |
+| 🟡 | Il binario 3 non arriva ancora verso Porta Susa |
+| 🟡 | Il deposito di Porta Nuova si raggiunge solo in manovra |
 
-**Multiplayer.** Il convoglio si vede muovere da tutti i giocatori, con le carrozze che seguono le curve.
+<details>
+<summary>🇬🇧 English</summary>
 
-**Tratte dai binari veri.** I percorsi sono estratti dal tracciato e organizzati in cartelle, ogni variante di itinerario e' un percorso a se'.
+<br>
 
-**Quadro e cabina.** Quadro della Sala Comandi con lo schema Porta Nuova - Lingotto, prima animazione delle porte, HUD di guida rifatto con un tachimetro analogico.
+I split the Porta Nuova track fan into tracks, throat, depot and exits, and from there the game generated 59 routes on its own. Also: dispatcher priority in the Control Room, new cab panel, E652 for the Freight Driver only.
 
-## 🇬🇧
-
-**Multiplayer.** The train is seen moving by every player, with the cars following the curves.
-
-**Routes from the real tracks.** Paths are extracted from the track layout and organised into folders, every route variant is its own path.
-
-**Panel and cab.** Control Room panel with the Porta Nuova - Lingotto schematic, first door animation, driving HUD redesigned with an analog speedometer.
-
----
-
-## 2026-09-23
-
-| 🟢 Deviatoi del ventaglio di Porta Nuova mappati uno per uno |
-| ------------------------------------------------------------------ |
-| 🟢 Quadro della Sala Comandi generato dai dati dei binari |
-| 🟢 Autorizzazione degli itinerari da parte del controllore |
-
-## 🇮🇹
-
-**Sala Comandi.** Il quadro sinottico e' generato dai dati veri dei binari. Il controllore sceglie il binario di partenza e quello di arrivo e conferma l'itinerario. I deviatoi del ventaglio di Porta Nuova sono mappati uno per uno.
-
-## 🇬🇧
-
-**Control Room.** The schematic panel is generated from the real track data. The dispatcher picks the departure and arrival track and confirms the route. The Porta Nuova fan switches are mapped one by one.
+</details>
 
 ---
 
-## 2026-08-21
+### 30 settembre 2026 &nbsp;·&nbsp; Si gioca in più di uno
 
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Movimento a waypoint con sterzata per bogie: la cassa non segue un punto, viene costruita dai suoi due carrelli</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Venti rotte ricostruite dai binari reali, tutte verificate dritte (tortuosita' tra 1.00 e 1.03)</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Il binario scelto nel menu ora determina davvero il percorso del treno</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Treno che resta intero e fermo allo spawn, dopo tre cause distinte trovate e corrette</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Binari sostituiti con mesh testurizzata su 7.609 oggetti, nomi originali mantenuti</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Il movimento gira su LocalScript: il treno si muove solo sullo schermo di chi guida, per il server e gli altri giocatori resta fermo</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Suono statico che si interrompeva: aggiunto un guardiano che lo fa ripartire, causa esatta non ancora isolata</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Le rotte finiscono dopo circa 3.300 studs: oltre il ventaglio non esiste ancora nessun raccordo verso la linea</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Due errori di sintassi introdotti durante la sessione hanno bloccato interi script fino a diagnosi dal log</td></tr>
-</table>
+Il treno ora lo vedono muoversi tutti, non solo chi guida, e le carrozze seguono le curve. I percorsi vengono ricavati dal tracciato vero, e il quadro della Sala Comandi mostra Porta Nuova e Lingotto. Rifatto anche l'HUD di guida, con un tachimetro analogico.
 
-**Il sistema di guida ora sterza per bogie, non piu' per convoglio.** Ogni veicolo ha due carrelli, Front e Back dentro il modello Bogie; ciascuno viene proiettato sul punto piu' vicino del tracciato e avanza per conto proprio. La cassa non viene messa su un punto del percorso: viene costruita dai suoi due carrelli, posizione al punto medio e direzione lungo la linea che li unisce. I carrelli vengono poi riorientati sulla tangente locale del binario, cosi' in curva ruotano rispetto alla cassa come quelli veri. Un vantaggio non ovvio di questa struttura: quando un convoglio lungo attraversa un punto di diramazione, i carrelli davanti sono gia' oltre e quelli dietro ancora prima, e la cosa funziona da sola senza codice dedicato.
+<details>
+<summary>🇬🇧 English</summary>
 
-**Le venti rotte sono state ricostruite tre volte prima di venire pulite, e ogni tentativo ha insegnato qualcosa.** Il primo raggruppava le tile per nome, ma i nomi si rivelano alternati lungo lo stesso binario fisico: una tile "Start Track 2" puo' stare in mezzo a due "Start Track 3", quindi raggruppare per nome tagliava percorsi veri e ne univa di scollegati. Il secondo concatenava per pura vicinanza geometrica, ma ai punti di incrocio l'algoritmo imboccava il binario sbagliato. Il terzo ha aggiunto una penalita' sulla deviazione di direzione, che pero' non bastava: alla fine di un binario, non trovando altro, l'algoritmo saltava su quello adiacente e tornava indietro, generando percorsi da 8.400 studs con tortuosita' vicina a 4. La soluzione e' stata un limite angolare secco, sessanta gradi tra tile consecutive: un binario non gira mai cosi' di colpo, quindi meglio fermarsi che tornare indietro. Risultato finale: venti rotte su venti con tortuosita' tra 1.00 e 1.03, dove 1.00 e' una retta perfetta.
+<br>
 
-**Il treno che si smontava allo spawn aveva tre cause diverse, sovrapposte.** La prima: lo script di spawn sceglieva "la prima Part trovata" nell'intera gerarchia come riferimento per posizionare tutto, e con i modelli nuovi pescava un pezzo di porta invece del corpo, mandando il convoglio fuori posto. La seconda: il PrimaryPart di alcune locomotive ha un orientamento interno ruotato rispetto al modello, quindi usarlo come riferimento faceva finire il treno sottoterra; risolto passando al pivot del modello, e poi salvando la posizione di ogni veicolo individualmente invece di applicare una trasformazione unica a tutte le parti. La terza, la piu' nascosta: uno script chiamato Advanced Weld 2, presente solo nelle due locomotive e non nelle carrozze, salda tutte le parti e poi le disancora tutte, perche' e' pensato per un veicolo a fisica che deve potersi muovere. Con il movimento a waypoint quel disancoraggio fa solo cadere il mezzo. Il fatto che le carrozze restassero perfette mentre le locomotive cadevano e' stato l'indizio decisivo.
+Everyone now sees the train move, not just the driver. Routes come from the real track layout, the Control Room panel shows Porta Nuova and Lingotto, and the driving HUD has an analog speedometer.
 
-**Il binario scelto nel menu adesso conta davvero.** Il client mandava gia' il numero di binario al server, che pero' lo ignorava e scriveva sempre "Platform 1" sui cartelli. Ora il server compone il nome della rotta corrispondente, lo scrive come attributo su tutti i sedili del convoglio, e lo script di guida lo legge quando il giocatore si siede. Anche i cartelli partenze mostrano finalmente il binario reale.
-
-**Velocimetro e barra di potenza erano fermi a zero per un motivo strutturale, non per un bug di interfaccia.** Leggevano AssemblyLinearVelocity e Throttle, entrambi sempre nulli quando il treno viene spostato con PivotTo a parti ancorate: per il motore fisico quel treno e' immobile. Ora lo script di guida pubblica velocita' e livello di potenza come attributi sul sedile, e l'interfaccia legge quelli, con ripiego sulla fisica se mancano. La conversione usa la scala vera del progetto, 1502.4 studs per chilometro.
-
-**Il nodo piu' importante resta aperto ed e' architetturale.** Lo script che muove il treno e' un LocalScript: il convoglio si sposta solo sullo schermo di chi guida. Per il server, e quindi per ogni altro giocatore, resta fermo al punto di spawn. Con un solo giocatore in prova non si nota, ma blocca il multiplayer e falsa tutto cio' che il server calcola sulla posizione, dai suoi emitter audio ai semafori. La soluzione e' spostare il ciclo di movimento lato server lasciando al client solo la lettura dei comandi, ma e' un cambiamento che tocca il cuore del sistema e merita una sessione dedicata.
+</details>
 
 ---
 
-## 2026-07-27
+### 23 settembre 2026 &nbsp;·&nbsp; Nasce la Sala Comandi
 
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Audio reale collegato: tromba, pantografo, freni, apertura/chiusura porte, riusando il sistema start/end già esistente invece di costruirne uno nuovo</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pulsante freno unico con barra di caricamento e cambio icona, verificato dal vivo</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Porte: barra di imbarco riusata per mostrare anche la chiusura, con durata vera letta dal server invece che stimata</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Trovate e corrette tre cause reali per cui il treno non si muoveva: uno script di guida mancante sul modello sorgente, un riferimento mai impostato, e una rotta di riserva che puntava a dati inesistenti</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Primo test di movimento per singolo bogie (non l'intera unità), usando le posizioni vere dei motori ruota come riferimento, verificato dal vivo con marker visibili</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Community Roblox creata e collegata al progetto</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Il movimento per bogie usa ancora marker di test, non la geometria vera delle ruote</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Le curve del percorso non ancora testate, rimandate apposta a un'altra sessione</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Il sistema a fisica delle ruote (VehicleSeat2Module) riattivato solo per confronto/test, non è la direzione presa per il progetto</td></tr>
-</table>
+Primo quadro sinottico, generato dai dati dei binari. Il controllore sceglie il binario di partenza e quello di arrivo e conferma l'itinerario. Tutti i deviatoi del ventaglio di Porta Nuova sono mappati uno per uno.
 
-**Sei suoni reali sono stati collegati riusando un sistema start/end già esistente nel progetto, invece di costruirne uno da zero.** Il clacson aveva già l'infrastruttura giusta, semplicemente puntata su file vecchi; il suono statico esterno aveva già un sistema di distribuzione multi-emitter con crossfade. Pantografo e freni sono stati aggiunti sopra la stessa struttura, ognuno con il proprio suono di attivazione/disattivazione. Le porte hanno ricevuto lo stesso trattamento più tardi nella sessione, dopo un primo tentativo con barre di caricamento dentro i pulsanti stessi, poi tolto su richiesta e sostituito riusando la barra di imbarco passeggeri già esistente, con una variante rossa per la chiusura.
+<details>
+<summary>🇬🇧 English</summary>
 
-**Il pulsante freno è stato ridisegnato da due tasti separati a uno solo**, largo quanto la riga sopra nel pannello di controllo, con un'icona vera fornita e una barra di caricamento che cambia colore in base allo stato (rosso scarico, giallo durante il caricamento, verde carico), sincronizzata alla durata reale del file audio invece che a un tempo stimato.
+<br>
 
-**Il treno che non si muoveva ha richiesto tre correzioni separate, ognuna trovata leggendo il log reale della console invece di indovinare.** Prima causa: il modello sorgente di una carrozza non aveva mai avuto lo script di guida sul proprio sedile, un difetto del template stesso, non introdotto stanotte. Seconda causa, più sottile: un riferimento (`Vehicle`) che lo script di guida si aspetta di trovare già impostato non è mai stato assegnato da nessuna parte nel progetto, confermato cercando in ogni script per qualunque cosa lo impostasse e non trovando nulla. Terza causa, quella vera per il sistema a waypoint: lo script che sposta il treno lungo il percorso cercava di default una rotta ("StartTrack1Route") che non esisteva, mentre l'unica rotta reale presente in memoria era organizzata come 101 cartelle separate (un segmento OSM grezzo ciascuna), non come lista piatta di waypoint come lo script si aspettava.
+First schematic panel, generated from the track data. The dispatcher picks departure and arrival track and confirms the route. Every Porta Nuova switch is mapped.
 
-**Costruita una rotta vera e pulita da 47 punti**, presa dai modelli "Start Track 1" già piazzati a mano nel ventaglio di Porta Nuova, deduplicati e ordinati, sostituendo sia il tentativo di rotta di test fatto a metà sessione sia il riferimento a dati inesistenti.
-
-**Primo esperimento di movimento indipendente per bogie, non più un'unica unità rigida.** Uno script di test separato trova ogni gruppo Front/Back su tutte le carrozze del treno, legge le posizioni vere dei motori ruota (già corrette perché usate dal vecchio sistema fisico, solo mai per questo scopo) e le fa seguire il percorso con marker visibili indipendenti, invece di muovere l'intera carrozza come blocco unico. Il vecchio script di movimento a unità intera è stato disattivato temporaneamente per il test, dato che i due sistemi in esecuzione insieme si contendevano la posizione della stessa carrozza. Non ancora collegato alla geometria vera delle ruote; le curve del percorso non sono state ancora messe alla prova, solo il tratto rettilineo.
-
-**Creata e collegata al progetto la Community ufficiale su Roblox**, con ruoli pensati per rispecchiare la stessa scala già in uso su Discord (assegnati a mano, dato che Roblox non ha un sistema di livelli automatico come quello usato lì), link social nella sezione dedicata invece che nella descrizione, e ingresso libero per favorire la crescita.
+</details>
 
 ---
 
-## 2026-07-26
+### 21 agosto 2026 &nbsp;·&nbsp; Le casse girano sui carrelli
 
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Sei suoni reali collegati (tromba, pantografo, freni, porte), riusando sistemi start/end e multi-emitter già esistenti invece di costruirne di nuovi</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pulsante freni ridisegnato: un solo tasto con barra di caricamento e icona vera, verde/rosso in base allo stato</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Animazione apertura/chiusura porte riusa la barra imbarco già esistente, con durata reale dal server</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Trovata la causa vera per cui il treno non si muoveva: la cartella rotta era 101 sotto-cartelle segmento, non una lista piatta di waypoint</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Rotta vera ricostruita dai 47 punti reali "Start Track 1" del ventaglio di Porta Nuova</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Primo test di bogie indipendenti: marker visibili seguono il tracciato usando le posizioni vere dei VS2AttachmentMotor (2 per Front, 2 per Back)</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 TrainWaypointMover disattivato temporaneamente per non entrare in conflitto col test bogie, va riconciliato</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Marker bogie ancora solo visivi, non muovono la geometria vera delle ruote</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Le curve del ventaglio non ancora testate, solo un tratto ordinato per coordinata X</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Tentativo di navigare il menu tratte via script per un test automatico, abbandonato per inaffidabilità</td></tr>
-</table>
+Il treno non segue più un punto solo: ogni veicolo ha due carrelli che seguono il binario per conto loro, e la cassa sta in mezzo. In curva finalmente si vede. Ho rifatto anche i venti percorsi del ventaglio, al terzo tentativo, e ora sono tutti dritti.
 
-**Sei suoni reali sono stati collegati riusando quasi ovunque infrastruttura già esistente invece di costruire da zero.** Il clacson aveva già un sistema start/loop/end completo; il compressore statico aveva già un sistema multi-emitter con crossfade anti-scatto lungo tutto il treno. In entrambi i casi la scelta giusta è stata sostituire solo gli ID audio. Il fischio è stato costruito e poi disattivato su richiesta esplicita; la tromba è stata ristrutturata per far ripartire l'intero suono "in" in loop se tenuta premuta oltre la sua durata naturale, con un limite dichiarato apertamente: senza un file tagliato apposta per isolarne solo la coda, un loop "solo della fine" non è costruibile via script.
+| | |
+|:--|:--|
+| 🟢 | Movimento per carrelli: la cassa si costruisce dai suoi due bogie |
+| 🟢 | Venti percorsi ricostruiti dai binari, tortuosità fra 1,00 e 1,03 |
+| 🟢 | Il binario scelto nel menu decide davvero il percorso |
+| 🟢 | Treno intero e fermo allo spawn |
+| 🟢 | Binari con mesh texturizzata su 7.609 oggetti |
+| 🟡 | Il treno si muove solo sullo schermo di chi guida |
+| 🟡 | Il suono statico si interrompe, c'è un rimedio ma non la causa |
+| 🔴 | Due errori di sintassi hanno bloccato interi script per un po' |
 
-**Il pulsante freni è passato da due tasti piccoli a uno solo, con barra di caricamento e cambio icona sincronizzati alla durata vera dell'audio**, letta dal file stesso invece che stimata. Due bug reali lungo il percorso: un pulsante piazzato fuori dal pannello vero per un frame genitore sbagliato, e l'intera UI di controllo treno sparita per un "a capo" mancante in una sostituzione di testo, che aveva fuso due righe in una parola sola (`HornBtnlocal`) e fermato lo script prima di costruire qualunque altro pulsante. Isolato solo leggendo l'errore vero della console, riga esatta.
+<details>
+<summary>Note tecniche</summary>
 
-**Le porte hanno seguito un percorso simile, corretto due volte.** Prima versione: barre di caricamento dentro i pulsanti stessi. Richiesta esplicita di toglierle e usare invece la stessa posizione della barra di imbarco passeggeri già esistente altrove nel progetto (`DeparturePromptClient`), trovata, riusata per l'apertura (verde, durata reale mandata dal server) ed estesa con una versione rossa "Chiusura porte..." per la chiusura, collegando i due script separati con un `BindableEvent` condiviso.
+<br>
 
-**Il treno non si muoveva, e la causa vera si è rivelata diversa più volte prima di essere trovata per davvero.** Prima ipotesi: uno script di guida mancante su un tipo di carrozza, corretto ma non la causa reale (quella carrozza non era il sedile in uso). Seconda ipotesi: un valore "Vehicle" mai collegato nel vecchio sistema fisico NWSpacek, vero, ma il sistema fisico non era più quello in uso. Causa reale, trovata solo leggendo direttamente cosa produceva la funzione di caricamento rotta: la cartella `VentaglioPortaNuova_OSM_Waypoints` non era una lista piatta di waypoint come lo script si aspettava, ma 101 sotto-cartelle segmento (`Binario_1`...`Binario_101`), coerente con la sua natura di importazione grezza mai pensata per essere guidabile direttamente, documentata come tale in una sessione precedente.
+I percorsi: raggruppare per nome tagliava binari veri, concatenare per vicinanza prendeva il binario sbagliato agli incroci. Ha funzionato un limite secco di 60 gradi fra tile consecutive: un binario non gira mai così di colpo.
 
-**Una rotta vera è stata ricostruita da zero, questa volta dalla fonte giusta.** I modelli "Start Track 1" (47 punti unici, tutti concentrati nell'area reale del ventaglio di Porta Nuova, a differenza di "Start Track 2" che si è rivelato essere migliaia di pezzi di binario visivo sparsi su decine di migliaia di studs) sono stati raccolti, deduplicati, e ordinati per coordinata X in una nuova cartella rotta piatta. Funziona su un tratto dritto; le curve del ventaglio, dove un ordinamento ingenuo per singola coordinata rischia di saltare da un binario all'altro, restano da testare.
+Il treno che si smontava allo spawn aveva tre cause: lo spawn prendeva come riferimento un pezzo di porta, alcune locomotive hanno il PrimaryPart ruotato, e lo script Advanced Weld 2 disancorava tutto.
 
-**Primo test concreto del concetto "bogie indipendenti che seguono il tracciato", discusso a lungo prima di essere costruito.** Ogni gruppo Front/Back di ogni carrozza del treno viene trovato automaticamente, le sue due ruote (`VS2AttachmentMotor`, già posizionate correttamente dal vecchio sistema fisico mai smontato) danno la posizione di partenza vera, e un marker visibile per bogie segue la rotta in base alla propria distanza iniziale più lo spostamento condiviso. Solo marker per ora, non la geometria vera delle ruote; andato in conflitto la prima volta con `TrainWaypointMover` ancora attivo (entrambi rispondono allo stesso evento di seduta, il vecchio spostava la carrozza vera mentre i marker si muovevano separatamente), risolto disattivando temporaneamente il vecchio script per isolare il test.
+Velocimetro e barra di potenza restavano a zero perché leggevano la fisica, che per un treno spostato con PivotTo è immobile. Ora lo script di guida pubblica velocità e potenza come attributi.
 
----
+</details>
 
-## 2026-07-14
+<details>
+<summary>🇬🇧 English</summary>
 
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Terza tratta di lancio confermata: Genova-Ventimiglia, con Genova come nodo di interscambio vero tra le tre linee</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Corridoi OSM reali estratti e puliti per tutte e tre le tratte: Torino-Milano (2.563 segmenti, Passante incluso), Genova-Ventimiglia (1.673 segmenti, gallerie vere incluse)</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Schermata di scelta ruolo (Macchinista Passeggeri / Merci / In arrivo) funzionante, verificata dal vivo dopo tre tentativi falliti</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Sistema Merci separato da Passeggeri: 2 tratte merci vere (Torino Orbassano-Genova VTE, Genova VTE-Milano Smistamento), categorie e nomi scalo reali, verificati con fonti</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Trovata e corretta la causa reale di un calo di prestazioni continuo: una funzione mai definita, chiamata ogni frame nel pannello guida</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 26 cartelli orari senza template, mostrano 0 campi e 0 icone, trovato ma non ancora corretto</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 5 file audio con permessi negati, causa esterna al codice, non risolvibile da qui</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Tre tentativi falliti di costruire la schermata di scelta ruolo prima di quello riuscito, ognuno per un errore di sintassi diverso</td></tr>
-</table>
+<br>
 
-**Le tre tratte di lancio ora si toccano davvero.** Genova-Ventimiglia sostituisce quello che sembrava un errore di battitura ("Savona-Ventimiglia"), corretto una volta chiarito che Savona è solo una fermata intermedia sulla vera linea Genova-Ventimiglia. Con questo cambio, Genova diventa un nodo di interscambio reale tra le tre linee, invece di tre corridoi scollegati.
+The train no longer follows a single point: each vehicle has two bogies following the track on their own, with the body in between. All twenty fan routes rebuilt and straight, the menu track choice now really sets the route, and the train spawns whole. Still open: the train only moves on the driver's screen.
 
-**Estratti e puliti i corridoi OSM reali per le due tratte rimaste, stesso metodo della notte precedente.** Partire dai segmenti confermati per nome esatto della linea, poi espandere solo verso segmenti senza nome per riempire i buchi, mai verso segmenti che hanno già un nome diverso. Per Torino-Milano questo ha richiesto includere sia la linea storica che l'Alta Velocità, più il Passante ferroviario di Milano, dato che la futura stazione Milano MIND si trova nel tratto collegato al Passante. Per Genova-Ventimiglia, verificate anche le gallerie vere che collegano Genova Piazza Principe e Brignole.
-
-**La schermata di scelta ruolo è stata la parte più difficile della sessione, non per complessità del compito ma per quanto si è rivelato fragile lavorare su questi due script.** Tre tentativi separati sono falliti prima di quello riuscito: due funzioni di colore inesistenti in quello script specifico, poi l'ordine sbagliato degli argomenti di una funzione che ha una firma diversa da script a script nello stesso progetto, poi una riga con il tipo di font sbagliato, isolato solo grazie al log reale della console, mai leggibile prima perché sempre saturato da un bug preesistente non collegato. La lezione pratica: verificare le firme delle funzioni prima di scrivere codice nuovo che le usa, invece di assumere che siano uguali da un file all'altro dello stesso progetto.
-
-**Il sistema Merci è stato costruito e poi corretto sulla base geografica reale.** Il primo tentativo riusava le quattro tratte passeggeri con categorie merci sopra, senza verificare se avessero senso vero. Una domanda diretta ha portato a una ricerca che ha confermato: Torino-Genova (la storica Linea dei Giovi) e Genova-Milano sono corridoi merci reali; Genova-Ventimiglia e Torino-Milano no. Le tratte merci ridotte da quattro a due, nomi delle stazioni corretti da stazioni passeggeri ai veri scali merci (Torino Orbassano, Genova VTE, Milano Smistamento).
-
-**Trovata la causa vera di un calo di prestazioni continuo.** Il log della console, finalmente leggibile con un errore isolato, mostrava una funzione mai definita da nessuna parte nel progetto, chiamata dentro il ciclo di aggiornamento del pannello guida a ogni frame, centinaia di errori al minuto. Corretto disabilitando in modo sicuro quella chiamata. Verificato con le statistiche reali di Roblox che il calo osservato non è spiegabile solo dal maggior carico di Studio: 67.801 istanze e oltre 3 GB di memoria in una singola sessione di test sono un carico reale.
+</details>
 
 ---
 
-## 2026-07-13
+### 27 luglio 2026 &nbsp;·&nbsp; Suoni veri e primi carrelli
 
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Suddivisione automatica delle 905 tile del ventaglio in singoli binari, l'algoritmo si confonde nei punti di fusione tra binari</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Tre tentativi di scalare/allineare i dati OSM alle posizioni reali del gioco, falliti per errori propri, abbandonati su richiesta esplicita</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Import dati OSM grezzi del ventaglio di Porta Nuova, funzionante ma non allineato a nulla nel gioco, per scelta</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Cartella "Ventaglio" con 905 tile reali già piazzate, trovata ma non ancora collegata al sistema di guida</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Sistema di movimento a waypoint, riscritto da zero, verificato con un vero spostamento senza esplosioni fisiche</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Ordine reale delle 10 fermate della linea confermato e corretto</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Rapporto di compressione geografica calcolato (1:3.83) tra distanza reale e distanza di gioco</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Tutte le parti "Track"/"TrackLingotto"/"BinarioColl" del progetto rese visibili di nuovo</td></tr>
-</table>
+Il treno ha cominciato a suonare come uno vero: tromba, pantografo, freni e porte, tutti collegati ai sistemi che c'erano già. E ho fatto il primo esperimento di carrelli che seguono il binario da soli.
 
-## 🇮🇹
+| | |
+|:--|:--|
+| 🟢 | Suoni reali di tromba, pantografo, freni e porte |
+| 🟢 | Un solo pulsante freno, con barra di caricamento |
+| 🟢 | Barra di imbarco riusata anche per la chiusura delle porte |
+| 🟢 | Trovate tre cause per cui il treno non si muoveva |
+| 🟢 | Primo test di carrelli indipendenti, con marcatori visibili |
+| 🟢 | Community Roblox creata e collegata al progetto |
+| 🟡 | I carrelli usano ancora marcatori di prova |
+| 🟡 | Curve non ancora provate |
 
-**Passata gran parte della sessione a cercare di far funzionare il movimento fisico delle ruote, senza riuscirci mai, nemmeno una volta, nemmeno dopo la scoperta del pantografo della notte precedente.** Ogni proprietà è stata riverificata corretta tramite attributi mostrati dal vivo in Studio (attacchi delle cerniere, coppia, tipo di attuatore, raggio ruota), e un'impostazione diretta della velocità di una parte è stata confermata *restare* invece di venire azzerata (prova che il ciclo di blocco era sparito), eppure le ruote non hanno mai girato visibilmente. La svolta non è stata altro debug fisico: è stato aprire un *secondo* progetto Roblox non collegato che la persona aveva, "Italy numero 3", e scoprire che muove i treni lungo una sequenza di waypoint `CFrameValue`, interpolando la posizione direttamente, senza nessuna fisica delle ruote coinvolta. Quello script era decompilato da un altro gioco (segnalato e mai copiato), ma la tecnica di fondo, la posizione segue i waypoint invece che la fisica muove le ruote, è stata riscritta da zero e testata con successo al primo vero tentativo, spostando un'unità treno esattamente al waypoint comandato con la posizione verificata dopo, non solo data per buona.
+<details>
+<summary>🇬🇧 English</summary>
 
-**Sopra questa tecnica è stata costruita da zero una leva di potenza a waypoint**, W fa salire una velocità virtuale lungo il percorso, S la fa scendere, il rilascio mantiene il valore, stesso comportamento a leva chiesto la notte prima ma ora guidando `Model:PivotTo()` lungo una sequenza di waypoint invece di `Throttle`. La prima versione ha fatto esplodere violentemente il treno nell'istante in cui qualcuno si sedeva: le vecchie `HingeConstraint` delle ruote erano ancora attive e combattevano contro il teletrasporto istantaneo ogni frame. Risolto ancorando l'intera unità treno per la durata del movimento a waypoint, e disancorando all'uscita, fisica e teletrasporto a waypoint non si mescolano, quindi la soluzione è togliere del tutto la fisica dall'equazione mentre questo sistema ha il controllo.
+<br>
 
-**Una lunga lotta onesta su quale scala dovessero davvero avere i dati del percorso, risolta chiedendo invece di continuare a indovinare.** Il corridoio OSM dettagliato dal lavoro Blender della notte precedente usa la scala geografica vera (1502.4 studs/km); i marcatori di stazione reali già piazzati nel progetto Roblox usano una scala molto più compressa (misurata con precisione: un rapporto di 1:3.83, cioè il mondo di gioco è circa 3.83 volte più piccolo della geografia vera). Diversi tentativi di fondere le due, riscalando le forme curve OSM reali per adattarle alle distanze compresse tra stazioni, sono falliti ripetutamente per errori propri: coordinate di stazione stimate a mano invece che calcolate da dati GPS reali (sbagliate di un fattore grande), uno scambio di assi lunghezza/larghezza che ha puntato l'intero ventaglio di lato invece che in avanti, e una soglia di rilevamento allargata per sbaglio fino a sovrapporsi alla distanza di correzione stessa, il che avrebbe fatto ri-segnalare all'infinito come rotte le coppie di binari già sistemate a ogni rilancio futuro. Ognuno è stato trovato e corretto a turno, ma alla fine la persona ha deciso direttamente: non comprimere o riscalare nulla, importa i dati OSM grezzi esattamente come estratti, nessun allineamento, e piazza il resto a mano.
+Real sounds for horn, pantograph, brakes and doors, a single brake button with a loading bar, three causes found for the train not moving, a first test of independent bogies, and the official Roblox Community.
 
-**La separazione automatica dei 101 binari reali del ventaglio di Porta Nuova per distanza tra binari paralleli (11.96 studs, misurati direttamente su due modelli di binario di riferimento già nel progetto) ha funzionato bene sulle coppie ragionevolmente dritte ma ha lasciato circa 100-225 coppie curve irrisolte in diversi tentativi**, perché uno spostamento laterale rigido singolo non può spaziare correttamente due binari che non sono semplici copie parallele l'uno dell'altro, solo quelli che curvano insieme a un offset fisso. Una versione punto per punto (ogni punto trova il proprio abbinamento più vicino sul binario vicino e si sposta perpendicolare alla tangente *locale* lì, non alla direzione generale del binario) è stata costruita e ha chiuso gran parte del divario rimasto, ma non è stata riverificata dopo che la sessione è passata ai dati grezzi non scalati su richiesta successiva della persona di abbandonare del tutto il riscalamento.
-
-**Si è provato a rilevare automaticamente i singoli binari dentro il ventaglio di Porta Nuova già piazzato dalla persona stessa (905 tile), da usare come guida per il piazzamento manuale dei waypoint, e non ha funzionato in modo pulito.** Un approccio di concatenamento per vicinanza ha trovato 26 gruppi invece dei ~20 binari individuali attesi, alcuni enormi (235, 214, 113 tile) e molti frammenti minuscoli, perché un ventaglio vero ha coppie di binari che si toccano o quasi si fondono in certi punti, e un algoritmo goloso che sceglie sempre la tile più vicina prende la diramazione sbagliata lì invece di restare su un binario continuo. Detto onestamente invece che presentato come un successo: le tile esistenti sono un buon riferimento *visivo* per piazzare i waypoint a occhio, ma non qualcosa che si può tracciare automaticamente in modo affidabile in binari separati.
-
-**Deciso il piano vero da qui in avanti, concordato direttamente invece che assunto:** il binario visibile/collider (`BinarioColl`) resta come scenografia di contatto a terra, i waypoint (nello stile provato stanotte) guidano la posizione vera del treno, e le ruote/bogie girano in modo *cosmetico*, guidate dalla velocità attuale del treno, non dalla fisica, puramente per credibilità visiva. Le stazioni saranno costruite ragionevolmente vicine ai loro layout reali (il vero ventaglio a 905 tile di Porta Nuova è il primo candidato); il percorso complessivo resterà compresso per il ritmo di gioco, regolato da due leve indipendenti, distanza di gioco e limiti di velocità, invece di provare a simulare i ~165 km veri. Prossimo passo concordato: finire esattamente una stazione dall'inizio alla fine (waypoint piazzati a mano, movimento senza esplosioni, rotazione cosmetica delle ruote) prima di ripetere lo schema per il resto, così un problema vero si scopre su una stazione invece che su dieci.
-
-## 🇬🇧
-
-**Spent most of the session trying to make the physics-based wheel movement work at all, and it never did, not even once, not even after the previous night's pantograph discovery.** Every property was re-verified correct via attributes surfaced live in Studio (hinge attachments, torque, actuator type, wheel radius), and a direct part-velocity override was confirmed to *stick* rather than get zeroed (proof the freeze loop was gone), yet the wheels never once visibly spun. The turning point wasn't more physics debugging: it was opening a *second*, unrelated Roblox project the person had, "Italy numero 3", and finding it moves trains along a sequence of `CFrameValue` waypoints, interpolating position directly, with no wheel physics involved at all. That script itself was decompiled from someone else's game (flagged and never copied), but the underlying technique, position-follows-waypoints instead of physics-drives-wheels, was reimplemented from scratch and tested successfully on the first real attempt, moving a train unit exactly to a commanded waypoint with the position verified afterward, not just trusted.
-
-**A hold-to-accelerate waypoint mover was built clean, from scratch, on top of that technique**, W ramps a virtual speed up along the route, S ramps it down, releasing holds the value, same lever behavior asked for the night before but now driving `Model:PivotTo()` along a waypoint sequence instead of `Throttle`. The first version caused the train to violently explode the instant someone sat down: the old wheel `HingeConstraint`s were still live and fighting the instantaneous teleport every frame. Fixed by anchoring the whole train unit for the duration of waypoint-driven movement, and un-anchoring on exit, physics and waypoint-teleportation don't mix, so the fix is to remove physics from the equation entirely while this system is in control.
-
-**A long, honest struggle over what scale the route data should actually be at, resolved by asking rather than continuing to guess.** The detailed OSM corridor from the previous night's Blender work uses the real geographic scale (1502.4 studs/km); the real station markers already placed in the Roblox project use a much more compressed scale (measured precisely: a ratio of 1:3.83, meaning the in-game world is roughly 3.83 times smaller than true geography). Multiple attempts to blend the two, rescaling real OSM curve shapes to fit the compressed station-to-station distances, failed repeatedly on self-inflicted errors: station coordinates estimated by hand instead of computed from real GPS data (off by a large factor), a length/width axis swap that pointed the whole fan sideways instead of forward, and a detection threshold that was accidentally widened to overlap the correction distance itself, which would have caused already-fixed track pairs to be endlessly re-flagged as broken on any future rerun. Each was found and fixed in turn, but ultimately the person made the call directly: don't compress or rescale anything, just import the raw OSM data exactly as extracted, no alignment, and place the rest by hand.
-
-**Automatic separation of the 101 real Porta Nuova fan tracks by parallel-track spacing (11.96 studs, measured directly off two reference track models already in the project) worked well on the reasonably straight pairs but left roughly 100-225 curved pairs unresolved across several attempts**, because a single rigid sideways shift can't correctly space two tracks that aren't simple parallel copies of each other, only ones that curve together at a fixed offset. A point-by-point version (each point finds its own nearest match on the neighboring track and offsets perpendicular to the *local* tangent there, not the track's overall direction) was built and closed most of the remaining gap, but wasn't re-verified after the session moved to raw, unscaled data per the person's later request to abandon rescaling entirely.
-
-**Tried to auto-detect individual tracks within the person's own already-placed 905-tile Porta Nuova fan, to use as a guide for manual waypoint placement, and it didn't work cleanly.** A nearest-neighbor chain-following approach found 26 groups instead of the expected ~20 individual tracks, some enormous (235, 214, 113 tiles) and many tiny fragments, because a real fan has track pairs that touch or nearly merge at certain points, and a greedy nearest-tile-wins algorithm takes the wrong branch there instead of staying on one continuous track. Told honestly rather than presented as a success: the existing tiles are a good *visual* reference for placing waypoints by eye, but not something that can be reliably auto-traced into separate routes.
-
-**Settled on the actual plan going forward, agreed on directly rather than assumed:** the visible/collider track (`BinarioColl`) stays as ground-contact scenery, waypoints (in the style proven tonight) drive the train's actual position, and the wheels/bogies spin *cosmetically*, driven by the train's current speed, not by physics, purely for visual believability. Stations will be built reasonably close to their real layouts (Porta Nuova's real 905-tile fan being the first candidate); the overall route will stay compressed for gameplay pacing, tuned by two independent levers, in-game distance and speed limits, rather than trying to simulate the real ~165 km run. Agreed next step: finish exactly one station end-to-end (hand-placed waypoints, non-exploding movement, cosmetic wheel spin) before repeating the pattern for the rest, so a real problem gets caught on one station instead of ten.
+</details>
 
 ---
 
-## 2026-07-12
+### 26 luglio 2026 &nbsp;·&nbsp; La rotta vera del binario 1
 
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 CharacterAutoLoads (rotto tutta la UI, annullato)</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Il treno resta fermo anche a pantografo alzato</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Test su collider semplici prima di modellare (consigliato, non fatto)</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Causa reale del blocco motore trovata (ciclo pantografo)</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Due leve acceleratore costruite, nessuna validata su movimento vero</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Limiti di velocità (zone + cartello)</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pannello guida unificato (tachimetro+barre)</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Camera prima persona su testa + FOV regolabile</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Tasto C camera, H clacson (collegato al vero pulsante)</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Corridoio OSM Torino-Genova (4321 segmenti, pronto per Blender)</td></tr>
-</table>
+La sera prima del 27: sei suoni collegati, il pulsante freni rifatto, e la scoperta del perché il treno restava fermo. La cartella del percorso non era una lista di punti ma 101 sottocartelle. Da lì ho ricostruito una rotta vera dai 47 punti del binario 1.
 
+| | |
+|:--|:--|
+| 🟢 | Rotta vera ricostruita dai 47 punti di Start Track 1 |
+| 🟢 | Animazione porte con la durata vera dal server |
+| 🟡 | Movimento a waypoint spento per il test dei carrelli |
+| 🔴 | Navigare il menu da script per i test automatici: abbandonato |
 
+<details>
+<summary>🇬🇧 English</summary>
 
-## 🇮🇹
+<br>
 
-**Il personaggio di gioco della persona esisteva ed entrava brevemente in scena a Porta Nuova prima ancora di scegliere una stazione, ora non più, perché non si carica finché la scelta non è fatta.** Impostare `Players.CharacterAutoLoads = false` lato server e chiamare `player:LoadCharacter()` solo dopo aver scelto una stazione era l'approccio corretto, ma in questa specifica configurazione di Studio ha rotto in silenzio ogni altro `LocalScript` di `StarterGui` (menu, cartelli partenze, pannello admin, tutto), per motivi mai diagnosticati. Annullato subito invece di inseguirlo oltre in una notte già di lavoro. La correzione più semplice tenuta: una copertura nera a schermo intero sparisce solo dopo che il vero teletrasporto è completo, così il personaggio non si *vede* mai anche se esiste brevemente.
+Six sounds wired in, brake button redesigned, and the real reason the train stood still: the route folder was 101 subfolders, not a list of points. A real route was rebuilt from the 47 points of track 1.
 
-**Passato un tratto molto lungo a inseguire perché il treno non si muovesse, e la causa vera era quasi l'ultima cosa controllata.** In ordine, escluso: il nuovo schema di input ad accelerazione graduale (rimosso, poi ricostruito una volta funzionante il movimento, nessuna differenza in entrambi i casi), le `HingeConstraint` delle ruote stesse (confermate collegate correttamente, lato telaio e lato ruota, tramite una verifica su screenshot dell'asset vero), il calcolo del raggio ruota, la coppia, il tipo di attuatore, un modulo di trazione ruote di terze parti preesistente mai avviato (`VehicleSeat2Module` di NWSpacek, trovato con una ricerca testuale esaustiva in tutti i servizi script per qualunque cosa leggesse `AngularVelocity`, confermato avere già una curva di accelerazione funzionante ma mai invocato da nessuno script), e una condizione di corsa su quando il ciclo una tantum di raccolta cerniere di quel modulo girava rispetto al completamento del caricamento del clone. Tutto è risultato corretto o è stato corretto e il treno restava comunque fermo. La causa vera: uno script server (`VehicleLightToggle.server.lua`) fa girare un ciclo `Heartbeat` che azzera a forza sia la velocità lineare che angolare di ogni parte del treno, ogni frame, per tutto il tempo in cui il pantografo resta abbassato, il che era sempre, perché alzarlo non aveva mai fatto parte di nessun test. Trovato solo dopo che la persona ha fatto notare, correttamente, che nulla nelle impostazioni del treno era cambiato e la stessa procedura funzionava prima che la sessione di stanotte toccasse qualcosa.
-
-## 🇬🇧
-
-**Spent a very long stretch chasing why the train wouldn't move, and the actual cause was almost the last thing checked.** In order, ruled out: the new hold-to-accelerate input scheme (removed, then rebuilt once movement worked, made no difference either way), the wheel `HingeConstraint`s themselves (confirmed correctly attached, frame-side and wheel-side, via a screenshot walkthrough of the actual asset), the wheel radius calculation, torque, actuator type, a pre-existing unstarted third-party wheel-drive module (`VehicleSeat2Module` by NWSpacek, found via exhaustive text search across every script service for anything reading `AngularVelocity`, confirmed to have a working acceleration curve already built in but never once invoked by any script), and a race condition in when that module's one-time hinge-collection loop ran relative to the clone finishing loading. All of it checked out correct or got fixed and the train still didn't move. The actual cause: a server script (`VehicleLightToggle.server.lua`) runs a `Heartbeat` loop that forcibly zeroes both linear and angular velocity on every part of the train, every frame, for as long as the pantograph is down, which it always was, because raising it was never part of any test. Found only after the person pointed out, correctly, that nothing about the train's settings had changed and the same procedure used to work before tonight's session touched anything.
-
-**Il movimento non funziona nemmeno con il pantografo alzato**, ed è la parte ancora davvero irrisolta. Con il ciclo di blocco confermato fermo (una velocità ruota impostata a mano ora decade naturalmente invece di tornare di scatto a zero, come faceva prima), le ruote ancora non girano visibilmente e il treno resta comunque fermo, per una causa non ancora trovata. Ogni proprietà controllata dall'esterno, tramite attributi mostrati direttamente sul sedile così la persona poteva leggerli dal vivo nel pannello Proprietà di Studio premendo i tasti lei stessa, invece che con un altro test remoto alla cieca, è risultata corretta. È qui che è stato messo da parte per la notte, insieme a una richiesta precisa su cosa controllare per primo la prossima volta: se `AssemblyAngularVelocity` sulla parte ruota stessa cambia affatto mentre il tasto è premuto, guardato direttamente invece che dedotto.
-
-**Esistono ora entrambi gli schemi di controllo dell'acceleratore, senza essersi impegnati per nessuno dei due.** Una leva ad accelerazione graduale (W sale, S scende, il rilascio mantiene il valore attuale invece di tornare a zero, con una velocità doppia per l'ultimo tratto 50%-0% in entrambe le direzioni) è stata costruita, riportata al semplice `Throttle` nativo istantaneo, poi la leva ricostruita di nuovo una volta chiaro che il problema del movimento non c'entrava con quale dei due fosse attivo. Qualunque risulterà rilevante una volta diagnosticato il movimento vero, entrambi sono pronti.
-
-**Un cartello limite di velocità è stato richiesto e costruito prima ancora che il movimento stesso funzionasse, di proposito**, un sistema a zone (volumi a scatola invisibili con un attributo `SpeedLimit`, controllati ogni frame contro la posizione del sedile) che mostra un cerchio bianco con bordo rosso e il numero del limite in nero, come la segnaletica ferroviaria italiana vera, dentro lo stesso pannello del tachimetro invece che fluttuante separato. Verificato spostando una zona di prova sulla posizione live vera del sedile e confermando che il cartello compariva con il numero giusto, non fidandosi solo della matematica della zona. Tre zone segnaposto esistono vicino a Porta Nuova; le posizioni e i limiti reali per il resto della tratta servono ancora.
-
-**Il pannello guida è stato ricostruito come un unico blocco visivamente unificato invece di tre riquadri separati.** Tachimetro, barra di accelerazione e barra del freno ora condividono uno sfondo e un bordo unico; il numero della velocità è stato ingrandito e centrato, il suo riempimento in stile barra di progresso tolto su richiesta, ed entrambe le barre di potenza hanno ricevuto una sottile linea bianca di riferimento al centro. L'indicatore del semaforo e i tre pulsanti del menu in alto a destra sono stati ridimensionati e allineati per combaciare con la dimensione e la spaziatura native della barra superiore di Roblox, dopo che un confronto tramite screenshot li ha mostrati visibilmente disallineati.
-
-**La camera in prima persona ora segue la testa vera del personaggio, non più un offset fisso indovinato dalla CFrame del sedile.** La prima versione usava un offset scelto a mano dal `VehicleSeat` che richiedeva alla persona di guardare a occhio e riportare correzioni senza modo di verificare il risultato direttamente; passare a `Head.CFrame` toglie del tutto la necessità di indovinare, dato che combacia già con qualunque posa da seduto metta davvero la testa. Il corpo stesso del personaggio viene reso localmente trasparente in questa modalità così non blocca la visuale. Uno slider del campo visivo è stato aggiunto al pannello impostazioni per questo, su un intervallo 50°-120°, il che ha fatto emergere un bug preesistente non collegato in ogni slider di quel pannello (non solo nel nuovo): rispondevano solo a un clic diretto sulla piccola maniglia di trascinamento, non da nessun'altra parte sulla barra stessa, e non mostravano nessun valore numerico. Entrambi corretti per ogni slider del pannello.
-
-**Il tasto della camera è passato da V a C, H legato al clacson, collegato al feedback visivo del pulsante già esistente invece di duplicarlo.** Tenere premuto H ora illumina il pulsante fisico del clacson nel pannello luci veicolo esattamente come farebbe un clic reale su di esso, perché chiama la stessa funzione di evidenziazione e spara lo stesso remote, invece di una seconda implementazione parallela che potrebbe disallinearsi nel tempo.
-
-**Speso un impegno reale per ottenere da OpenStreetMap un corridoio ferroviario reale e geograficamente corretto da Torino Porta Nuova a Genova Brignole, per costruire la geometria vera del binario in Blender invece di continuare a piazzare pezzi di tile ripetuti a mano.** Una singola interrogazione a riquadro sull'intera regione ha restituito il corridoio completo sepolto in circa 5.600 segmenti ferroviari non pertinenti di altre linee che condividono la stessa area. Filtrare per vicinanza a un percorso di waypoint costruito a mano attraverso le stazioni vere ha funzionato per le sezioni a imbuto a forma di ventaglio fatte nelle sessioni precedenti, ma ha fatto la cosa sbagliata a questa scala: qualunque segmento i cui punti curvassero più della tolleranza del filtro rispetto all'approssimazione a linea retta tra i waypoint veniva scartato, il che tagliava in silenzio vere sezioni di gallerie e viadotti nel tratto montuoso tra Ronco Scrivia e Genova. Passato invece a un filtro basato sulla connettività, si parte dai segmenti già confermati corretti per nome, poi si aggiunge ripetutamente qualunque cosa tocchi i loro estremi, indipendentemente da quanto curvi, il che ha recuperato correttamente le gallerie mancanti, ma ha anche portato dentro linee vicine genuine attraverso gli imbuti di giunzione di Alessandria e Genova (Genova-Ventimiglia, Pavia-Alessandria, e altre), che poi hanno dovuto essere nominate ed escluse a mano, allo stesso modo delle linee non pertinenti originali. Risultato finale: 4.321 segmenti reali, 33.387 punti, scalati e centrati sulla stessa origine e scala di tutto il resto del progetto, con uno script di importazione Blender allegato che costruisce un oggetto curva per ogni segmento reale. Due nomi minori di scalo (`Via Sommergibile`, `Binario Castelluccio`) sono rimasti dentro senza essere pienamente verificati come legittimi, vale la pena un controllo visivo in Blender invece di darli per corretti.
-
-**Consiglio dato, non ancora seguito: costruire e testare il movimento su una manciata di segmenti collider rettangolari semplificati prima di modellare e importare il corridoio completo.** Il ragionamento detto direttamente alla persona: validare la fisica su un segnaposto economico prima significa che qualunque problema trovato non costa una rimodellazione completa, mentre trovare lo stesso problema dopo aver costruito mesh visive del binario per 4.321 segmenti costerebbe eccome.
+</details>
 
 ---
 
-## 2026-07-11
+### 14 luglio 2026 &nbsp;·&nbsp; Tre linee che si toccano
 
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Limiti di velocità</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Sistema camere</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Aggancio carrozze vero</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Segnale rosso che ferma fisicamente</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Scambi/cambio binario</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Ventaglio Porta Nuova, solo guida a sfere, non binario vero</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Sistema annunci vocali completo (93 clip)</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Fallback numeri treno oltre 59</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Riverbero e pause tra clip</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pannello annunci unito con quello admin esistente</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Ticker cartelli, 3 cause trovate e risolte</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Menu tratte a 3 colonne</td></tr>
-</table>
+Le tre linee del lancio sono decise e si incontrano a Genova: Torino Genova, Torino Milano e Genova Ventimiglia. È arrivata anche la scelta del ruolo, passeggeri o merci, con due tratte merci vere.
 
+| | |
+|:--|:--|
+| 🟢 | Corridoi reali per Torino Milano e Genova Ventimiglia |
+| 🟢 | Schermata di scelta del ruolo |
+| 🟢 | Merci separato dai passeggeri, con scali veri |
+| 🟢 | Trovato un calo di prestazioni: una funzione mai definita chiamata a ogni frame |
+| 🟡 | 26 cartelli orari senza template |
+| 🟡 | 5 file audio con permessi negati |
 
+<details>
+<summary>🇬🇧 English</summary>
 
-## 🇮🇹
+<br>
 
-**Costruito da zero un sistema completo di annunci di stazione: 93 clip audio registrate, un motore di concatenazione, e due punti speaker funzionanti.** Numeri da 0 a 59, sei categorie treno, dieci nomi stazione, e una serie di frasi di collegamento sono state registrate esternamente e caricate come singoli asset `Sound` in `ReplicatedStorage.AnnunciAudio`, organizzate per categoria. Un nuovo modulo, `AnnunciTreno`, costruisce un annuncio come sequenza di questi ID clip da una tabella di dati reali (categoria, numero treno, destinazione, ora, binario) e li riproduce uno dopo l'altro attraverso un `Sound` figlio dello speaker della stazione corretta. È collegato allo stesso evento di rilevamento sedile che già imposta il flag `Boarded`, quindi l'annuncio parte quando un giocatore si siede davvero per guidare, usando i dati veri di spawn per quel treno, non testo segnaposto.
+The three launch lines are set and meet at Genova. Real corridors extracted for Torino Milano and Genova Ventimiglia, role selection screen, freight separated from passengers with real yards, and a performance drop traced to an undefined function called every frame.
 
-**Il numero treno viene letto come coppie di cifre ("77", "94"), il che funziona solo fino a 59 perché è tutto quello che era stato registrato.** Una coppia sopra quel valore ora ricade nel leggere le sue due cifre separatamente invece di sparire in silenzio dall'annuncio, cosa che succedeva prima che questo venisse notato: un test è risultato corto di due clip rispetto all'atteso, senza nessun avviso. La funzione di ricerca ha anche ricevuto un `warn()` vero per qualunque clip mancante, stesso motivo, un salto silenzioso è molto più difficile da debuggare di uno registrato.
-
-**Il riverbero è stato spostato dalle singole clip a un `SoundGroup` su ogni speaker, e ogni clip ora riceve una nuova istanza `Sound` invece che una venga riusata e riassegnata.** Riusare un solo `Sound` e scambiare il suo `SoundId` per ogni parola della sequenza tagliava la coda di riverbero naturale di ogni clip nell'istante in cui iniziava la successiva, il che si sentiva come una voce da annunciatore innaturalmente "tagliata". Un nuovo `Sound` per clip, tutti instradati attraverso lo stesso gruppo dotato di `ReverbSoundEffect`, lascia che ogni coda decada secondo il proprio tempo mentre la parola successiva suona. Aggiunta anche una piccola pausa fissa tra le clip; senza, la riproduzione era accurata ma si accavallava in un modo che suonava affrettato invece che parlato.
-
-**Costruito un compositore testo-annuncio, poi scoperto che apparteneva dentro un pannello admin già esistente di cui questa sessione non era al corrente.** Un pannello a scomparsa protetto da ID utente Roblox, con una casella di testo e un pulsante "applica a tutti i cartelli" per impostare il testo scorrevole dei cartelli partenze, era già nel gioco da una sessione precedente. Un secondo pannello separato, fluttuante, è stato costruito per annunci PA personalizzati prima che questo venisse scoperto; i due sono stati uniti in un solo pannello una volta che la sovrapposizione è diventata visibile in uno screenshot. Il lato annuncio personalizzato prende testo libero, lo divide in parole, confronta ciascuna con l'intera libreria di clip per nome, e riproduce la sequenza risultante attraverso lo speaker della stazione scelta, saltando e avvisando su qualunque parola senza clip corrispondente invece di far fallire l'intero annuncio.
-
-**Il bug del ticker dei cartelli partenze ("il testo appare, non scorre, poi salta") si è rivelato essere tre cause separate impilate una sull'altra, trovate una alla volta man mano che ogni correzione esponeva la successiva.**
-- Il cartello e il segnale di marciapiede chiamano questo campo scorrevole con nomi diversi (`SLIDING_INFO` contro `SLIDING_TrainInfo`); una routine esistente che riattacca l'animazione di scorrimento al testo che arriva in ritardo controllava solo uno dei due nomi, quindi la versione del cartello non partiva mai in silenzio quando il suo contenuto arrivava dopo il primo passaggio dello script.
-- La larghezza dell'etichetta veniva misurata con `TextService:GetTextSize`, che rifiuta il font personalizzato vero del cartello e ricadeva in silenzio su un font diverso solo per la misura, mai per il rendering vero, quindi la distanza di scorrimento calcolata non combaciava con quello che era a schermo. Sostituito con `AutomaticSize`, che misura la larghezza vera renderizzata dell'etichetta indipendentemente dal font, lo stesso modo in cui il pannello che per primo aveva azzeccato questo per caso già funzionava.
-- Testo corto produceva un'etichetta correttamente misurata ma genuinamente stretta, quindi lo spazio fisso tra le due copie in loop era più largo del pannello stesso e si leggeva come "il testo sparisce, poi riappare". Corretto facendo sì che sia il ticker automatico che il pannello admin ripetano qualunque testo gli venga dato più volte con un piccolo spazio, così il loop non è mai più stretto del display indipendentemente da quanto fosse corta la frase originale.
-
-**Riorganizzato il menu di selezione tratta da due pannelli impilati a tre colonne affiancate (tratta, tipo treno, anteprima), poi corretti due bug di overflow che la riorganizzazione stessa aveva introdotto.** La griglia dei numeri di marciapiede, dimensionata per il vecchio pannello anteprima più largo, sforava oltre il bordo destro della nuova colonna più stretta; ricostruita a 5 colonne invece di 10 così i pulsanti entrano con margine. Al pannello anteprima è stata data anche un'altezza fissa combaciante col suo contenuto vero invece di allungarsi per combaciare con le altre due colonne, dopo che uno screenshot ha mostrato che si estendeva ben oltre il proprio contenuto nello spazio vuoto.
-
-**Tentato di costruire il ventaglio di binari di Porta Nuova dai dati OpenStreetMap reali già tracciati, e sbagliato l'orientamento al primo tentativo.** Il terzo argomento di `CFrame.fromMatrix` è la direzione *posteriore* della tile, non quella anteriore; passare direttamente il vettore in avanti lì metteva ogni tile al contrario rispetto alla tile di riferimento del progetto stesso (`Track Esempio`), la cui direzione in avanti era stata confermata leggendo la sua matrice di rotazione invece che assunta. Corretto, poi ricostruito come guida leggera a sfere (stessa dimensione e stile della guida 3D del percorso già esistente) invece che tile complete, dopo che la versione a tile piene del primo tentativo era arrivata a quasi 3.500 modelli clonati, troppo pesante da lasciare nel gioco, e comunque richiesta come guida da cui costruire a mano piuttosto che una sezione finita. Usati 101 dei segmenti di linea OSM reali nella gola di Porta Nuova dopo aver scartato circa altrettanti che si sono rivelati appartenere a un'altra linea vicina catturata per errore dal filtro geografico. Vive in `Workspace.GuidaVentaglioPortaNuova`, spostata ben lontano dal resto della mappa, non collegata a nulla.
-
-**Ancora aperto, non toccato in questa sessione:** limiti di velocità, sistema camere, aggancio carrozze, il segnale rosso che non ferma fisicamente un treno, e la vera logica degli scambi discussa ma non iniziata. La guida del ventaglio di Porta Nuova ha bisogno di un passaggio umano per diventare binario vero; il corridoio tra il ventaglio e Lingotto (generato in precedenza come una singola linea centrale mediata, non i veri binari paralleli) non è stato riconciliato con l'approccio per singolo segmento di oggi.
-
-## 🇬🇧
-
-**Built a full station announcement system from scratch: 93 recorded audio clips, a concatenation engine, and two working speaker points.** Numbers 0-59, six train categories, ten station names, and a set of connective phrases were recorded externally and uploaded as individual `Sound` assets in `ReplicatedStorage.AnnunciAudio`, organized by category. A new module, `AnnunciTreno`, builds an announcement as a sequence of these clip IDs from a table of real data (category, train number, destination, time, platform) and plays them back to back through a `Sound` parented to the correct station's speaker. It's wired to the same seat-detection event that already sets the `Boarded` flag, so the announcement fires when a player actually sits down to drive, using the real spawn data for that train, not placeholder text.
-
-**The train number is read as digit pairs ("77", "94"), which only works up to 59 because that's all that was recorded.** A pair above that now falls back to reading its two digits separately instead of silently vanishing from the announcement, which is what happened before this was caught: a test run came up two clips short of expected with no warning at all. The lookup function was also given a proper `warn()` for any missing clip, for the same reason, a silent skip is far harder to debug than a logged one.
-
-**Reverb was moved from individual clips to a `SoundGroup` on each speaker, and each clip now gets a fresh `Sound` instance instead of one being reused and reassigned.** Reusing one `Sound` and swapping its `SoundId` for every word in the sequence cut off each clip's natural reverb tail the instant the next one started, which read as an unnatural "chopped" announcer voice. A new `Sound` per clip, all routed through the same `ReverbSoundEffect`-equipped group, lets each tail decay on its own schedule while the next word plays. A short fixed pause was also added between clips; without it, playback was accurate but ran together in a way that sounded rushed rather than spoken.
-
-**Built a text-to-announcement composer, then found it belonged inside an admin panel that already existed and that this session hadn't been told about.** A slide-out panel gated by Roblox user ID, with a text box and an "apply to all boards" button for setting the departure-board ticker text, was already in the game from a previous session. A second, separate floating panel was built for custom PA announcements before this was discovered; the two were merged into one panel once the overlap became visible in a screenshot. The custom-announcement side takes free text, splits it into words, matches each against the full clip library by name, and plays the resulting sequence through the chosen station's speaker, skipping and warning on any word without a matching clip rather than failing the whole announcement.
-
-**The departure-board ticker's "text appears, doesn't scroll, then jumps" bug turned out to be three separate causes stacked on top of each other, found one at a time as each fix exposed the next.**
-- The board and the platform sign name this scrolling field differently (`SLIDING_INFO` vs `SLIDING_TrainInfo`); an existing routine that re-attaches the scroll animation to text that streams in late only ever checked one of the two names, so the board's version silently never started animating when its content arrived after the script's first pass.
-- The label's width was being measured with `TextService:GetTextSize`, which rejects the board's actual custom font and was silently falling back to a different one for the measurement only, never for the real rendering, so the calculated scroll distance didn't match what was on screen. Replaced with `AutomaticSize`, which measures the label's true rendered width regardless of font, the same way the panel that first got this right by accident already worked.
-- Short text produced a correctly-measured but genuinely narrow label, so the fixed gap between the two looping copies was wider than the panel itself and read as "the text vanishes, then reappears." Fixed by having both the automatic ticker and the admin panel repeat whatever text they're given several times over with a small gap, so the loop is never narrower than the display regardless of how short the original phrase was.
-
-**Reorganized the tratta-selection menu from two stacked panels into three side-by-side columns (route, train type, preview), then fixed two overflow bugs the reorganization itself introduced.** The platform-number grid, sized for the old wider preview panel, ran outside the new narrower column's right edge; rebuilt at 5 columns instead of 10 so the buttons fit with room to spare. The preview panel was also given a fixed height matched to its actual content instead of stretching to match the other two columns, after a screenshot showed it extending well past its own contents into empty space.
-
-**Attempted to build the Porta Nuova track fan from the real OpenStreetMap data traced earlier, and got the orientation wrong on the first attempt.** `CFrame.fromMatrix`'s third argument is the tile's *back* direction, not its forward one; passing the forward vector directly there put every tile backwards relative to the project's own reference tile (`Track Esempio`), whose forward direction was confirmed by reading its rotation matrix rather than assumed. Corrected, then rebuilt as a lightweight sphere-marker guide (matching the size and style of the existing 3D route guide) rather than full track pieces, after the first attempt's full-tile version came out to nearly 3,500 cloned models, too heavy to leave in the game, and asked for as a guide to build from by hand rather than a finished section anyway. 101 of the real OSM line segments in the Porta Nuova throat were used after discarding roughly half that many that turned out to belong to a different nearby line the geographic filter had caught by mistake. Lives in `Workspace.GuidaVentaglioPortaNuova`, offset well away from the rest of the map, not connected to anything.
-
-**Still open, not touched this session:** speed limits, the camera system, carriage coupling, the red signal not physically stopping a train, and the real switch/points logic discussed but not started. The Porta Nuova fan guide needs a human pass to become an actual track; the corridor between the fan and Lingotto (previously generated as a single averaged centerline, not the real parallel tracks) hasn't been reconciled with today's per-segment approach.
+</details>
 
 ---
 
-## 2026-07-10
+### 13 luglio 2026 &nbsp;·&nbsp; Addio fisica delle ruote
 
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Errore ripetuto script HUD cabina</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Menu tratte-selezione ancora stretto</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Cartella "Test" da 251 oggetti mai confermata sicura</td></tr>
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Impostazioni audio/HUD salvate ma non collegate</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Menu principale, 3 cause diverse, risolte una alla volta</td></tr>
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 3700 mesh a collision fidelity default (verificato a campione, non esaustivo)</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Ticker, matematica dello scroll corretta</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pannello admin ticker su entrambi i nomi cartello</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Campo TrainInfo vs Train/Code chiarito</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Icone categorie treno + logo</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Icone pulsanti veicolo</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Pannello admin testo cartelli, globale</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Display prossimo segnale, ricerca ricorsiva</td></tr>
-</table>
+Dopo un'intera sessione a far girare le ruote senza riuscirci, ho cambiato strada: il treno ora segue una sequenza di punti, senza fisica. Funziona al primo tentativo, dopo aver ancorato il treno perché le vecchie cerniere non lo facessero esplodere.
 
+| | |
+|:--|:--|
+| 🟢 | Movimento a waypoint riscritto da zero |
+| 🟢 | Ordine reale delle 10 fermate confermato |
+| 🟡 | Dati del ventaglio importati ma non allineati |
+| 🔴 | Divisione automatica del ventaglio in binari singoli |
+| 🔴 | Tre tentativi di scalare i dati, abbandonati |
 
+<details>
+<summary>🇬🇧 English</summary>
 
-## 🇮🇹
+<br>
 
-**La matematica dello scroll di un ticker leggeva il numero sbagliato come propria larghezza.** Il ticker del cartello partenze calcola quanto scorrere dalla dimensione renderizzata propria dell'etichetta. Con `TextScaled` attivo, quella dimensione è il contenitore fisso dell'etichetta, non la larghezza vera del testo, quindi testo di qualunque lunghezza faceva loop nel punto sbagliato e si sovrapponeva a metà frase. Corretto disattivando `TextScaled`, dando all'etichetta una dimensione font fissa vera, e ridimensionando l'etichetta stessa alla larghezza misurata vera del testo ogni volta che il testo cambia, usando `TextService:GetTextSize` con un font di riserva nel caso il font dell'etichetta stessa non sia riconosciuto dal servizio. Lo stesso bug, e la stessa correzione, applicati sia ai cartelli di marciapiede che ai cartelli dell'intera stazione, che chiamano questo campo con nomi diversi (`SLIDING_TrainInfo` contro `SLIDING_INFO`).
+After a whole session trying to make the wheels spin, I switched approach: the train now follows a sequence of points with no physics. It worked on the first try, once the train was anchored so the old hinges stopped blowing it up.
 
-**Il pannello admin che imposta quel testo del ticker raggiungeva solo i cartelli di marciapiede, mai i cartelli di stazione, per via della stessa differenza di nome.** Corretto facendo controllare entrambi i nomi allo stesso gestore.
-
-**Un campo del cartello partenze chiamato `TrainInfo` si è rivelato essere la riga di informazione stessa, non un'etichetta per il numero treno.** Scrivere il numero treno lì lo faceva apparire incastrato in mezzo al testo scorrevole, non accanto. Il vero campo numero è `Train`/`Code`; `TrainInfo` è stato lasciato stare una volta capito questo.
-
-**Sei icone di categoria (R, RV, IC, ICN, Frecciarossa, Italo) e un logo aziendale sono stati preparati, caricati, e collegati ai cartelli partenze**, bianco su trasparente, dimensione canvas uniforme, posizionati accanto al numero treno invece di sostituirlo. Passati tre ricaricamenti del logo e due delle icone mentre le dimensioni venivano aggiustate; ogni sostituzione era un cambio ID asset di una riga una volta stabilito lo schema.
-
-**I pulsanti di controllo treno non avevano nessuna icona, su nessuno degli otto pulsanti, confermato leggendo il codice vero di definizione dei pulsanti invece di assumere dallo screenshot.** Tutti e otto (luci anteriori/posteriori, clacson, pantografo, entrambe le porte) erano segnaposto `icon=""` vuoti. Corretto una volta caricati e identificati per nome i veri asset icona.
-
-**Costruito un pannello riservato agli admin per modificare il testo informativo dei cartelli partenze a livello di intero progetto**, protetto da ID utente Roblox, controllato in modo indipendente sia sul client (così il pannello non viene nemmeno costruito per chiunque altro) che sul server (così il controllo non può essere aggirato da un client modificato). Un aggiornamento dal pannello ora raggiunge ogni cartello di marciapiede e ogni cartello di stazione nel gioco in una volta, non solo quello in prova.
-
-**Il display di cabina "prossimo segnale" mostrava il segnale più vicino, che dopo averne superato uno è di solito quello dietro al treno, non avanti, e la sua ricerca controllava solo i figli diretti di workspace, dove non vive davvero nessun segnale.** Entrambi i problemi erano in codice il cui stesso commento affermava che "non è più un segnaposto". Riscritta la ricerca per essere ricorsiva e scegliere il segnale più vicino strettamente avanti al treno lungo la linea, poi confermato dal vivo: attraversare un segnale fa scattare correttamente il display al successivo, non indietro a quello appena superato.
-
-**Il menu principale appariva correttamente, poi no, poi per niente, per tre motivi diversi di fila.** Primo: la schermata di selezione tratta era visibile dietro al menu fin dall'avvio del gioco, perché il suo `ScreenGui.Enabled` non era mai stato impostato esplicitamente a false e il codice precedente che doveva rivelarla su "Play" in realtà alternava la proprietà `Enabled` propria di un `LocalScript`, una proprietà che controlla se uno script gira, non nulla di visivo, dato che "UI" è il nome dello script, non dello schermo; lo schermo vero è `TrattaSelectionGui`, trovato scavando in cosa lo script crea invece di assumere che l'oggetto chiamato "UI" fosse esso stesso l'interfaccia. Secondo, una volta collegato un font vero per combaciare col carattere reale dei cartelli partenze (`Inconsolata`, scoperto leggendo la `FontFace` di un'etichetta dal vivo invece di indovinare), l'intero menu falliva in silenzio nel costruirsi oltre la sua schermata titolo, perché il nuovo valore di tipo `Font` veniva assegnato alla proprietà legacy `.Font`, che si aspetta un `Enum.Font` e fallisce senza un errore catturato; corretto assegnando invece a `.FontFace`, ovunque il codice la usasse. Entrambi trovati solo confrontando cosa dovrebbe esistere con cosa era davvero presente in una sessione dal vivo, non leggendo il codice e assumendo che funzionasse.
-
-**Passate ~3.700 mesh da collision fidelity non predefinita a predefinita**, dopo aver trovato quel numero direttamente invece di indovinare una causa di prestazioni. Le forme di collisione precise costano molto di più da simulare rispetto all'approssimazione a scafo predefinita, e la mappa è cresciuta abbastanza (una prima bozza dei marciapiedi di Lingotto aggiunta in questa sessione) che la differenza non è più trascurabile. Verificato a campione dopo che nulla ha iniziato a cadere attraverso la geometria; un passaggio completo sulla mappa ormai più grande non era fattibile in una sola seduta e va trattato come verifica a campione, non esaustiva.
-
-**Ancora aperto, non toccato in questa sessione:** un errore ripetuto nello script HUD di cabina (`attempt to call a nil value`, probabile che scatti prima che il personaggio esista), il layout stretto della schermata di selezione tratta, una cartella "Test" da 251 oggetti inutilizzata mai confermata sicura da cancellare, e le impostazioni di visibilità audio/HUD che si salvano correttamente ma non sono ancora collegate a nulla.
-
-## 🇬🇧
-
-**A ticker's scroll math was reading the wrong number as its own width.** The departure board ticker computes how far to scroll from the label's own rendered size. With `TextScaled` on, that size is the label's fixed container, not the text's real width, so text of any length looped at the wrong point and overlapped itself mid-sentence. Fixed by turning `TextScaled` off, giving the label a real fixed font size, and resizing the label itself to the text's actual measured width every time the text changes, using `TextService:GetTextSize` with a fallback font in case the label's own font isn't one the service recognizes. The same bug, and the same fix, applied to both the platform signs and the station-wide boards, which name this field differently (`SLIDING_TrainInfo` vs `SLIDING_INFO`).
-
-**The admin panel that sets that ticker text only ever reached the platform signs, never the station boards, because of that same naming difference.** Fixed by having the one handler check both names.
-
-**A departure board field named `TrainInfo` turned out to be the information row itself, not a label for the train number.** Writing the train number into it made the number appear jammed into the middle of the scrolling text, not next to it. The actual number field is `Train`/`Code`; `TrainInfo` was left alone once this was understood.
-
-**Six category icons (R, RV, IC, ICN, Frecciarossa, Italo) and a company logo were prepared, uploaded, and wired to the departure boards**, white-on-transparent, uniform canvas size, positioned next to the train number rather than replacing it. Went through three logo re-uploads and two icon re-uploads as sizing was adjusted; each swap was a one-line asset ID change once the pattern was established.
-
-**Train control buttons had no icons at all, on any of the eight buttons, confirmed by reading the actual button-definition code rather than assuming from the screenshot.** All eight (front/rear lights, horn, pantograph, both doors) were blank `icon=""` placeholders. Fixed once real icon assets were uploaded and identified by name search.
-
-**Built an admin-only panel for editing the departure boards' information text project-wide**, gated by Roblox user ID, checked independently on both the client (so the panel doesn't even get built for anyone else) and the server (so the check can't be bypassed by a modified client). One update from the panel now reaches every platform sign and every station board in the game at once, not just the one being tested.
-
-**The "next signal" cab display was showing the nearest signal, which after passing one is usually the signal behind the train, not ahead of it, and its search only checked workspace's direct children, where no signal actually lives.** Both problems were in code whose own comment claimed it was "no longer a placeholder." Rewrote the search to be recursive and to pick the closest signal strictly ahead of the train along the line, then confirmed live: crossing a signal correctly flips the display to the next one, not back to the one just passed.
-
-**The main menu appeared correctly, then didn't, then didn't at all, for three different reasons in a row.** First: the tratta-selection screen was visible behind the menu from the moment the game started, because its `ScreenGui.Enabled` was never explicitly set to false and the earlier code that was supposed to reveal it on "Play" was actually toggling a `LocalScript`'s own `Enabled` property, a property that controls whether a script runs, not anything visual, since "UI" is the script's name, not the screen's; the real screen is `TrattaSelectionGui`, found by digging into what the script creates rather than assuming the object named "UI" was itself the interface. Second, once a real font was wired in to match the departure boards' actual typeface (`Inconsolata`, discovered by reading a live label's `FontFace` rather than guessing), the whole menu silently failed to build past its title card, because the new `Font` datatype value was being assigned to the legacy `.Font` property, which expects an `Enum.Font` and fails without a caught error; fixed by assigning to `.FontFace` instead, everywhere the code used it. Both were found only by comparing what should exist against what was actually present in a live session, not by reading the code and assuming it worked.
-
-**Switched ~3,700 mesh parts from non-default collision fidelity to default**, after finding that count directly rather than guessing at a performance cause. Precise collision shapes cost meaningfully more to simulate than the default hull approximation, and the map has grown enough (a first draft of Lingotto's own platforms added this session) that the difference is no longer negligible. Spot-checked afterward that nothing started falling through geometry; a full pass across the newly larger map wasn't feasible in one sitting and should be treated as spot-checked, not exhaustively verified.
-
-**Still open, not touched this session:** a repeating error in the cab HUD script (`attempt to call a nil value`, likely firing before the character exists), the tratta-selection screen's cramped layout, an unused 251-object "Test" folder never confirmed safe to delete, and audio/HUD-visibility settings that save correctly but aren't wired to anything yet.
-
-## 2026-07-09
-
-<table style="border-collapse:collapse; border:2px solid #ff8080; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a0f0f; color:#f0f0f0; padding:8px 14px; border:1px solid #ff8080;">🔴 Instradamento tratta/binario ancora hardcoded, dichiarato apertamente</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Bug attributi client/server trovato, causa di metà dei bug del giorno</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Cartelli orari spostati interamente lato server</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Indicatore lampeggiante corretto</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Scansione multi-template invece di assumere una struttura sola</td></tr>
-</table>
-
-
-## 🇮🇹
-
-**Gli attributi impostati dal client non arrivano al server. Questo spiegava metà dei bug della giornata in un colpo solo.** Roblox non replica i cambi di attributo dal client al server per default, solo dal server al client. I dati del cartello partenze (numero treno, destinazione, quale binario è attivo) venivano scritti dal menu, uno script client, e letti dalla logica dei segnali lato server che non poteva mai vederli. Due ore passate a inseguire "il client non vede ancora questo contenuto" si sono rivelate la direzione completamente sbagliata per diversi di questi bug, una volta trovato questo: la correzione è stata spostare le scritture lato server (dentro lo script che già valida e fa spawnare il treno), non inseguire ulteriormente i tempi dello streaming.
-
-**Spostata la gestione dei cartelli partenze dal client interamente al server.** In precedenza, uno script lato client scansionava l'intera mappa una volta all'avvio e popolava i display dei cartelli; un secondo script client, più recente, ascoltava blocchi trigger fisici a ogni marciapiede. Entrambi dipendevano dal fatto che contenuto lontano fosse stato caricato (streaming) per quello specifico client, cosa che falliva ripetutamente in modo non affidabile e non è mai stata spiegata del tutto nemmeno dopo aver eliminato ogni causa plausibile (streaming forzato, teletrasporto del personaggio, salvataggio del posto, confronto delle proprietà delle istanze, etichettatura con `CollectionService` come controllo indipendente). La logica dei cartelli ora vive nello stesso script server che già rileva in modo affidabile testa e coda di un treno che attraversano ogni segnale, e scrive direttamente sugli oggetti `SurfaceGui` fisici nel mondo, che il server può sempre vedere senza nessuna dipendenza dallo streaming. I due blocchi trigger invisibili costruiti prima nella sessione sono stati rimossi del tutto, insieme allo script client che li usava.
-
-**Un indicatore lampeggiante che era sempre acceso, poi sempre spento, poi finalmente lampeggiante.** Corretto lo stesso bug di fondo (un template viene clonato in una copia live, e il clone eredita qualunque visibilità il template avesse per caso incorporata) tre volte separate mentre si spostava tra script diversi durante il refactor della giornata. Lo stato di lampeggio vero si è rivelato dipendere da un flag `Boarded` che nulla impostava lato server, per lo stesso motivo di replicazione client-server di sopra; corretto impostandolo direttamente dallo script esistente di rilevamento sedile, che già gira sul server.
-
-**Due cartelli con gli stessi campi visibili, costruiti con struttura interna completamente diversa.** Il cartello di marciapiede di Porta Nuova raggruppa diversi campi (destinazione, numero treno, orario partenza) dentro una sola riga. Il cartello di Lingotto, con lo stesso scopo identico, divide gli stessi campi su più righe separate, un campo ciascuna. Nessuno dei due è sbagliato, semplicemente non sono intercambiabili, e codice scritto assumendo il primo layout falliva in silenzio nel trovare qualunque cosa sul secondo. Corretto scansionando ogni template in un cartello invece di assumere che ce ne sia esattamente uno, non facendo combaciare i due cartelli tra loro (resta aperto, e se fatto rimuoverebbe una categoria di bug come questo per sempre).
-
-**L'assegnazione di partenza e binario è scritta a mano, non calcolata, e vale la pena essere onesti anche su questo.** Il sistema di oggi riconosce esattamente una tratta: Porta Nuova binario 1 verso Lingotto binario 2. Nulla determina a quale binario sia diretto un treno dallo stato di gioco; sono due valori fissi scritti direttamente nel codice di attraversamento segnale. Va bene per quello che si sta testando ora, ma non è una base su cui costruire più treni simultanei o un vero menu di selezione binario senza riscrivere questa parte.
-
-## 🇬🇧
-
-**Client-set attributes don't reach the server. This explained half of today's bugs at once.** Roblox doesn't replicate attribute changes from client to server by default, only server to client. The departure-board data (train number, destination, which platform is active) was being written by the menu, a client script, and read by server-side signal logic that could never see it. Two hours of chasing "the client can't see this content yet" turned out to be the wrong direction entirely for several of these bugs, once this was found: the fix was moving the writes server-side (into the script that already validates and spawns the train), not chasing streaming timing further.
-
-**Moved departure-board management from the client to the server entirely.** Previously, a client-side script scanned the whole map once at startup and populated board displays; a second, newer client script listened for physical trigger blocks at each platform. Both depended on distant content having streamed to that specific client, which repeatedly failed to happen reliably and was never fully explained even after eliminating every plausible cause (forced streaming, teleporting the character, saving the place, comparing instance properties, tagging with `CollectionService` as an independent check). The board logic now lives in the same server script that already reliably detects a train's head and tail crossing each signal, and writes directly to the physical `SurfaceGui` objects in the world, which the server can always see without any streaming dependency. The two invisible trigger blocks built earlier in the session were removed entirely, along with the client script that used them.
-
-**A blinking indicator that was permanently on, then permanently off, then finally blinking.** Fixed the same underlying bug (a template gets cloned into a live copy, and the clone inherits whatever visibility the template happened to have baked in) three separate times as it moved between different scripts during the day's refactor. The actual blink state turned out to depend on a `Boarded` flag that nothing was setting server-side, for the same client-to-server replication reason above; fixed by setting it directly from the existing seat-detection script, which already runs on the server.
-
-**Two boards with the same visible fields, built with completely different internal structure.** Porta Nuova's platform sign groups several fields (destination, train number, departure time) inside one row. Lingotto's identically-purposed sign splits the same fields across several separate rows, one field each. Neither is wrong, they're just not interchangeable, and code written assuming the first layout silently failed to find anything on the second. Fixed by scanning every template in a board rather than assuming there's exactly one, not by making the two boards match (that's still open, and would remove a category of bug like this one for good if done).
-
-**Departure and platform assignment is hardcoded, not computed, and that's worth being honest about here too.** Today's system recognizes exactly one route: Porta Nuova platform 1 to Lingotto platform 2. Nothing determines which platform a train is heading to from game state; it's two fixed values written directly in the signal-crossing code. This is fine for what's being tested right now, but it is not a foundation to build multiple simultaneous trains or a real platform-selection menu on without rewriting this part.
+</details>
 
 ---
 
-## 2026-07-04
+### 12 luglio 2026 &nbsp;·&nbsp; Il pantografo
 
-<table style="border-collapse:collapse; border:2px solid #ffe066; width:100%; margin:6px 0;">
-<tr><td style="background-color:#4a3d00; color:#f0f0f0; padding:8px 14px; border:1px solid #ffe066;">🟡 Cartelli sanno la stazione ma non ancora visibili, manca il template Lingotto</td></tr>
-</table>
-<table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Block signaling reale, 4 segnali, verificato su tabella di stato</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Bug orario UTC trovato e corretto</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Bug regex nomi segnali trovato e corretto</td></tr>
-<tr><td style="background-color:#0f4a22; color:#f0f0f0; padding:8px 14px; border:1px solid #8ade9a;">🟢 Selettore binario nel menu, 20 pulsanti</td></tr>
-</table>
+Il treno non si muoveva e il motivo era l'ultima cosa che avrei controllato: con il pantografo abbassato, uno script azzerava la velocità a ogni frame. Nel frattempo sono arrivati i limiti di velocità con il cartello vero e il pannello di guida unificato.
 
+| | |
+|:--|:--|
+| 🟢 | Limiti di velocità a zone, con cartello italiano |
+| 🟢 | Pannello di guida unico |
+| 🟢 | Prima persona sulla testa del personaggio e campo visivo regolabile |
+| 🟢 | Tasto C per la camera, H per il clacson |
+| 🟢 | Corridoio Torino Genova da OpenStreetMap |
+| 🟡 | Trovato il blocco del motore, ma il treno resta fermo |
+| 🔴 | Personaggio caricato solo dopo la scelta: rompeva tutta l'interfaccia, annullato |
 
-## 🇮🇹
+<details>
+<summary>🇬🇧 English</summary>
 
-**Il block signaling è passato da "progettato" a "funzionante".** Quattro segnali in sequenza ora calcolano rosso/giallo/verde da una vera occupazione a 2 blocchi di preavviso, tracciata da un singolo collider (etichettato dinamicamente "Coda" in base a quale locomotiva il giocatore non stia guidando) che attraversa una zona segnale in uscita, non in entrata, e non dal collider anteriore per niente, dopo che una versione precedente che usava entrambi è stata sostituita con solo questo. Verificato contro una tabella di stato scritta a mano in 8 passi che copre un ciclo completo partenza-arrivo, non solo controllato a campione da fermo.
+<br>
 
-**Due bug vicini ai segnali trovati e corretti, nessuno dei due dove sembrava che sarebbero stati:**
-- Il calcolo dell'ora italiana era giusto, ma saltava di forzare l'interpretazione UTC prima di formattarlo, il che significa che era corretto solo per caso, perché il fuso orario del computer di sviluppo era già per caso quello italiano. Avrebbe mostrato l'ora sbagliata su qualunque server che girasse davvero in UTC.
-- Rinominare quattro segnali per aggiungere un tag `(stazione)` ha rotto in silenzio il codice di ordinamento dei segnali, che cercava un numero alla *fine* di ogni nome. Un nome che finisce con `)` non combacia. Non un bug di segnalamento per niente, un pattern regex in tutt'altro file rispetto a dove è avvenuta la rinomina.
+The train wouldn't move, and the cause was the last thing I'd have checked: with the pantograph down, a script zeroed the speed every frame. Also new: speed limits with a real sign, unified driving panel, first person camera, C and H keys, Torino Genova corridor from OpenStreetMap.
 
-**I cartelli partenze ora sanno in quale stazione si trovano, non solo quale numero di binario.** Il Binario 1 di Porta Nuova e il Binario 1 di Lingotto prima erano indistinguibili per lo script di instradamento cartelli. Corretto, e testato a livello di dati (gli attributi `Active`/`Station`/`Platform` cambiano correttamente mentre un treno attraversa ogni segnale). **Non ancora visibile in gioco**, perché un problema separato, non collegato, è emerso durante il test: tutti e 7 i cartelli partenze di Lingotto mancano del template interno che le loro controparti di Porta Nuova hanno, quindi non c'è ancora nulla da mostrare lì per l'instradamento (ora corretto). Correzione di contenuto, non di script, e ancora aperto.
-
-**Menu:** il selettore di binario è passato da 2 pulsanti a una griglia 10×2 di 20 (solo il Binario 1 attivo, il resto visibilmente disabilitato invece di non fare nulla in silenzio al clic). Costato due giri di sovrapposizione di layout con i pannelli vicini prima di arrivare a una posizione verificata contro le coordinate pixel vere renderizzate in modalità Play, non indovinata dagli offset del codice sorgente.
-
-## 🇬🇧
-
-**Block signaling went from "designed" to "running."** Four signals in sequence now compute red/yellow/green from real 2-block lookahead occupancy, tracked by a single collider (tagged dynamically as "Coda" based on which locomotive the player isn't driving from) crossing a signal zone on exit, not on entry, and not by the front collider at all, after an earlier version using both got replaced with just this one. Verified against an 8-step hand-written state table covering a full departure-to-arrival cycle, not just spot-checked at rest.
-
-**Two signal-adjacent bugs found and fixed, neither where they looked like they'd be:**
-- The Italian-time calculation was right, but skipped forcing UTC interpretation before formatting it, meaning it was only correct by accident, because the dev machine's own timezone happened to already be Italian. Would have shown the wrong time on any server actually running in UTC.
-- Renaming four signals to add a `(stazione)` tag silently broke the signal-ordering code, which matched a number at the *end* of each name. A name ending in `)` doesn't match. Not a signaling bug at all, a regex pattern several files removed from where the rename happened.
-
-**Departure boards now know which station they're in, not just which platform number.** Porta Nuova's Platform 1 and Lingotto's Platform 1 used to be indistinguishable to the board-routing script. Fixed, and tested at the data layer (`Active`/`Station`/`Platform` attributes flip correctly as a train crosses each signal). **Not yet visible in-game**, because a separate, unrelated problem surfaced while testing: all 7 of Lingotto's departure boards are missing the internal template their Porta Nuova counterparts have, so there's nothing for the (now-correct) routing to display there yet. Content fix, not a script fix, and still open.
-
-**Menu:** the platform selector went from 2 buttons to a 10×2 grid of 20 (only Platform 1 active, the rest visibly disabled rather than silently doing nothing on click). Cost two rounds of layout overlap with neighboring panels before landing on a position verified against actual rendered pixel coordinates in Play mode, not guessed from source offsets.
+</details>
 
 ---
+
+### 11 luglio 2026 &nbsp;·&nbsp; Gli annunci di stazione
+
+93 registrazioni vere, montate in sequenza: numero del treno, categoria, destinazione, orario e binario. Ogni stazione ha il suo altoparlante con il riverbero.
+
+| | |
+|:--|:--|
+| 🟢 | Annunci vocali completi, 93 clip |
+| 🟢 | Numeri oltre 59 letti cifra per cifra |
+| 🟢 | Riverbero e pause fra le parole |
+| 🟢 | Pannello annunci unito a quello admin |
+| 🟢 | Testo scorrevole dei cartelli corretto |
+| 🟢 | Menu tratte a tre colonne |
+| 🟡 | Ventaglio di Porta Nuova solo come guida |
+
+<details>
+<summary>🇬🇧 English</summary>
+
+<br>
+
+93 real recordings played in sequence: train number, category, destination, time and platform, through a speaker per station with its own reverb. Also fixed the scrolling text on the boards and rebuilt the route menu in three columns.
+
+</details>
+
+---
+
+### 10 luglio 2026 &nbsp;·&nbsp; Cartelli e icone
+
+I tabelloni hanno le icone vere delle categorie e il logo, il pannello admin cambia il testo di tutti i cartelli insieme, e il display del prossimo segnale smette di mostrare quello appena superato.
+
+| | |
+|:--|:--|
+| 🟢 | Icone R, RV, IC, ICN, Frecciarossa, Italo e logo |
+| 🟢 | Icone sui pulsanti di cabina |
+| 🟢 | Pannello admin per il testo dei cartelli |
+| 🟢 | Prossimo segnale cercato davvero in avanti |
+| 🟡 | Menu principale sistemato dopo tre cause diverse |
+| 🔴 | Errore ripetuto nell'HUD di cabina |
+| 🔴 | Cartella Test da 251 oggetti mai verificata |
+
+<details>
+<summary>🇬🇧 English</summary>
+
+<br>
+
+Real category icons and logo on the boards, an admin panel that changes every board's text at once, and a next signal display that no longer shows the one just passed.
+
+</details>
+
+---
+
+### 9 luglio 2026 &nbsp;·&nbsp; I cartelli passano al server
+
+Metà dei bug della giornata avevano la stessa causa: gli attributi scritti dal client non arrivano al server. I cartelli partenze ora li gestisce tutti il server.
+
+| | |
+|:--|:--|
+| 🟢 | Trovato il problema degli attributi fra client e server |
+| 🟢 | Cartelli orari gestiti interamente dal server |
+| 🟢 | Indicatore lampeggiante corretto |
+| 🔴 | Partenza e binario ancora scritti a mano |
+
+<details>
+<summary>🇬🇧 English</summary>
+
+<br>
+
+Half the day's bugs had one cause: attributes written by the client never reach the server. Departure boards are now fully managed by the server.
+
+</details>
+
+---
+
+### 4 luglio 2026 &nbsp;·&nbsp; I primi segnali
+
+Quattro segnali in fila che calcolano rosso, giallo e verde dall'occupazione vera dei blocchi. Verificati su un ciclo completo, dalla partenza all'arrivo.
+
+| | |
+|:--|:--|
+| 🟢 | Blocco automatico con 4 segnali |
+| 🟢 | Orario italiano corretto su ogni server |
+| 🟢 | Ordine dei segnali di nuovo giusto |
+| 🟢 | Selettore del binario con 20 pulsanti |
+| 🟡 | I cartelli di Lingotto non hanno ancora il template |
+
+<details>
+<summary>🇬🇧 English</summary>
+
+<br>
+
+Four signals in a row computing red, yellow and green from real block occupancy, verified over a full departure to arrival cycle. Also: Italian time correct on every server, 20 button track selector.
+
+</details>
