@@ -1,6 +1,8 @@
 <div align="center">
 
-<img src="docs/ferrovie-tricolore.png" width="100%" alt="Ferrovie Tricolore">
+<img src="docs/ferrovie-tricolore.png" alt="Ferrovie Tricolore" width="220">
+
+<img src="https://capsule-render.vercel.app/api?type=waving&height=120&color=0:009246,50:f4f5f0,100:cd212a&section=header" width="100%" alt="">
 
 <img src="https://readme-typing-svg.demolab.com?font=Inconsolata&weight=700&size=20&duration=2600&pause=1400&color=FFCD28&background=0C0C0EFF&center=true&vCenter=true&width=640&height=46&lines=R+4001++TORINO+P.NUOVA++GENOVA+BRIGNOLE++BIN.+1;IC+652++TORINO+P.NUOVA++MILANO+CENTRALE++BIN.+7;REG+1820++GENOVA+P.PRINCIPE++VENTIMIGLIA++BIN.+3" alt="Tabellone partenze">
 
@@ -26,8 +28,7 @@ Sto costruendo un simulatore ferroviario su Roblox partendo da una regola sola: 
 | `IC` | **Milano Centrale** via Novara | 7 | ⚪ in programma |
 
 <p align="center">
-<code>🟢 Torino P.Nuova ─── 🟢 Lingotto ─── 🟡 Trofarello ─── 🟡 Asti ─── 🟡 Alessandria ─── 🟡 Novi Ligure ─── 🟡 Genova P.Principe ─── 🟡 Genova Brignole</code><br>
-<sub>🟢 si guida &nbsp; 🟡 binari posati, percorsi e segnali in arrivo</sub>
+  <img src="docs/linea-torino-genova.svg" width="100%" alt="Schema della linea Torino Porta Nuova - Genova Brignole">
 </p>
 
 ## In cabina
@@ -42,19 +43,26 @@ Sto costruendo un simulatore ferroviario su Roblox partendo da una regola sola: 
 
 Componi il treno veicolo per veicolo, alzi il pantografo, carichi i freni e aspetti il verde. In banchina apri le porte dal lato giusto e lasci salire i passeggeri. Se in Sala Comandi c'è qualcuno, la partenza la decide lui.
 
-## Parco mezzi
+## Parco rotabili
 
-| Rotabile | Stato | Livree |
-|:--|:--|:--|
-| Mazinga | in gioco | XMPR, poi Regionale |
-| MDVC | in gioco | XMPR in lavorazione |
-| MDCE | in lavorazione | XMPR in lavorazione |
-| E464 | in gioco | |
-| POP | in gioco | |
-| E652 | in gioco, treni merci | |
-| Rock, Italo, Taurus, E405, TAF, Frecciargento | in lavorazione | |
+Ogni mezzo arriverà con le livree che ha avuto davvero in servizio.
 
-Ogni rotabile avrà anche le sue varianti di livrea, così lo stesso mezzo potrà girare in più versioni, come la Mazinga in livrea XMPR o Regionale.
+| Rotabile | Livree | |
+|:--|:--|:--:|
+| **E464** | XMPR · Regionale · Intercity · Intercity Giorno · Frecciabianca · Trenord | 🟢 |
+| **Mazinga** (semipilota) | Origine · XMPR · DTR | 🟢 |
+| **MDVC** | Origine · XMPR · DTR | 🟢 |
+| **POP** | DPR · Regionale · Trenord · Trenitalia Tper | 🟢 |
+| **E652** | Origine · Blu orientale e grigio perla · XMPR · Mercitalia Rail | 🟢 |
+| **MDCE** | XMPR · DTR | 🟡 |
+| **Rock** | DPR · Regionale · Trenord · Trenitalia Tper | ⚪ |
+| **TAF** | XMPR · DTR · Trenord · FNM · LeNord · Malpensa Express | ⚪ |
+| **E405** | XMPR | ⚪ |
+| **Taurus** (E190) | ÖBB Italia · FUC Ferrovie Udine Cividale | ⚪ |
+| **Frecciargento** | Frecciargento · Frecciarossa | ⚪ |
+| **Italo** | Italo | ⚪ |
+
+<sub>🟢 nel gioco &nbsp; 🟡 in lavorazione &nbsp; ⚪ da fare</sub>
 
 ## Come è fatto
 
@@ -77,8 +85,8 @@ Ogni rotabile avrà anche le sue varianti di livrea, così lo stesso mezzo potr�
 - [x] Collegamento reale Porta Nuova e Lingotto
 - [ ] Linea per Genova guidabile fino in fondo
 - [ ] Marciapiedi della nuova Lingotto
-- [ ] Varianti di livrea dei rotabili
 - [ ] Carri merci
+- [ ] Livree per tutti i rotabili
 - [ ] Genova Ventimiglia e Torino Milano
 
 <details>
@@ -96,6 +104,10 @@ It started at Torino Porta Nuova and is now stretching towards Genova. The game 
 | `RV` | Ventimiglia | planned |
 | `IC` | Milano Centrale | planned |
 
-Every vehicle will also get its livery variants, so the same train can run in more than one version, like the Mazinga in XMPR or Regionale livery.
+Every train will come with the liveries it really wore in service, from XMPR to the new Regionale.
 
 </details>
+
+<br>
+
+<img src="https://capsule-render.vercel.app/api?type=waving&height=90&color=0:009246,50:f4f5f0,100:cd212a&section=footer" width="100%" alt="">
