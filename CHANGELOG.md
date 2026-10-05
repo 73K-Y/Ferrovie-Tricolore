@@ -16,6 +16,135 @@ Dated summaries of what changed each work session, in the order they happened. N
 
 ---
 
+## 2026-10-05
+
+| 🟢 Linea Torino Porta Nuova - Genova Brignole tracciata dai dati reali di OpenStreetMap: circa 78.800 tile, binari di stazione inclusi, entrambi i valichi dei Giovi |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🟢 Tratto corso Bramante - via Vigliani ricostruito dai dati reali: linea, scalo merci, deposito, deviatoi, Linea Passante in galleria |
+| 🟢 Stazione di Torino Lingotto con i binari reali in curva, spostata nella posizione reale |
+| 🟢 Compositore treni con catalogo e anteprime 3D, regole controllate anche dal server |
+| 🟢 Porte: niente piu' chiusure da sole quando si scende dal treno, verificato in Play |
+| 🟢 Mappa delle stazioni con le linee sul tracciato reale, verificata con catture dello schermo |
+
+| 🟡 Linea per Genova senza tratte e senza semafori: tracciata ma non ancora guidabile |
+| ---------------------------------------------------------------------------------------------- |
+| 🟡 Spawn delle composizioni personalizzate verificato solo con il calcolo, non con un treno vero |
+| 🟡 Marciapiedi di Lingotto da rifare sui nuovi binari |
+| 🟡 Il terreno copre i tratti ribassati sotto i ponti |
+
+| 🔴 Gradino di 14 studs a via Vigliani: il tratto precedente scende in sottopasso, la linea nuova e' in piano |
+| -------------------------------------------------------------------------------------------------------------------- |
+
+## 🇮🇹
+
+**La scala del progetto e' stata ricavata dalla geometria vera, non stimata.** Confrontando la distanza reale fra Torino Porta Nuova e il ponte di corso Bramante (2.284 m) con quella nel gioco (6.876 studs) esce 3,011 studs/m. Lo conferma anche il fatto che i 12 studs fra due binari paralleli di Porta Nuova diventano 3,9 m, l'interasse di una linea vera. Un primo tentativo di allineare i dati e' fallito per un errore di direzione: le due linee della Torino - Genova sono disegnate in OpenStreetMap in versi opposti, e sommarle annullava la direzione. Trovato perche' un binario risultava attraversare il ponte di traverso.
+
+**Il tratto da corso Bramante a via Vigliani e' costruito dai dati reali, scaricati direttamente da Studio.** 6.839 tile in categorie separate (linea, scalo, deposito, tronchini, deviatoi, Linea Passante), collegati ai binari esistenti con raccordi dolci di 600 studs e verificati sui tile veri: giunti entro 0,05 studs, sei agganci a 0,001 studs. Un aggancio era staccato di 10,8 studs perche' il primo nodo reale dopo il ponte era anche l'innesto di un deviatoio; trovato e corretto.
+
+**Lingotto e' stata ricostruita come quella vera.** La stazione reale e' in curva, quella del gioco era dritta: nessuna sovrapposizione rigida combaciava (scarti fino a 665 studs), quindi i binari sono stati rifatti dai dati e la stazione spostata nella posizione reale. Fabbricato, cartelli e spawn seguono; i vecchi binari restano in ServerStorage.
+
+**La linea fino a Genova Brignole e' tracciata, ma non ancora guidabile.** Scaricata a riquadri perche' una richiesta unica andava in timeout; i primi dati arrivavano spezzati in 24 pezzi, perche' i binari in galleria in OpenStreetMap portano il nome della galleria e non della linea. Risolto prendendo la linea dalla sua relazione ufficiale. Durante la verifica sono emersi tratti costruiti per errore verso nord sotto corso Bramante, tolti e messi in riserva, e il gradino a via Vigliani, ancora aperto.
+
+**Compositore treni.** Il treno si compone da un catalogo con anteprime 3D vere. Le distanze fra i veicoli usano le misure prese dai modelli: la E464 sporge 26,3 dietro e 24,9 davanti, non 24 per lato come stimato all'inizio, e due E464 di fila si compenetravano. Le locomotive a una cabina si girano da sole, con i musi alternati nei gruppi. Il POP ha ora due appoggi per cassa grazie a un punto di riferimento sul carrello condiviso.
+
+**Le porte che si chiudevano quando si scendeva dal treno avevano una causa fisica.** Ogni anta e' saldata alla cassa, e la saldatura ricordava la posizione chiusa: appena lo script di guida rilasciava l'ancoraggio, la fisica riportava l'anta indietro. La diagnosi iniziale misurava il pivot del modello, che resta fermo, e per questo non vedeva niente. Ora la saldatura si aggiorna alla fine di ogni animazione.
+
+**Interfaccia e comandi.** Mappa delle stazioni, schermata di caricamento, impostazioni e crediti in stile tabellone, InfoPanel ancorato in basso a sinistra, bordo del pulsante porte giallo sul lato banchina. In cabina: free cam con il tasto destro e zoom con la rotellina. Nuova torcia in mano sul tasto L.
+
+## 🇬🇧
+
+**The project scale was derived from real geometry, not estimated.** Comparing the real distance between Torino Porta Nuova and the corso Bramante bridge (2,284 m) with the in-game one (6,876 studs) gives 3.011 studs/m. The 12 studs between two parallel Porta Nuova tracks becoming 3.9 m, a real line spacing, backs it up. A first alignment attempt failed on a direction error: the two Torino - Genova tracks are drawn in opposite directions in OpenStreetMap, and adding them cancelled out the direction. Caught because one track appeared to cross the bridge sideways.
+
+**The corso Bramante to via Vigliani section is built from real data, downloaded directly from Studio.** 6,839 tiles in separate categories (main line, yard, depot, sidings, crossovers, Linea Passante), joined to the existing tracks with smooth 600 stud transitions and verified on the actual tiles: joints within 0.05 studs, six connections at 0.001 studs. One connection was 10.8 studs off because the first real node after the bridge was also a crossover junction; found and fixed.
+
+**Lingotto was rebuilt like the real one.** The real station is curved, the game one was straight: no rigid overlay matched (errors up to 665 studs), so the tracks were rebuilt from the data and the station moved to its real position. Building, signs and spawn follow; the old tracks stay in ServerStorage.
+
+**The line to Genova Brignole is laid out, but not drivable yet.** Downloaded in boxes because a single request timed out; the first data came back split into 24 pieces, because tunnel tracks in OpenStreetMap carry the tunnel's name, not the line's. Fixed by taking the line from its official relation. Verification turned up sections wrongly built northwards under corso Bramante, removed and moved to a backup, and the step at via Vigliani, still open.
+
+**Train composer.** Trains are built from a catalog with real 3D previews. Vehicle spacing uses measurements taken from the models: the E464 overhangs 26.3 at the back and 24.9 at the front, not 24 per side as first estimated, and two E464s in a row overlapped. Single cab locomotives turn themselves, with alternating noses in groups. The POP now has two supports per car body thanks to a reference point on the shared bogie.
+
+**The doors closing when leaving the train had a physical cause.** Every door leaf is welded to the car body, and the weld remembered the closed position: as soon as the driving script released the anchoring, physics pulled the leaf back. The initial diagnosis measured the model pivot, which stays put, which is why it saw nothing. The weld is now updated at the end of every animation.
+
+**Interface and controls.** Station map, loading screen, settings and credits in departure board style, InfoPanel anchored bottom left, door button border yellow on the platform side. In the cab: free cam on the right mouse button and zoom on the wheel. New handheld flashlight on the L key.
+
+---
+
+## 2026-10-04
+
+| 🟢 Ventaglio di Porta Nuova suddiviso in binari 1-20, gola, deposito e linee di uscita, con attributi su ogni tile |
+| ------------------------------------------------------------------------------------------------------------------------- |
+| 🟢 59 tratte generate automaticamente, una per binario e destinazione raggiungibile |
+| 🟢 Semafori di partenza con precedenza del controllore in Sala Comandi |
+| 🟢 Pannello di cabina ridisegnato |
+
+| 🟡 Binario 3 senza collegamento verso Porta Susa e Milano |
+| -------------------------------------------------------------------- |
+| 🟡 Deposito di Porta Nuova non raggiungibile dalla stazione |
+
+## 🇮🇹
+
+**Il ventaglio di Porta Nuova e' organizzato.** I tile sono divisi in binari di stazione dal paraurti al primo scambio, tratti di gola fra gli scambi, deposito, binari laterali e linee di uscita verso Lingotto, Porta Susa e i depositi, con attributi di zona, binario e progressiva.
+
+**Le tratte non si scrivono piu' a mano.** Ne sono state generate 59 dai binari veri, una per ogni coppia binario e destinazione raggiungibile. Il binario 3 non arriva ancora a Porta Susa, e il deposito di Porta Nuova si innesta dal lato sbagliato per un treno in partenza.
+
+**Semafori e Sala Comandi.** I 20 semafori di partenza hanno il rosso fisso e mostrano al treno solo quelli della sua tratta. Il controllore in Sala Comandi ha la precedenza sul macchinista, e senza controllore l'autorizzazione e' automatica. Il quadro ha il ramo verso Porta Susa e Milano.
+
+**Cabina e treni.** Pannello con arco della velocita', freccia di direzione e semaforo in cabina. La E652 e' disponibile solo per il Macchinista Merci. Animazione su tutte le porte del Mazinga.
+
+## 🇬🇧
+
+**The Porta Nuova track fan is organised.** Tiles are split into platform tracks from buffer to first switch, throat sections between switches, depot, side tracks and exit lines towards Lingotto, Porta Susa and the depots, with zone, track and progressive attributes.
+
+**Routes are no longer written by hand.** 59 were generated from the real tracks, one for every reachable track and destination pair. Track 3 doesn't reach Porta Susa yet, and the Porta Nuova depot joins from the wrong side for a departing train.
+
+**Signals and Control Room.** The 20 departure signals have a steady red and only show a train the ones on its route. The Control Room dispatcher takes priority over the driver, and without a dispatcher authorisation is automatic. The panel has the branch towards Porta Susa and Milano.
+
+**Cab and trains.** Panel with speed arc, direction arrow and in-cab signal. The E652 is only available to the Freight Driver. Animation on all Mazinga doors.
+
+---
+
+## 2026-09-30
+
+| 🟢 Treni sincronizzati in multiplayer |
+| ------------------------------------------ |
+| 🟢 Tratte ricavate dai binari veri |
+| 🟢 HUD di guida rifatto con tachimetro analogico |
+
+## 🇮🇹
+
+**Multiplayer.** Il convoglio si vede muovere da tutti i giocatori, con le carrozze che seguono le curve.
+
+**Tratte dai binari veri.** I percorsi sono estratti dal tracciato e organizzati in cartelle, ogni variante di itinerario e' un percorso a se'.
+
+**Quadro e cabina.** Quadro della Sala Comandi con lo schema Porta Nuova - Lingotto, prima animazione delle porte, HUD di guida rifatto con un tachimetro analogico.
+
+## 🇬🇧
+
+**Multiplayer.** The train is seen moving by every player, with the cars following the curves.
+
+**Routes from the real tracks.** Paths are extracted from the track layout and organised into folders, every route variant is its own path.
+
+**Panel and cab.** Control Room panel with the Porta Nuova - Lingotto schematic, first door animation, driving HUD redesigned with an analog speedometer.
+
+---
+
+## 2026-09-23
+
+| 🟢 Deviatoi del ventaglio di Porta Nuova mappati uno per uno |
+| ------------------------------------------------------------------ |
+| 🟢 Quadro della Sala Comandi generato dai dati dei binari |
+| 🟢 Autorizzazione degli itinerari da parte del controllore |
+
+## 🇮🇹
+
+**Sala Comandi.** Il quadro sinottico e' generato dai dati veri dei binari. Il controllore sceglie il binario di partenza e quello di arrivo e conferma l'itinerario. I deviatoi del ventaglio di Porta Nuova sono mappati uno per uno.
+
+## 🇬🇧
+
+**Control Room.** The schematic panel is generated from the real track data. The dispatcher picks the departure and arrival track and confirms the route. The Porta Nuova fan switches are mapped one by one.
+
+---
+
 ## 2026-08-21
 
 <table style="border-collapse:collapse; border:2px solid #8ade9a; width:100%; margin:6px 0;">
