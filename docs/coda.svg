@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="90" viewBox="0 0 1200 90" preserveAspectRatio="none">
+  <path d="M0 90 H1200 V40 C 1000 6, 800 70, 600 40 C 400 10, 200 66, 0 30 Z" fill="#009246"/>
+  <path d="M0 90 H1200 V56 C 1000 22, 800 86, 600 56 C 400 26, 200 82, 0 46 Z" fill="#f4f5f0"/>
+  <path d="M0 90 H1200 V72 C 1000 38, 800 102, 600 72 C 400 42, 200 98, 0 62 Z" fill="#cd212a"/>
+</svg>

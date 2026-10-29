@@ -1,12 +1,12 @@
 # Diario di bordo
 
-Cosa è cambiato a ogni sessione, dal più recente. Lo stato attuale del progetto sta in [GAME_DESIGN.md](GAME_DESIGN.md).
+Cosa è cambiato a ogni sessione, dal più recente. Lo stato attuale del progetto sta nel [README](README.md).
 
 🟢 funziona, provato davvero &nbsp; 🟡 funziona con un limite &nbsp; 🔴 ancora aperto
 
 ---
 
-### 28 ottobre 2026 · Porta Nuova prende vita
+### 28 ottobre 2026 &nbsp;·&nbsp; Porta Nuova prende vita
 
 Due giorni passati quasi tutti dentro la stazione. Porta Nuova adesso ha tabelloni, tornelli, arredi e linea aerea, e i treni IA si comportano meglio. Fuori dalla stazione la linea aerea arriva fino a Lingotto.
 
@@ -51,7 +51,7 @@ Two days spent mostly inside Torino Porta Nuova. New LED arrival and departure b
 
 ---
 
-### 6 – 27 ottobre 2026 · Fino ad Asti
+### 6 – 27 ottobre 2026 &nbsp;·&nbsp; Fino ad Asti
 
 Tre settimane per far uscire il gioco da Torino. Dalla linea posata il 5 ottobre si è passati a una linea vera fino ad Asti, con traffico IA, treni componibili, merci, biglietti e un primo playtest chiuso.
 
