@@ -6,6 +6,89 @@ Cosa è cambiato a ogni sessione, dal più recente. Lo stato attuale del progett
 
 ---
 
+### 28 ottobre 2026 · Porta Nuova prende vita
+
+Due giorni passati quasi tutti dentro la stazione. Porta Nuova adesso ha tabelloni, tornelli, arredi e linea aerea, e i treni IA si comportano meglio. Fuori dalla stazione la linea aerea arriva fino a Lingotto.
+
+| | Cosa | Note |
+|---|---|---|
+| 🟢 | Tabelloni arrivi/partenze di Porta Nuova | LED ambra, orologio e pubblicità al centro, solo treni veri (giocatori + IA) |
+| 🟢 | Ora italiana corretta ovunque | il calcolo dell'ora legale sbagliava il giorno del cambio: corretto in 72 script |
+| 🟢 | Annunci | partenza al momento della richiesta, arrivi in tutte le stazioni, altoparlante di Porta Nuova sistemato |
+| 🟢 | Tabelloni al sedersi | il treno del giocatore compare su cartelli e tabelle quando si siede in cabina |
+| 🟢 | Tornelli ai binari | 4 varchi, si entra solo con il biglietto, porte che si richiudono dopo 1 s |
+| 🟢 | Linea aerea Porta Nuova → Lingotto | pali a ombrello e singoli scelti in base ai binari, nessun filo che finisce nel vuoto |
+| 🟢 | Banchine | panchine con posti a sedere, cestini, estintori, cartelli binario, colonne rivestite |
+| 🟢 | Chioschi distributori | snack + caffè + snack, interni visibili, pubblicità sul retro |
+| 🟢 | Depositi | treni fermi in sosta, mai sopra uno scambio |
+| 🟢 | Traffico IA | fino a 20 treni, a Lingotto ripartono, niente binari occupati |
+| 🟡 | Priorità ai giocatori | vale alla generazione del treno, non ancora ai semafori |
+| 🟡 | Pantografi | toccano il filo sulla E464; POP ed E652 da verificare |
+| 🟡 | Cancelli di servizio | modellati, ma non si aprono ancora |
+| 🔴 | Linea aerea Lingotto → Asti | c'è ancora quella vecchia |
+
+> [!WARNING]
+> I tornelli bloccano chi non ha un biglietto: per entrare ai binari dalla galleria bisogna prima comprarne uno.
+
+<details>
+<summary>Note tecniche</summary>
+
+- **Ora legale.** Il vecchio calcolo dell'ultima domenica di ottobre cadeva sul 1° novembre (quest'anno è domenica), e alcuni script usavano il fuso del PC del giocatore. Ora tutti usano la stessa funzione su UTC: dall'ultima domenica di marzo all'ultima di ottobre, alle 01:00 UTC.
+- **Altoparlante duplicato.** C'erano due `AnnuncioSpeaker_PortaNuova` e `FindFirstChild` prendeva quello ruotato, con i punti audio fuori dalla stazione. Il duplicato è ora in ServerStorage.
+- **Pallini dei cartelli.** Il lampeggio comandato dal server non arrivava ai client: ora lo fa `DepartureBoardsController` leggendo l'attributo `Lampeggia` della riga.
+- **Linea aerea.** I ganci dei pali sono misurati con raycast sui modelli e il palo viene scelto in base a quanti binari ci sono a sinistra e a destra. Le campate sono generate (filo, fune portante con freccia, pendini) e si toccano negli stessi punti, quindi niente scalini.
+- **Lingotto.** `lingottoOccupato` controlla anche dove sono fisicamente testa e coda dei treni, e l'attesa della linea di ritorno è salita da 60 s a 5 minuti.
+- **Tornelli.** `TornelliServer`: ingresso con `BigliettoCodice`, uscita libera, e conta solo la posizione dell'HumanoidRootPart (saltando, le gambe attraversavano l'anta). Una barriera invisibile sopra i varchi impedisce di scavalcarli.
+
+</details>
+
+<details>
+<summary>English summary</summary>
+
+Two days spent mostly inside Torino Porta Nuova. New LED arrival and departure boards showing only real trains, ticket gates on all four platform groups, benches, bins, extinguishers and platform signs, triple vending kiosks, and parked trains in both depots. Overhead wires now run from Porta Nuova to Lingotto with the real pole models. Fixes: Italian daylight-saving time was off by a day across 72 scripts, a duplicated station speaker made announcements inaudible, and AI trains now leave Lingotto and avoid occupied tracks. Still open: overhead wires towards Asti, player priority at signals, and the service gates don't open yet.
+
+</details>
+
+---
+
+### 6 – 27 ottobre 2026 · Fino ad Asti
+
+Tre settimane per far uscire il gioco da Torino. Dalla linea posata il 5 ottobre si è passati a una linea vera fino ad Asti, con traffico IA, treni componibili, merci, biglietti e un primo playtest chiuso.
+
+| | Cosa | Note |
+|---|---|---|
+| 🟢 | Linea Lingotto → Asti | stazioni intermedie con banchine, segnali lungo la linea e portali segnali |
+| 🟢 | Partenze da Lingotto e da Asti | Lingotto → Porta Nuova sul binario dispari banalizzato |
+| 🟢 | Traffico IA (v1) | blocco automatico a 3 aspetti, giallo a 60 km/h, ostacoli sul percorso, 6 treni su 10 proseguono per Asti |
+| 🟢 | Composizione personalizzata | fino a 12 veicoli dal catalogo, cabine girate da sole |
+| 🟢 | Ripartenza con lo stesso treno | dal binario dove si è arrivati, senza rigenerarlo |
+| 🟢 | Merci fino ad Alessandria | uscita dal deposito, carri di lunghezza reale (~26 m), binario d'arrivo prenotato |
+| 🟢 | Biglietti e timbratrici | biglietto da comprare e timbrare prima di salire |
+| 🟢 | Monete e negozio | saldo in alto a destra, negozio con categorie e schede |
+| 🟢 | Paesaggio | rilievi fra Torino e Trofarello/Cambiano, prati e scarpate |
+| 🟢 | Treni mai uno dentro l'altro | spawn solo su binari davvero liberi, prenotati subito |
+| 🟢 | Giocatore che esce | il suo treno sparisce invece di restare a occupare i blocchi |
+| 🟡 | Playtest privato | esperienza separata solo per i tester scelti |
+
+<details>
+<summary>Note tecniche</summary>
+
+- **Percorsi verso Asti.** `PercorsiAsti` costruisce il percorso sul grafo dei binari: andata e ritorno, binari d'arrivo scelti a caso tra quelli liberi, fermate solo nelle stazioni del RV quando serve.
+- **Binario dispari a Lingotto.** Usato nei due sensi, con un blocco di linea contrario; i ritorni che passano su TLI01 controllano che la sezione sia libera (dopo lo scontro del 22/10 con un treno IA di ritorno).
+- **IA.** I treni guidati dal server occupano e liberano i blocchi come un treno vero, rispettano i limiti (anche il rango P del POP) e l'autorizzazione di partenza.
+- **Porte.** I pulsanti delle porte compaiono solo se nel convoglio c'è almeno un veicolo passeggeri.
+
+</details>
+
+<details>
+<summary>English summary</summary>
+
+Three weeks to get the game out of Turin. The line now runs to Asti with intermediate stations and signals, and trains can start from Lingotto and Asti too. Server-driven AI trains share the line and respect blocks and speed limits. Players can build their own consist (up to 12 vehicles), freight trains run to Alessandria, tickets must be bought and validated, coins can be spent in a new shop, and the landscape gained hills between Turin and Trofarello. A private playtest started.
+
+</details>
+
+---
+
 ### 5 ottobre 2026 &nbsp;·&nbsp; I binari escono da Torino
 
 Questa settimana la ferrovia ha smesso di essere solo Porta Nuova. Ho preso i dati veri delle mappe ferroviarie e li ho posati in gioco: prima il tratto fino a Lingotto, con lo scalo merci e il deposito, poi tutta la linea fino a Genova Brignole. Lingotto l'ho rifatta da capo, perché la mia era dritta e quella vera è in curva.
